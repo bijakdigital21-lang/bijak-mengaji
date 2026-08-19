@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>MathPintar - Latihan Matematik & Sifir</title>
+    <title>Bijak Matematik - Latihan Matematik & Sifir</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Share+Tech+Mono&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        body {
+        body 
             font-family: 'Quicksand', sans-serif;
             background-color: #f0fdf4;
             -webkit-text-size-adjust: 100%;
@@ -41,75 +41,33 @@
 
     <div id="app" class="w-full max-w-md h-full bg-white shadow-xl flex flex-col justify-between relative overflow-hidden" v-cloak>
         
-        <!-- HEADER -->
-        <header class="bg-emerald-500 text-white p-4 flex justify-between items-center shadow-md rounded-b-2xl shrink-0 z-10">
-            <div class="flex items-center gap-3">
-                <button @click="isMenuOpen = !isMenuOpen; playSound('click');" class="text-white hover:bg-emerald-600 p-1.5 rounded-lg transition-all focus:outline-none">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
+        <header class="bg-emerald-500 text-white p-4 flex justify-between items-center shadow-md rounded-b-2xl shrink-0">
+            <h1 @click="goToModeSelection" class="text-2xl font-bold tracking-wide font-kids cursor-pointer select-none">✏️ Bijak Matematik</h1>
+            
+            <div class="flex items-center gap-2">
+                <!-- BUTANG PENUKAR BAHASA -->
+                <button @click="toggleLang" class="bg-emerald-700 hover:bg-emerald-800 text-yellow-300 font-black px-2 py-1 rounded-lg text-xs transition-all border border-emerald-400">
+                    🌐 {{ lang === 'ms' ? 'BM | EN' : 'EN | BM' }}
                 </button>
-                <h1 @click="goToModeSelection" class="text-2xl font-bold tracking-wide font-kids cursor-pointer select-none">✏️ MathPintar</h1>
+
+                <div v-if="user || parentUser" class="flex items-center gap-2">
+                    <button v-if="user && (screen === 'menu' || screen === 'mode-selection' || screen === 'sifir-menu' || screen === 'topic-year-select')" @click="openReports" class="bg-emerald-600 hover:bg-emerald-700 px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1">📊 {{ t('records') }}</button>
+                    <button v-if="parentUser && (screen === 'parentDashboard' || screen === 'parentManage' || screen === 'parentReports')" @click="logout" class="bg-red-500 hover:bg-red-600 px-2.5 py-1 rounded-lg text-xs font-bold transition-all transform active:scale-95">{{ t('logout') }}</button>
+                    <div v-if="user" class="flex items-center gap-2">
+                        <span class="text-sm font-bold bg-emerald-600 px-3 py-1 rounded-full text-yellow-200 max-w-[100px] truncate">👤 {{ user }}</span>
+                        <button @click="logout" class="bg-red-500 hover:bg-red-600 px-2 py-1 rounded-lg text-xs font-bold transition-all transform active:scale-95">{{ t('logout') }}</button>
+                    </div>
+                </div>
             </div>
         </header>
 
-        <!-- DRAWER MENU -->
-        <div v-if="isMenuOpen" @click="isMenuOpen = false" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 transition-opacity"></div>
-        
-        <aside :class="isMenuOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed top-0 left-0 w-72 h-full bg-white z-50 shadow-2xl transition-transform duration-300 ease-in-out flex flex-col justify-between p-5 border-r border-slate-200">
-            <div class="space-y-6">
-                <div class="flex justify-between items-center border-b pb-4 border-slate-100">
-                    <h2 class="text-xl font-black font-kids text-emerald-600 flex items-center gap-2">📌 Menu</h2>
-                    <button @click="isMenuOpen = false" class="text-slate-400 hover:text-slate-600 font-bold text-xl p-1">✕</button>
-                </div>
-
-                <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100 flex items-center gap-3">
-                    <div class="bg-emerald-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl shadow-md shrink-0">
-                        👤
-                    </div>
-                    <div class="overflow-hidden">
-                        <span class="text-xs font-bold text-slate-400 block uppercase tracking-wider">Akaun Semasa</span>
-                        <span class="text-base font-black text-slate-800 truncate block">
-                            {{ user ? user : parentUser ? 'Ibu Bapa / Guru' : 'Belum Log Masuk' }}
-                        </span>
-                    </div>
-                </div>
-
-                <div class="space-y-2">
-                    <button v-if="user && (screen === 'menu' || screen === 'mode-selection' || screen === 'sifir-menu' || screen === 'topic-year-select')" 
-                            @click="openReports(); isMenuOpen = false;" 
-                            class="w-full bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 font-bold p-3 rounded-xl transition-all flex items-center gap-3 border border-slate-200">
-                        <span class="text-lg">📊</span>
-                        <span class="text-sm">{{ t('records') }}</span>
-                    </button>
-
-                    <button @click="toggleLang" class="w-full bg-slate-100 hover:bg-amber-50 text-slate-700 hover:text-amber-800 font-bold p-3 rounded-xl transition-all flex items-center justify-between border border-slate-200">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">🌐</span>
-                            <span class="text-sm">Bahasa / Language</span>
-                        </div>
-                        <span class="bg-amber-400 text-amber-950 text-xs px-2 py-0.5 rounded-md font-black">
-                            {{ lang === 'ms' ? 'BM' : 'EN' }}
-                        </span>
-                    </button>
-                </div>
-            </div>
-
-            <div v-if="user || parentUser" class="pt-4 border-t border-slate-100">
-                <button @click="logout(); isMenuOpen = false;" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold p-3 rounded-xl transition-all flex items-center justify-center gap-2 shadow-md active:scale-95">
-                    <span>🚪</span>
-                    <span>{{ t('logout') }}</span>
-                </button>
-            </div>
-        </aside>
-
         <main class="flex-grow p-4 flex flex-col justify-start items-center w-full overflow-y-auto touch-pan-y">
 
-            <!-- SEBELUM LOG MASUK -->
+            <!-- PAPARAN UTAMA (SEBELUM LOG MASUK) -->
             <div v-if="screen === 'login-selection'" class="w-full space-y-4 text-center my-auto">
                 <div class="bg-gradient-to-b from-emerald-400 to-emerald-500 p-5 rounded-3xl border-4 border-emerald-300 shadow-inner text-white">
                     <span class="text-5xl block mb-1">🧠</span>
-                    <h2 class="text-3xl font-black font-kids">MathPintar</h2>
+                    <h2 class="text-3xl font-black font-kids">Bijak Matematik</h2>
                     <p class="text-xs opacity-90 mt-1">{{ t('tagline') }}</p>
                 </div>
 
@@ -156,7 +114,7 @@
                 </button>
             </div>
 
-            <!-- PILIHAN MOD MODUL -->
+            <!-- PAPARAN PILIHAN MOD MODUL (SELEPAS LOG MASUK PIN) -->
             <div v-if="user && screen === 'mode-selection'" class="w-full space-y-4 my-auto text-center">
                 <div class="bg-emerald-50 border-2 border-emerald-200 p-4 rounded-2xl">
                     <p class="text-lg font-bold text-slate-700">{{ t('welcome') }}, <span class="text-emerald-600 font-black text-xl uppercase">{{ user }}</span>! 👋</p>
@@ -221,7 +179,7 @@
                 </button>
             </div>
 
-            <!-- GAMEPLAY TOPIK (MCQ) -->
+            <!-- GAMEPLAY LATIHAN TOPIK (MCQ / MULTIPLE CHOICE) -->
             <div v-if="screen === 'topic-gameplay'" class="w-full flex flex-col justify-between items-center space-y-4 my-auto">
                 <div class="w-full bg-slate-100 p-3 rounded-2xl border-2 border-slate-200 flex justify-between items-center text-xs font-bold text-slate-600">
                     <div>{{ t('question') }}: <span class="text-indigo-600 text-sm">{{ currentTopicIndex + 1 }}</span> / 5</div>
@@ -246,7 +204,7 @@
                 </div>
             </div>
 
-            <!-- MENU BENTUK LAZIM -->
+            <!-- PAPARAN MENU MATH BENTUK LAZIM -->
             <div v-if="user && screen === 'menu'" class="w-full space-y-5 my-auto">
                 <div class="flex justify-between items-center">
                     <button @click="screen = 'mode-selection'; playSound('click');" class="text-emerald-600 font-bold text-sm">⬅️ {{ t('selectModule') }}</button>
@@ -288,7 +246,7 @@
                 </button>
             </div>
 
-            <!-- MENU BIJAK SIFIR -->
+            <!-- PAPARAN MENU BIJAK SIFIR -->
             <div v-if="user && screen === 'sifir-menu'" class="w-full space-y-5 my-auto">
                 <div class="flex justify-between items-center">
                     <button @click="screen = 'mode-selection'; playSound('click');" class="text-amber-600 font-bold text-sm">⬅️ {{ t('selectModule') }}</button>
@@ -621,7 +579,7 @@
 
         </main>
 
-        <!-- KEYPAD -->
+        <!-- KEYPAD FORMULASI JAWAPAN -->
         <footer v-if="screen === 'gameplay' || screen === 'correction' || screen === 'sifir-gameplay'" class="bg-slate-200 p-3 rounded-t-3xl shadow-2xl w-full border-t border-slate-300 shrink-0">
             <div class="grid grid-cols-3 gap-2 max-w-sm mx-auto">
                 <button v-for="num in ['1', '2', '3', '4', '5', '6', '7', '8', '9']" :key="num" @click="pressKey(num)" class="bg-white active:bg-slate-300 font-bold text-2xl py-3 rounded-xl shadow-sm text-slate-800 border-b-4 border-slate-300 transition-all transform active:scale-95">{{ num }}</button>
@@ -660,185 +618,19 @@
                 const user = ref(null);               
                 const parentUser = ref(null);         
                 const screen = ref('login-selection');
-                const lang = ref('ms');
-                const isMenuOpen = ref(false);
+                const lang = ref('ms'); // Sistem Bahasa ('ms' | 'en')
                 
                 const childPinInput = ref('');
                 const authLoading = ref(false);
                 const isManagingPin = ref(false);
                 const newChildName = ref('');
+                
                 const selectedChildForReport = ref('');
 
                 const childProfiles = ref([]);
                 const reportList = ref([]);
 
-                // TIMER
-                const timerSeconds = ref(0);
-                let timerInterval = null;
-
-                // CONFIG & STATE LATIHAN BENTUK LAZIM
-                const config = ref({ operation: 'Tambah', totalQuestions: 10, difficulty: 'Mudah' });
-                const questions = ref([]);
-                const currentQuestionIndex = ref(0);
-                const score = ref(0);
-                const activeTarget = ref({ type: 'answer', index: 0 });
-                const carryArray = ref({});
-                const answerArray = ref({});
-                const borrowArray = ref({});
-                const divisionInputs = ref({ quotientArray: {}, remainderArray: {}, finalRemainder: '' });
-                const correctionIndex = ref(-1);
-
-                // CONFIG & STATE SIFIR
-                const sifirConfig = ref({ selectedSifir: 2, totalQuestions: 10 });
-                const sifirQuestions = ref([]);
-                const currentSifirIndex = ref(0);
-                const sifirAnswerInput = ref('');
-
-                // CONFIG & STATE TOPIK KSSR
-                const selectedYear = ref(1);
-                const selectedTopicKey = ref('');
-                const topicQuestions = ref([]);
-                const currentTopicIndex = ref(0);
-
-                const currentSessionType = ref('Bentuk Lazim'); 
-
-                // DATABASE SOALAN TOPIK KSSR (TAHUN 1 HINGGA 6)
-                const kssrTopics = {
-                    tahun1: {
-                        nombor: {
-                            name: { ms: "Nombor hingga 100", en: "Numbers up to 100" },
-                            questions: [
-                                { question: "Apakah nombor selepas 19?", options: ["20", "18", "21", "10"], answer: "20" },
-                                { question: "Cerakinkan 45 mengikut nilai tempat:", options: ["4 puluh 5 sa", "4 sa 5 puluh", "40 puluh 5 sa", "45 sa"], answer: "4 puluh 5 sa" },
-                                { question: "Manakah nilai yang paling besar?", options: ["89", "98", "79", "88"], answer: "98" },
-                                { question: "Berapakah hasil tambah 7 + 8?", options: ["15", "14", "16", "13"], answer: "15" },
-                                { question: "Cari baki bagi 15 - 6:", options: ["9", "8", "10", "7"], answer: "9" }
-                            ]
-                        },
-                        wang: {
-                            name: { ms: "Wang hingga RM10", en: "Money up to RM10" },
-                            questions: [
-                                { question: "50 sen + 20 sen = ?", options: ["70 sen", "60 sen", "80 sen", "RM1"], answer: "70 sen" },
-                                { question: "Berapakah keping RM1 bernilai RM5?", options: ["5 keping", "2 keping", "10 keping", "4 keping"], answer: "5 keping" },
-                                { question: "RM10 - RM4 = ?", options: ["RM6", "RM5", "RM7", "RM4"], answer: "RM6" },
-                                { question: "Manakah nilai wang paling kecil?", options: ["20 sen", "50 sen", "5 sen", "10 sen"], answer: "5 sen" },
-                                { question: "2 keping 50 sen bersamaan dengan...", options: ["RM1", "50 sen", "RM2", "20 sen"], answer: "RM1" }
-                            ]
-                        }
-                    },
-                    tahun2: {
-                        nombor: {
-                            name: { ms: "Nombor hingga 1000", en: "Numbers up to 1000" },
-                            questions: [
-                                { question: "Tulis 'Tiga ratus empat puluh dua' dalam angka:", options: ["342", "324", "432", "304"], answer: "342" },
-                                { question: "Apakah nilai tempat bagi digit 7 dalam 572?", options: ["Puluh", "Ratus", "Sa", "Ribu"], answer: "Puluh" },
-                                { question: "Bundarkan 346 kepada ratus terdekat:", options: ["300", "400", "350", "340"], answer: "300" },
-                                { question: "450 + 120 = ?", options: ["570", "560", "580", "470"], answer: "570" },
-                                { question: "900 - 350 = ?", options: ["550", "650", "500", "600"], answer: "550" }
-                            ]
-                        },
-                        darab_bahagi: {
-                            name: { ms: "Darab dan Bahagi", en: "Multiplication and Division" },
-                            questions: [
-                                { question: "3 × 4 = ?", options: ["12", "14", "10", "16"], answer: "12" },
-                                { question: "5 × 6 = ?", options: ["30", "25", "35", "20"], answer: "30" },
-                                { question: "16 ÷ 2 = ?", options: ["8", "6", "7", "9"], answer: "8" },
-                                { question: "20 ÷ 5 = ?", options: ["4", "5", "3", "6"], answer: "4" },
-                                { question: "Ada 4 kumpulan, setiap kumpulan ada 2 guli. Jumlah guli?", options: ["8", "6", "10", "4"], answer: "8" }
-                            ]
-                        }
-                    },
-                    tahun3: {
-                        nombor: {
-                            name: { ms: "Nombor hingga 10 000", en: "Numbers up to 10 000" },
-                            questions: [
-                                { question: "Tulis 4 058 dalam perkataan:", options: ["Empat ribu lima puluh lapan", "Empat ribu lima ratus lapan", "Empat ratus lima puluh lapan", "Empat ribu lapan puluh lima"], answer: "Empat ribu lima puluh lapan" },
-                                { question: "Apakah nilai digit bagi 6 dalam 8 621?", options: ["600", "60", "6000", "6"], answer: "600" },
-                                { question: "2 340 + 1 520 = ?", options: ["3 860", "3 850", "3 760", "3 960"], answer: "3 860" },
-                                { question: "7 000 - 2 400 = ?", options: ["4 600", "4 500", "5 600", "4 400"], answer: "4 600" },
-                                { question: "Bundarkan 8 765 kepada ribu terdekat:", options: ["9 000", "8 000", "8 800", "8 700"], answer: "9 000" }
-                            ]
-                        },
-                        pecahan: {
-                            name: { ms: "Pecahan & Perpuluhan", en: "Fractions & Decimals" },
-                            questions: [
-                                { question: "Permudahkan 2/4 :", options: ["1/2", "1/4", "3/4", "2/2"], answer: "1/2" },
-                                { question: "1/5 + 2/5 = ?", options: ["3/5", "3/10", "2/5", "4/5"], answer: "3/5" },
-                                { question: "Tukar 3/10 kepada perpuluhan:", options: ["0.3", "0.03", "3.0", "0.33"], answer: "0.3" },
-                                { question: "0.45 + 0.23 = ?", options: ["0.68", "0.65", "0.58", "0.78"], answer: "0.68" },
-                                { question: "Manakah pecahan paling besar?", options: ["3/4", "1/4", "2/4", "1/2"], answer: "3/4" }
-                            ]
-                        }
-                    },
-                    tahun4: {
-                        nombor: {
-                            name: { ms: "Nombor hingga 100 000", en: "Numbers up to 100 000" },
-                            questions: [
-                                { question: "Nilai tempat bagi 9 dalam 49 120:", options: ["Ribu", "Ratus", "Puluh ribu", "Puluh"], answer: "Ribu" },
-                                { question: "34 500 + 12 300 = ?", options: ["46 800", "46 500", "47 800", "45 800"], answer: "46 800" },
-                                { question: "50 000 - 14 200 = ?", options: ["35 800", "36 800", "35 200", "34 800"], answer: "35 800" },
-                                { question: "245 × 12 = ?", options: ["2 940", "2 840", "2 950", "3 040"], answer: "2 940" },
-                                { question: "4 800 ÷ 100 = ?", options: ["48", "480", "4.8", "4800"], answer: "48" }
-                            ]
-                        },
-                        peratus: {
-                            name: { ms: "Peratus & Perpuluhan", en: "Percentages & Decimals" },
-                            questions: [
-                                { question: "Tukar 25% kepada pecahan termudah:", options: ["1/4", "1/2", "1/5", "3/4"], answer: "1/4" },
-                                { question: "50% daripada 80 ialah:", options: ["40", "50", "30", "20"], answer: "40" },
-                                { question: "Tukar 0.7 kepada peratus:", options: ["70%", "7%", "0.7%", "700%"], answer: "70%" },
-                                { question: "3.45 × 10 = ?", options: ["34.5", "345", "0.345", "3.450"], answer: "34.5" },
-                                { question: "12.6 ÷ 3 = ?", options: ["4.2", "4.3", "4.1", "3.2"], answer: "4.2" }
-                            ]
-                        }
-                    },
-                    tahun5: {
-                        nombor: {
-                            name: { ms: "Nombor hingga 1 000 000", en: "Numbers up to 1 000 000" },
-                            questions: [
-                                { question: "Nyatakan 0.5 juta dalam angka:", options: ["500 000", "50 000", "5 000 000", "5 000"], answer: "500 000" },
-                                { question: "Tukar 3/4 juta kepada angka:", options: ["750 000", "250 000", "500 000", "75 000"], answer: "750 000" },
-                                { question: "450 000 + 320 000 = ?", options: ["770 000", "750 000", "870 000", "760 000"], answer: "770 000" },
-                                { question: "1 000 000 - 450 000 = ?", options: ["550 000", "650 000", "500 000", "450 000"], answer: "550 000" },
-                                { question: "Apakah nombor perdana antara 1 hingga 10?", options: ["2, 3, 5, 7", "1, 2, 3, 5", "2, 4, 6, 8", "3, 5, 7, 9"], answer: "2, 3, 5, 7" }
-                            ]
-                        },
-                        masa: {
-                            name: { ms: "Masa dan Waktu", en: "Time and Duration" },
-                            questions: [
-                                { question: "2 jam = berapa minit?", options: ["120 minit", "100 minit", "60 minit", "180 minit"], answer: "120 minit" },
-                                { question: "1 dekad = berapa tahun?", options: ["10 tahun", "100 tahun", "5 tahun", "12 tahun"], answer: "10 tahun" },
-                                { question: "1 abad = berapa tahun?", options: ["100 tahun", "10 tahun", "1000 tahun", "50 tahun"], answer: "100 tahun" },
-                                { question: "3 minggu = berapa hari?", options: ["21 hari", "14 hari", "30 hari", "28 hari"], answer: "21 hari" },
-                                { question: "Tukarkan 2.5 jam kepada minit:", options: ["150 minit", "120 minit", "130 minit", "140 minit"], answer: "150 minit" }
-                            ]
-                        }
-                    },
-                    tahun6: {
-                        nombor_besar: {
-                            name: { ms: "Nombor Besar & Pecahan Juta", en: "Large Numbers & Million Fractions" },
-                            questions: [
-                                { question: "Tukar 1 250 000 kepada nombor perpuluhan juta:", options: ["1.25 juta", "12.5 juta", "0.125 juta", "125 juta"], answer: "1.25 juta" },
-                                { question: "Hitung 1/5 juta + 200 000 = ?", options: ["400 000", "300 000", "500 000", "250 000"], answer: "400 000" },
-                                { question: "Manakah nombor gubahan?", options: ["9", "7", "5", "3"], answer: "9" },
-                                { question: "2.4 juta ÷ 4 = ?", options: ["600 000", "60 000", "600", "6 juta"], answer: "600 000" },
-                                { question: "Hitung 15% daripada 2 juta:", options: ["300 000", "30 000", "150 000", "3 000"], answer: "300 000" }
-                            ]
-                        },
-                        nisbah: {
-                            name: { ms: "Nisbah dan Kadar", en: "Ratio and Proportion" },
-                            questions: [
-                                { question: "Nisbah 3 kepada 5 ditulis sebagai:", options: ["3 : 5", "3 / 5", "5 : 3", "3 - 5"], answer: "3 : 5" },
-                                { question: "Jika nisbah epal kepada oren ialah 1:3, berapa oren jika ada 4 epal?", options: ["12", "8", "6", "10"], answer: "12" },
-                                { question: "Harga 2 kg mangga ialah RM10. Harga 5 kg mangga?", options: ["RM25", "RM20", "RM15", "RM30"], answer: "RM25" },
-                                { question: "Permudahkan nisbah 4 : 8", options: ["1 : 2", "2 : 3", "1 : 4", "2 : 5"], answer: "1 : 2" },
-                                { question: "Sebuah kereta bergerak 90 km dalam 1 jam. Jarak dalam 3 jam?", options: ["270 km", "180 km", "300 km", "240 km"], answer: "270 km" }
-                            ]
-                        }
-                    }
-                };
-
-                // DICTIONARY TERJEMAHAN
+                // DICTIONARY TERJEMAHAN (I18N)
                 const i18n = {
                     ms: {
                         tagline: "Jom jadi bijak Matematik & Kuasai Sifir!",
@@ -924,8 +716,10 @@
                         retryBtn: "Ulang Lagi",
                         mainMenuBtn: "Menu Utama",
                         performanceReports: "Laporan Prestasi",
-                        records: "Rekod Prestasi",
-                        logout: "Log Keluar"
+                        records: "Rekod",
+                        logout: "Keluar",
+                        minutes: "minit",
+                        seconds: "saat"
                     },
                     en: {
                         tagline: "Be smart in Math & Master Multiplication!",
@@ -1011,93 +805,417 @@
                         retryBtn: "Retry",
                         mainMenuBtn: "Main Menu",
                         performanceReports: "Performance Reports",
-                        records: "Performance Records",
-                        logout: "Log Out"
+                        records: "Records",
+                        logout: "Logout",
+                        minutes: "minutes",
+                        seconds: "seconds"
                     }
                 };
 
-                const t = (key) => i18n[lang.value][key] || key;
+                const t = (key) => {
+                    return i18n[lang.value][key] || key;
+                };
 
                 const toggleLang = () => {
                     lang.value = lang.value === 'ms' ? 'en' : 'ms';
                     playSound('click');
                 };
 
-                const playSound = (type) => {};
+                // Konfigurasi Latihan Ikut Topik KSSR (Multi-language Support)
+                const selectedYear = ref(null);
+                const selectedTopicKey = ref('');
+                const topicQuestions = ref([]);
+                const currentTopicIndex = ref(0);
 
-                // TIMER LOGIC
-                const startTimer = () => {
-                    stopTimer();
-                    timerSeconds.value = 0;
-                    timerInterval = setInterval(() => {
-                        timerSeconds.value++;
-                    }, 1000);
-                };
-
-                const stopTimer = () => {
-                    if (timerInterval) clearInterval(timerInterval);
-                };
-
-                const formattedTime = computed(() => {
-                    const m = Math.floor(timerSeconds.value / 60);
-                    const s = timerSeconds.value % 60;
-                    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-                });
-
-                const finalTimeDisplay = computed(() => {
-                    const m = Math.floor(timerSeconds.value / 60);
-                    const s = timerSeconds.value % 60;
-                    if (m > 0) return `${m} ${t('minutes')} ${s} ${t('seconds')}`;
-                    return `${s} ${t('seconds')}`;
-                });
-
-                // AUTHENTICATION (FIREBASE)
-                const loginAsChild = async () => {
-                    if (!childPinInput.value || childPinInput.value.length !== 6) return;
-                    authLoading.value = true;
-                    try {
-                        const snapshot = await get(dbRef(fDatabase, 'pins/' + childPinInput.value));
-                        if (snapshot.exists()) {
-                            const childData = snapshot.val();
-                            user.value = childData.name.toLowerCase();
-                            parentUser.value = null;
-                            screen.value = 'mode-selection';
-                            fetchReportsForUser(user.value);
-                        } else {
-                            alert("Nombor PIN tidak wujud! Sila semak semula.");
+                const kssrTopics = {
+                    tahun1: {
+                        nombor: {
+                            name: { ms: "Nombor hingga 100", en: "Numbers up to 100" },
+                            questions: {
+                                ms: [
+                                    { question: "Apakah nombor selepas 49?", options: ["48", "50", "51", "60"], correct: "50" },
+                                    { question: "Pilih nombor yang paling besar.", options: ["12", "89", "45", "78"], correct: "89" },
+                                    { question: "Antara berikut, yang manakah nombor dalam perkataan bagi 67?", options: ["Enam puluh tujuh", "Tujuh puluh enam", "Enam puluh", "Enam puluh lapan"], correct: "Enam puluh tujuh" },
+                                    { question: "Nilai tempat bagi digit 5 dalam nombor 52 ialah:", options: ["Sa", "Puluh", "Ratus", "Ribu"], correct: "Puluh" },
+                                    { question: "Lengkapkan urutan nombor: 10, 20, 30, __, 50.", options: ["35", "40", "45", "60"], correct: "40" }
+                                ],
+                                en: [
+                                    { question: "What number comes after 49?", options: ["48", "50", "51", "60"], correct: "50" },
+                                    { question: "Choose the largest number.", options: ["12", "89", "45", "78"], correct: "89" },
+                                    { question: "Which of the following is 67 in words?", options: ["Sixty-seven", "Seventy-six", "Sixty", "Sixty-eight"], correct: "Sixty-seven" },
+                                    { question: "The place value of digit 5 in 52 is:", options: ["Ones", "Tens", "Hundreds", "Thousands"], correct: "Tens" },
+                                    { question: "Complete the sequence: 10, 20, 30, __, 50.", options: ["35", "40", "45", "60"], correct: "40" }
+                                ]
+                            }
+                        },
+                        tambah_tolak: {
+                            name: { ms: "Tambah dan Tolak", en: "Addition and Subtraction" },
+                            questions: {
+                                ms: [
+                                    { question: "Berapakah 8 + 7?", options: ["13", "14", "15", "16"], correct: "15" },
+                                    { question: "Berapakah 19 - 6?", options: ["11", "12", "13", "14"], correct: "13" },
+                                    { question: "Ahmad ada 5 biji guli. Ibu beri lagi 6 biji. Berapa guli Ahmad?", options: ["10", "11", "12", "13"], correct: "11" },
+                                    { question: "Siti beli 14 cawan. 4 cawan pecah. Berapa cawan yang tinggal?", options: ["8", "9", "10", "11"], correct: "10" },
+                                    { question: "Cari jawapan bagi 25 + 10.", options: ["30", "35", "40", "45"], correct: "35" }
+                                ],
+                                en: [
+                                    { question: "What is 8 + 7?", options: ["13", "14", "15", "16"], correct: "15" },
+                                    { question: "What is 19 - 6?", options: ["11", "12", "13", "14"], correct: "13" },
+                                    { question: "Ahmad has 5 marbles. Mother gives him 6 more. How many marbles does he have?", options: ["10", "11", "12", "13"], correct: "11" },
+                                    { question: "Siti bought 14 cups. 4 broke. How many cups are left?", options: ["8", "9", "10", "11"], correct: "10" },
+                                    { question: "Find the answer for 25 + 10.", options: ["30", "35", "40", "45"], correct: "35" }
+                                ]
+                            }
+                        },
+                        wang: {
+                            name: { ms: "Wang Ringgit", en: "Money" },
+                            questions: {
+                                ms: [
+                                    { question: "RM1 bersamaan dengan berapa sen?", options: ["10 sen", "50 sen", "100 sen", "200 sen"], correct: "100 sen" },
+                                    { question: "Dua keping duit 50 sen menjadi:", options: ["50 sen", "RM1", "RM2", "RM5"], correct: "RM1" },
+                                    { question: "Harga sebatang pensel ialah 80 sen. Pembeli memberi RM1. Berapakah baki duitnya?", options: ["10 sen", "20 sen", "30 sen", "40 sen"], correct: "20 sen" },
+                                    { question: "Antara berikut, nilai wang manakah paling tinggi?", options: ["RM1", "RM5", "RM10", "50 sen"], correct: "RM10" },
+                                    { question: "50 sen + 20 sen = ?", options: ["60 sen", "70 sen", "80 sen", "90 sen"], correct: "70 sen" }
+                                ],
+                                en: [
+                                    { question: "RM1 is equal to how many cents?", options: ["10 cents", "50 cents", "100 cents", "200 cents"], correct: "100 cents" },
+                                    { question: "Two 50 cent coins equal to:", options: ["50 cents", "RM1", "RM2", "RM5"], correct: "RM1" },
+                                    { question: "A pencil costs 80 cents. You pay RM1. What is the change?", options: ["10 cents", "20 cents", "30 cents", "40 cents"], correct: "20 cents" },
+                                    { question: "Which money value is the highest?", options: ["RM1", "RM5", "RM10", "50 cents"], correct: "RM10" },
+                                    { question: "50 cents + 20 cents = ?", options: ["60 cents", "70 cents", "80 cents", "90 cents"], correct: "70 cents" }
+                                ]
+                            }
                         }
-                    } catch (e) {
-                        alert("Ralat semasa menyemak PIN: " + e.message);
-                    } finally {
-                        authLoading.value = false;
+                    },
+                    tahun2: {
+                        darab_bahagi: {
+                            name: { ms: "Darab dan Bahagi", en: "Multiplication & Division" },
+                            questions: {
+                                ms: [
+                                    { question: "3 × 4 = ?", options: ["7", "10", "12", "15"], correct: "12" },
+                                    { question: "15 ÷ 3 = ?", options: ["3", "4", "5", "6"], correct: "5" },
+                                    { question: "5 × 5 = ?", options: ["20", "25", "30", "35"], correct: "25" },
+                                    { question: "20 ÷ 4 = ?", options: ["4", "5", "6", "10"], correct: "5" },
+                                    { question: "Ada 4 kumpulan budak. Setiap kumpulan ada 2 orang. Berapa orang semuanya?", options: ["6", "8", "10", "12"], correct: "8" }
+                                ],
+                                en: [
+                                    { question: "3 × 4 = ?", options: ["7", "10", "12", "15"], correct: "12" },
+                                    { question: "15 ÷ 3 = ?", options: ["3", "4", "5", "6"], correct: "5" },
+                                    { question: "5 × 5 = ?", options: ["20", "25", "30", "35"], correct: "25" },
+                                    { question: "20 ÷ 4 = ?", options: ["4", "5", "6", "10"], correct: "5" },
+                                    { question: "There are 4 groups of kids. Each group has 2 kids. How many altogether?", options: ["6", "8", "10", "12"], correct: "8" }
+                                ]
+                            }
+                        },
+                        pecahan: {
+                            name: { ms: "Pecahan dan Perpuluhan", en: "Fractions and Decimals" },
+                            questions: {
+                                ms: [
+                                    { question: "Satu daripada dua bahagian yang sama besar dipanggil:", options: ["Satu perdua", "Satu pertiga", "Satu perempat", "Tiga perempat"], correct: "Satu perdua" },
+                                    { question: "Pecahan bagi kawasan separuh ialah:", options: ["1/2", "1/4", "3/4", "2/2"], correct: "1/2" },
+                                    { question: "Tiga perempat ditulis dalam angka sebagai:", options: ["1/4", "2/4", "3/4", "4/3"], correct: "3/4" },
+                                    { question: "Tulis 0.5 dalam bentuk pecahan ringkas.", options: ["1/4", "1/2", "3/4", "1/5"], correct: "1/2" },
+                                    { question: "Pilih nilai perpuluhan yang mewakili lima persepuluh.", options: ["0.1", "0.5", "0.05", "5.0"], correct: "0.5" }
+                                ],
+                                en: [
+                                    { question: "One out of two equal parts is called:", options: ["One half", "One third", "One quarter", "Three quarters"], correct: "One half" },
+                                    { question: "Fraction representing half is:", options: ["1/2", "1/4", "3/4", "2/2"], correct: "1/2" },
+                                    { question: "Three quarters is written in numbers as:", options: ["1/4", "2/4", "3/4", "4/3"], correct: "3/4" },
+                                    { question: "Write 0.5 in simple fraction form.", options: ["1/4", "1/2", "3/4", "1/5"], correct: "1/2" },
+                                    { question: "Choose the decimal value representing five tenths.", options: ["0.1", "0.5", "0.05", "5.0"], correct: "0.5" }
+                                ]
+                            }
+                        },
+                        masa: {
+                            name: { ms: "Masa dan Waktu", en: "Time" },
+                            questions: {
+                                ms: [
+                                    { question: "1 jam bersamaan berapa minit?", options: ["30 minit", "45 minit", "60 minit", "100 minit"], correct: "60 minit" },
+                                    { question: "Pukul berapa apabila jarum pendek di angka 3 dan jarum panjang di angka 12?", options: ["Pukul 3:00", "Pukul 12:00", "Pukul 3:30", "Pukul 12:15"], correct: "Pukul 3:00" },
+                                    { question: "Setengah jam bersamaan dengan berapa minit?", options: ["15 minit", "30 minit", "45 minit", "60 minit"], correct: "30 minit" },
+                                    { question: "1 hari ada berapa jam?", options: ["12 jam", "24 jam", "48 jam", "60 jam"], correct: "24 jam" },
+                                    { question: "Jarum panjang bergerak dari 12 ke 6 menunjukkan selang masa:", options: ["15 minit", "30 minit", "45 minit", "60 minit"], correct: "30 minit" }
+                                ],
+                                en: [
+                                    { question: "1 hour is equal to how many minutes?", options: ["30 minutes", "45 minutes", "60 minutes", "100 minutes"], correct: "60 minutes" },
+                                    { question: "What time is it when short hand points to 3 and long hand to 12?", options: ["3:00 o'clock", "12:00 o'clock", "3:30 o'clock", "12:15 o'clock"], correct: "3:00 o'clock" },
+                                    { question: "Half an hour equals how many minutes?", options: ["15 minutes", "30 minutes", "45 minutes", "60 minutes"], correct: "30 minutes" },
+                                    { question: "1 day has how many hours?", options: ["12 hours", "24 hours", "48 hours", "60 hours"], correct: "24 hours" },
+                                    { question: "Minute hand moving from 12 to 6 shows a time interval of:", options: ["15 minutes", "30 minutes", "45 minutes", "60 minutes"], correct: "30 minutes" }
+                                ]
+                            }
+                        }
+                    },
+                    tahun3: {
+                        nombor_3: {
+                            name: { ms: "Nombor hingga 10 000", en: "Numbers up to 10 000" },
+                            questions: {
+                                ms: [
+                                    { question: "Bundarkan 4,567 kepada ratus terdekat.", options: ["4,500", "4,600", "5,000", "4,570"], correct: "4,600" },
+                                    { question: "Nilai digit 8 dalam 8,312 ialah:", options: ["8", "80", "800", "8,000"], correct: "8,000" },
+                                    { question: "Cari jumlah bagi 3,450 + 1,230.", options: ["4,680", "4,688", "4,580", "4,780"], correct: "4,680" },
+                                    { question: "Berapakah 7,890 - 2,450?", options: ["5,440", "5,450", "5,430", "5,540"], correct: "5,440" },
+                                    { question: "Pilih urutan nombor tertib menaik.", options: ["1200, 1100, 1000", "1000, 1200, 1100", "1000, 1100, 1200", "1200, 1000, 1100"], correct: "1000, 1100, 1200" }
+                                ],
+                                en: [
+                                    { question: "Round off 4,567 to the nearest hundred.", options: ["4,500", "4,600", "5,000", "4,570"], correct: "4,600" },
+                                    { question: "Digit value of 8 in 8,312 is:", options: ["8", "80", "800", "8,000"], correct: "8,000" },
+                                    { question: "Find sum of 3,450 + 1,230.", options: ["4,680", "4,688", "4,580", "4,780"], correct: "4,680" },
+                                    { question: "What is 7,890 - 2,450?", options: ["5,440", "5,450", "5,430", "5,540"], correct: "5,440" },
+                                    { question: "Choose ascending order sequence.", options: ["1200, 1100, 1000", "1000, 1200, 1100", "1000, 1100, 1200", "1200, 1000, 1100"], correct: "1000, 1100, 1200" }
+                                ]
+                            }
+                        },
+                        panjang: {
+                            name: { ms: "Ukuran dan Sukatan", en: "Measurement" },
+                            questions: {
+                                ms: [
+                                    { question: "1 meter bersamaan berapa sentimeter (cm)?", options: ["10 cm", "100 cm", "1000 cm", "50 cm"], correct: "100 cm" },
+                                    { question: "1 kilogram (kg) bersamaan berapa gram (g)?", options: ["10 g", "100 g", "1000 g", "500 g"], correct: "1000 g" },
+                                    { question: "Unit yang sesuai untuk mengukur jisim sebiji tembikai ialah:", options: ["Gram (g)", "Kilogram (kg)", "Meter (m)", "Liter (l)"], correct: "Kilogram (kg)" },
+                                    { question: "1 liter (l) bersamaan berapa mililiter (ml)?", options: ["10 ml", "100 ml", "500 ml", "1000 ml"], correct: "1000 ml" },
+                                    { question: "3 m tukarkan kepada cm menjadi:", options: ["30 cm", "300 cm", "3000 cm", "30000 cm"], correct: "300 cm" }
+                                ],
+                                en: [
+                                    { question: "1 meter equals how many centimeters (cm)?", options: ["10 cm", "100 cm", "1000 cm", "50 cm"], correct: "100 cm" },
+                                    { question: "1 kilogram (kg) equals how many grams (g)?", options: ["10 g", "100 g", "1000 g", "500 g"], correct: "1000 g" },
+                                    { question: "Suitable unit to measure mass of a watermelon is:", options: ["Gram (g)", "Kilogram (kg)", "Meter (m)", "Litre (l)"], correct: "Kilogram (kg)" },
+                                    { question: "1 litre (l) equals how many millilitres (ml)?", options: ["10 ml", "100 ml", "500 ml", "1000 ml"], correct: "1000 ml" },
+                                    { question: "Convert 3 m to cm:", options: ["30 cm", "300 cm", "3000 cm", "30000 cm"], correct: "300 cm" }
+                                ]
+                            }
+                        }
+                    },
+                    tahun4: {
+                        nombor_4: {
+                            name: { ms: "Nombor hingga 100 000", en: "Numbers up to 100 000" },
+                            questions: {
+                                ms: [
+                                    { question: "Antara berikut, nombor manakah nombor perdana?", options: ["4", "9", "13", "15"], correct: "13" },
+                                    { question: "Bundarkan 56,782 kepada ribu terdekat.", options: ["56,000", "57,000", "56,800", "60,000"], correct: "57,000" },
+                                    { question: "45,000 + 12,300 = ?", options: ["57,300", "57,000", "58,300", "56,300"], correct: "57,300" },
+                                    { question: "Cari hasil darab 1,200 × 10.", options: ["12,000", "120,000", "1,200", "120"], correct: "12,000" },
+                                    { question: "Apakah nombor perdana yang terkecil?", options: ["0", "1", "2", "3"], correct: "2" }
+                                ],
+                                en: [
+                                    { question: "Which of the following is a prime number?", options: ["4", "9", "13", "15"], correct: "13" },
+                                    { question: "Round off 56,782 to the nearest thousand.", options: ["56,000", "57,000", "56,800", "60,000"], correct: "57,000" },
+                                    { question: "45,000 + 12,300 = ?", options: ["57,300", "57,000", "58,300", "56,300"], correct: "57,300" },
+                                    { question: "Find product of 1,200 × 10.", options: ["12,000", "120,000", "1,200", "120"], correct: "12,000" },
+                                    { question: "What is the smallest prime number?", options: ["0", "1", "2", "3"], correct: "2" }
+                                ]
+                            }
+                        },
+                        masa_4: {
+                            name: { ms: "Masa dan Waktu (Abad/Dekad)", en: "Time (Century/Decade)" },
+                            questions: {
+                                ms: [
+                                    { question: "1 dekad bersamaan berapa tahun?", options: ["5 tahun", "10 tahun", "50 tahun", "100 tahun"], correct: "10 tahun" },
+                                    { question: "1 abad bersamaan berapa tahun?", options: ["10 tahun", "50 tahun", "100 tahun", "1000 tahun"], correct: "100 tahun" },
+                                    { question: "3 dekad = __ tahun.", options: ["13 tahun", "30 tahun", "300 tahun", "3 tahun"], correct: "30 tahun" },
+                                    { question: "2 abad 5 dekad bersamaan berapa tahun?", options: ["25 tahun", "250 tahun", "205 tahun", "2500 tahun"], correct: "250 tahun" },
+                                    { question: "1 minggu ada berapa hari?", options: ["5 hari", "6 hari", "7 hari", "8 hari"], correct: "7 hari" }
+                                ],
+                                en: [
+                                    { question: "1 decade equals how many years?", options: ["5 years", "10 years", "50 years", "100 years"], correct: "10 years" },
+                                    { question: "1 century equals how many years?", options: ["10 years", "50 years", "100 years", "1000 years"], correct: "100 years" },
+                                    { question: "3 decades = __ years.", options: ["13 years", "30 years", "300 years", "3 years"], correct: "30 years" },
+                                    { question: "2 centuries 5 decades equals how many years?", options: ["25 years", "250 years", "205 years", "2500 years"], correct: "250 years" },
+                                    { question: "1 week has how many days?", options: ["5 days", "6 days", "7 days", "8 days"], correct: "7 days" }
+                                ]
+                            }
+                        }
+                    },
+                    tahun5: {
+                        nombor_5: {
+                            name: { ms: "Nombor hingga 1 000 000", en: "Numbers up to 1 000 000" },
+                            questions: {
+                                ms: [
+                                    { question: "Nilai tempat bagi digit 7 dalam 745,210 ialah:", options: ["Ribu", "Puluh Ribu", "Ratus Ribu", "Juta"], correct: "Ratus Ribu" },
+                                    { question: "Tulis 'Tiga ratus ribu lima puluh' dalam angka.", options: ["300,050", "300,500", "30,050", "3,000,050"], correct: "300,050" },
+                                    { question: "Berapakah 500,000 + 250,000?", options: ["650,000", "750,000", "850,000", "700,000"], correct: "750,000" },
+                                    { question: "Berapakah 1,000,000 - 400,000?", options: ["500,000", "600,000", "700,000", "800,000"], correct: "600,000" },
+                                    { question: "1/2 juta dalam bentuk nombor bulat ialah:", options: ["50,000", "500,000", "5,000", "250,000"], correct: "500,000" }
+                                ],
+                                en: [
+                                    { question: "Place value of digit 7 in 745,210 is:", options: ["Thousands", "Ten Thousands", "Hundred Thousands", "Millions"], correct: "Hundred Thousands" },
+                                    { question: "Write 'Three hundred thousand fifty' in figures.", options: ["300,050", "300,500", "30,050", "3,000,050"], correct: "300,050" },
+                                    { question: "What is 500,000 + 250,000?", options: ["650,000", "750,000", "850,000", "700,000"], correct: "750,000" },
+                                    { question: "What is 1,000,000 - 400,000?", options: ["500,000", "600,000", "700,000", "800,000"], correct: "600,000" },
+                                    { question: "1/2 million as a whole number is:", options: ["50,000", "500,000", "5,000", "250,000"], correct: "500,000" }
+                                ]
+                            }
+                        },
+                        peratus: {
+                            name: { ms: "Peratus dan Pecahan", en: "Percentage and Fractions" },
+                            questions: {
+                                ms: [
+                                    { question: "Tukarkan 1/2 kepada peratus.", options: ["25%", "50%", "75%", "100%"], correct: "50%" },
+                                    { question: "Tukarkan 3/4 kepada peratus.", options: ["50%", "60%", "75%", "80%"], correct: "75%" },
+                                    { question: "Berapakah 20% daripada RM100?", options: ["RM10", "RM20", "RM30", "RM50"], correct: "RM20" },
+                                    { question: "Tukarkan 0.25 kepada peratus.", options: ["2.5%", "25%", "250%", "0.25%"], correct: "25%" },
+                                    { question: "Cari nilai 10% daripada 500.", options: ["5", "50", "500", "10"], correct: "50" }
+                                ],
+                                en: [
+                                    { question: "Convert 1/2 to percentage.", options: ["25%", "50%", "75%", "100%"], correct: "50%" },
+                                    { question: "Convert 3/4 to percentage.", options: ["50%", "60%", "75%", "80%"], correct: "75%" },
+                                    { question: "What is 20% of RM100?", options: ["RM10", "RM20", "RM30", "RM50"], correct: "RM20" },
+                                    { question: "Convert 0.25 to percentage.", options: ["2.5%", "25%", "250%", "0.25%"], correct: "25%" },
+                                    { question: "Find 10% of 500.", options: ["5", "50", "500", "10"], correct: "50" }
+                                ]
+                            }
+                        }
+                    },
+                    tahun6: {
+                        juta: {
+                            name: { ms: "Nombor Bulat dan Juta", en: "Whole Numbers and Millions" },
+                            questions: {
+                                ms: [
+                                    { question: "Tukarkan 1.5 juta kepada nombor bulat.", options: ["150,000", "1,500,000", "15,000,000", "1,005,000"], correct: "1,500,000" },
+                                    { question: "3/4 juta bersamaan dengan:", options: ["340,000", "750,000", "500,000", "250,000"], correct: "750,000" },
+                                    { question: "Tulis 2,500,000 dalam nombor perpuluhan juta.", options: ["0.25 juta", "2.5 juta", "25 juta", "2.05 juta"], correct: "2.5 juta" },
+                                    { question: "Berapakah 0.2 juta + 0.3 juta?", options: ["50,000", "500,000", "5,000,000", "500"], correct: "500,000" },
+                                    { question: "1/5 juta bersamaan dengan:", options: ["100,000", "200,000", "250,000", "500,000"], correct: "200,000" }
+                                ],
+                                en: [
+                                    { question: "Convert 1.5 million to whole number.", options: ["150,000", "1,500,000", "15,000,000", "1,005,000"], correct: "1,500,000" },
+                                    { question: "3/4 million is equal to:", options: ["340,000", "750,000", "500,000", "250,000"], correct: "750,000" },
+                                    { question: "Write 2,500,000 as decimal million.", options: ["0.25 million", "2.5 million", "25 million", "2.05 million"], correct: "2.5 million" },
+                                    { question: "What is 0.2 million + 0.3 million?", options: ["50,000", "500,000", "5,000,000", "500"], correct: "500,000" },
+                                    { question: "1/5 million equals:", options: ["100,000", "200,000", "250,000", "500,000"], correct: "200,000" }
+                                ]
+                            }
+                        },
+                        nisbah: {
+                            name: { ms: "Nisbah dan Kadaran", en: "Ratio and Proportion" },
+                            questions: {
+                                ms: [
+                                    { question: "Nisbah 3 kepada 5 ditulis sebagai:", options: ["3/5", "3:5", "3-5", "5:3"], correct: "3:5" },
+                                    { question: "Ada 4 epal merah dan 6 epal hijau. Apakah nisbah epal merah kepada semua epal?", options: ["4:6", "4:10", "6:4", "10:4"], correct: "4:10" },
+                                    { question: "Permudahkan nisbah 2 : 4.", options: ["1:2", "1:4", "2:1", "4:2"], correct: "1:2" },
+                                    { question: "Jika nisbah murid lelaki kepada perempuan ialah 1:2, dan murid lelaki ada 5 orang, berapa murid perempuan?", options: ["5", "10", "15", "20"], correct: "10" },
+                                    { question: "Nisbah harga pen A kepada pen B ialah 2:3. Jika pen A berharga RM4, berapakah harga pen B?", options: ["RM5", "RM6", "RM8", "RM9"], correct: "RM6" }
+                                ],
+                                en: [
+                                    { question: "Ratio of 3 to 5 is written as:", options: ["3/5", "3:5", "3-5", "5:3"], correct: "3:5" },
+                                    { question: "There are 4 red apples and 6 green apples. What is the ratio of red apples to total apples?", options: ["4:6", "4:10", "6:4", "10:4"], correct: "4:10" },
+                                    { question: "Simplify the ratio 2 : 4.", options: ["1:2", "1:4", "2:1", "4:2"], correct: "1:2" },
+                                    { question: "If ratio of boys to girls is 1:2, and there are 5 boys, how many girls are there?", options: ["5", "10", "15", "20"], correct: "10" },
+                                    { question: "Ratio of pen A price to pen B is 2:3. If pen A costs RM4, what is the price of pen B?", options: ["RM5", "RM6", "RM8", "RM9"], correct: "RM6" }
+                                ]
+                            }
+                        }
                     }
                 };
 
-                const handleGoogleLogin = () => {
-                    authLoading.value = true;
-                    signInWithPopup(fAuth, googleProvider)
-                        .then((result) => {
-                            parentUser.value = result.user;
-                            user.value = null;
-                            screen.value = 'parentDashboard';
-                            listenParentData(result.user.uid);
-                        })
-                        .catch((error) => alert("Gagal Log Masuk: " + error.message))
-                        .finally(() => authLoading.value = false);
+                // Konfigurasi Bentuk Lazim
+                const config = ref({
+                    operation: 'Tambah',
+                    totalQuestions: 10,
+                    difficulty: 'Mudah',
+                    activeParentId: null
+                });
+
+                // Konfigurasi Bijak Sifir
+                const sifirConfig = ref({
+                    selectedSifir: 2,
+                    totalQuestions: 10
+                });
+
+                const sifirQuestions = ref([]);
+                const currentSifirIndex = ref(0);
+                const sifirAnswerInput = ref('');
+
+                const currentSessionType = ref('Bentuk Lazim');
+
+                const questions = ref([]);
+                const currentQuestionIndex = ref(0);
+                const score = ref(0);
+                const usedQuestionCombos = ref(new Set());
+                const correctionIndex = ref(null);
+
+                const answerArray = ref([]); 
+                const carryArray = ref([]);  
+                const borrowArray = ref([]); 
+                
+                const divisionInputs = ref({
+                    quotientArray: [],
+                    remainderArray: [],
+                    finalRemainder: ''
+                });
+
+                const activeTarget = ref({ type: 'answer', index: 0 });
+                const timerSeconds = ref(0);
+                const timerInterval = ref(null);
+                const finalTimeDisplay = ref('');
+
+                const playSound = (type) => {
+                    try {
+                        const AudioContext = window.AudioContext || window.webkitAudioContext;
+                        if (!AudioContext) return;
+                        const ctx = new AudioContext();
+                        if (type === 'click') {
+                            const osc = ctx.createOscillator();
+                            const gain = ctx.createGain();
+                            osc.type = 'sine';
+                            osc.frequency.setValueAtTime(400, ctx.currentTime);
+                            osc.frequency.exponentialRampToValueAtTime(10, ctx.currentTime + 0.1);
+                            gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                            osc.connect(gain);
+                            gain.connect(ctx.destination);
+                            osc.start();
+                            osc.stop(ctx.currentTime + 0.1);
+                        } else if (type === 'correct') {
+                            const now = ctx.currentTime;
+                            [600, 900].forEach((freq, i) => {
+                                const osc = ctx.createOscillator();
+                                const gain = ctx.createGain();
+                                osc.type = 'triangle';
+                                osc.frequency.setValueAtTime(freq, now + i * 0.08);
+                                gain.gain.setValueAtTime(0.2, now + i * 0.08);
+                                gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.08 + 0.3);
+                                osc.connect(gain);
+                                gain.connect(ctx.destination);
+                                osc.start(now + i * 0.08);
+                                osc.stop(now + i * 0.08 + 0.3);
+                            });
+                        } else if (type === 'wrong') {
+                            const osc = ctx.createOscillator();
+                            const gain = ctx.createGain();
+                            osc.type = 'sawtooth';
+                            osc.frequency.setValueAtTime(150, ctx.currentTime);
+                            osc.frequency.linearRampToValueAtTime(80, ctx.currentTime + 0.3);
+                            gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                            osc.connect(gain);
+                            gain.connect(ctx.destination);
+                            osc.start();
+                            osc.stop(ctx.currentTime + 0.3);
+                        }
+                    } catch (e) {}
                 };
 
-                const logout = () => {
-                    signOut(fAuth).then(() => {
-                        user.value = null;
-                        parentUser.value = null;
-                        screen.value = 'login-selection';
-                        stopTimer();
+                onMounted(() => {
+                    onAuthStateChanged(fAuth, (firebaseUser) => {
+                        if (firebaseUser) {
+                            if (!user.value) {
+                                parentUser.value = firebaseUser.uid;
+                                syncParentDatabaseBranches(firebaseUser.uid);
+                                screen.value = 'parentDashboard';
+                            }
+                        } else {
+                            if (!user.value) {
+                                parentUser.value = null;
+                                screen.value = 'login-selection';
+                            }
+                        }
                     });
-                };
+                });
 
-                // PARENT DATA LISTENERS & MANAGEMENT
-                const listenParentData = (uid) => {
-                    onValue(dbRef(fDatabase, `parents/${uid}/children`), (snapshot) => {
+                const syncParentDatabaseBranches = (uid) => {
+                    const profilesRef = dbRef(fDatabase, `users/${uid}/profiles`);
+                    onValue(profilesRef, (snapshot) => {
                         const data = snapshot.val();
                         if (data) {
                             childProfiles.value = Object.keys(data).map(key => ({ id: key, ...data[key] }));
@@ -1106,297 +1224,389 @@
                         }
                     });
 
-                    onValue(dbRef(fDatabase, `reports`), (snapshot) => {
+                    const reportsRef = dbRef(fDatabase, `users/${uid}/reports`);
+                    onValue(reportsRef, (snapshot) => {
                         const data = snapshot.val();
                         if (data) {
-                            reportList.value = Object.values(data);
+                            reportList.value = Object.keys(data).map(key => ({ id: key, ...data[key] }));
                         } else {
                             reportList.value = [];
                         }
                     });
                 };
 
-                const fetchReportsForUser = (username) => {
-                    onValue(dbRef(fDatabase, `reports`), (snapshot) => {
-                        const data = snapshot.val();
-                        if (data) {
-                            reportList.value = Object.values(data).filter(r => r.username === username);
-                        } else {
-                            reportList.value = [];
+                const handleGoogleLogin = async () => {
+                    authLoading.value = true;
+                    try {
+                        await signInWithPopup(fAuth, googleProvider);
+                        user.value = null; 
+                    } catch (error) {
+                        alert("Google Auth Error: " + error.message);
+                        playSound('wrong');
+                    } finally {
+                        authLoading.value = false;
+                    }
+                };
+
+                const loginAsChild = async () => {
+                    if (childPinInput.value.trim().length !== 6) return;
+                    authLoading.value = true;
+                    try {
+                        const globalUsersRef = dbRef(fDatabase, 'users');
+                        const snapshot = await get(globalUsersRef);
+                        let pinFound = false;
+
+                        if (snapshot.exists()) {
+                            const allUsers = snapshot.val();
+                            for (const parentUid in allUsers) {
+                                const profiles = allUsers[parentUid].profiles;
+                                if (profiles) {
+                                    for (const profileId in profiles) {
+                                        if (String(profiles[profileId].pin) === childPinInput.value.trim()) {
+                                            parentUser.value = null; 
+                                            user.value = profiles[profileId].name;
+                                            
+                                            const reportsRef = dbRef(fDatabase, `users/${parentUid}/reports`);
+                                            onValue(reportsRef, (repSnapshot) => {
+                                                const repData = repSnapshot.val();
+                                                if (repData) {
+                                                    reportList.value = Object.keys(repData).map(key => ({ id: key, ...repData[key] }));
+                                                } else {
+                                                    reportList.value = [];
+                                                }
+                                            });
+
+                                            config.value.activeParentId = parentUid;
+                                            playSound('correct');
+                                            screen.value = 'mode-selection';
+                                            pinFound = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (pinFound) break;
+                            }
                         }
-                    });
+
+                        if (!pinFound) {
+                            alert(lang.value === 'ms' ? "No PIN tidak sah. Sila semak dengan ibu bapa anda." : "Invalid PIN. Please check with your parents.");
+                            playSound('wrong');
+                        }
+                    } catch (e) {
+                        alert("Connection Error: " + e.message);
+                    } finally {
+                        authLoading.value = false;
+                    }
+                };
+
+                const generateUniquePin = async () => {
+                    const existingPins = new Set();
+                    try {
+                        const globalUsersRef = dbRef(fDatabase, 'users');
+                        const snapshot = await get(globalUsersRef);
+                        if (snapshot.exists()) {
+                            const allUsers = snapshot.val();
+                            for (const pUid in allUsers) {
+                                const profiles = allUsers[pUid].profiles;
+                                if (profiles) {
+                                    for (const profId in profiles) {
+                                        if (profiles[profId].pin) {
+                                            existingPins.add(String(profiles[profId].pin));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } catch (e) {
+                        console.error("Failed to fetch existing PINs: ", e);
+                    }
+
+                    let pin;
+                    let isUnique = false;
+                    while (!isUnique) {
+                        pin = String(Math.floor(100000 + Math.random() * 900000));
+                        if (!existingPins.has(pin)) {
+                            isUnique = true;
+                        }
+                    }
+                    return pin;
                 };
 
                 const addChildProfile = async () => {
                     if (!newChildName.value.trim() || !parentUser.value) return;
                     isManagingPin.value = true;
-                    const name = newChildName.value.trim().toLowerCase();
-                    const newPin = Math.floor(100000 + Math.random() * 900000).toString();
-
                     try {
-                        const newChildRef = push(dbRef(fDatabase, `parents/${parentUser.value.uid}/children`));
-                        await set(newChildRef, { name: name, pin: newPin });
-                        await set(dbRef(fDatabase, `pins/${newPin}`), { name: name, parentUid: parentUser.value.uid, childKey: newChildRef.key });
+                        const pin = await generateUniquePin(); 
+                        const profilesRef = dbRef(fDatabase, `users/${parentUser.value}/profiles`);
+                        const newProfile = {
+                            name: newChildName.value.trim().toLowerCase(),
+                            pin: pin
+                        };
+                        await push(profilesRef, newProfile);
                         newChildName.value = '';
+                        playSound('correct');
                     } catch (e) {
-                        alert("Ralat menambah profil: " + e.message);
+                        alert("Failed to add profile: " + e.message);
                     } finally {
                         isManagingPin.value = false;
                     }
                 };
 
-                const regenerateChildPin = async (childId) => {
+                const regenerateChildPin = async (profileId) => {
                     if (!parentUser.value) return;
-                    const child = childProfiles.value.find(c => c.id === childId);
-                    if (!child) return;
                     isManagingPin.value = true;
-                    const newPin = Math.floor(100000 + Math.random() * 900000).toString();
-
                     try {
-                        await remove(dbRef(fDatabase, `pins/${child.pin}`));
-                        await set(dbRef(fDatabase, `parents/${parentUser.value.uid}/children/${childId}/pin`), newPin);
-                        await set(dbRef(fDatabase, `pins/${newPin}`), { name: child.name, parentUid: parentUser.value.uid, childKey: childId });
+                        const newPin = await generateUniquePin();
+                        await set(dbRef(fDatabase, `users/${parentUser.value}/profiles/${profileId}/pin`), newPin);
+                        playSound('correct');
+                        alert(lang.value === 'ms' ? "PIN 6-digit baharu berjaya dijana!" : "New 6-digit PIN generated successfully!");
                     } catch (e) {
-                        alert("Ralat menjana PIN: " + e.message);
+                        alert("Failed to update PIN: " + e.message);
                     } finally {
                         isManagingPin.value = false;
                     }
                 };
 
-                const deleteChildProfile = async (childId) => {
-                    if (!confirm("Adakah anda pasti untuk memadam profil ini?")) return;
-                    const child = childProfiles.value.find(c => c.id === childId);
-                    if (!child) return;
-
+                const deleteChildProfile = async (profileId) => {
+                    if (!parentUser.value || !confirm(lang.value === 'ms' ? "Padam profil anak ini secara kekal?" : "Permanently delete this child profile?")) return;
                     try {
-                        await remove(dbRef(fDatabase, `pins/${child.pin}`));
-                        await remove(dbRef(fDatabase, `parents/${parentUser.value.uid}/children/${childId}`));
+                        await remove(dbRef(fDatabase, `users/${parentUser.value}/profiles/${profileId}`));
+                        playSound('wrong');
                     } catch (e) {
-                        alert("Ralat memadam profil: " + e.message);
+                        alert("Failed to delete: " + e.message);
                     }
                 };
 
-                const getChildStats = (childName) => {
-                    if (!childName) return { total: 0, accuracy: 0 };
-                    const filtered = reportList.value.filter(r => r.username === childName.toLowerCase());
-                    if (filtered.length === 0) return { total: 0, accuracy: 0 };
-                    const totalAcc = filtered.reduce((acc, curr) => acc + (curr.accuracy || 0), 0);
-                    return {
-                        total: filtered.length,
-                        accuracy: Math.round(totalAcc / filtered.length)
-                    };
+                const getChildStats = (name) => {
+                    if (!name) return { total: 0, accuracy: 0 };
+                    const childReports = reportList.value.filter(r => r.studentName === name.toLowerCase());
+                    if (childReports.length === 0) return { total: 0, accuracy: 0 };
+                    const total = childReports.length;
+                    const avgAcc = Math.round(childReports.reduce((s, r) => s + (r.accuracy || 0), 0) / total);
+                    return { total, accuracy: avgAcc };
                 };
+
+                const clearChildReports = async () => {
+                    if (!parentUser.value || !selectedChildForReport.value) return;
+                    if (!confirm(lang.value === 'ms' ? `Adakah anda pasti mahu memadam semua sejarah rekod skor milik ${selectedChildForReport.value.toUpperCase()}?` : `Are you sure you want to delete all score history for ${selectedChildForReport.value.toUpperCase()}?`)) return;
+                    
+                    playSound('wrong');
+                    try {
+                        const targets = reportList.value.filter(r => r.studentName === selectedChildForReport.value.toLowerCase());
+                        for (const report of targets) {
+                            await remove(dbRef(fDatabase, `users/${parentUser.value}/reports/${report.id}`));
+                        }
+                        alert(lang.value === 'ms' ? "Rekod berjaya dipadamkan." : "Records deleted successfully.");
+                    } catch(e) {
+                        alert("Failed to delete records: " + e.message);
+                    }
+                };
+
+                const logout = async () => {
+                    playSound('wrong');
+                    stopTimer();
+                    await signOut(fAuth);
+                    user.value = null;
+                    parentUser.value = null;
+                    childProfiles.value = [];
+                    reportList.value = [];
+                    childPinInput.value = '';
+                    selectedChildForReport.value = '';
+                    config.value.activeParentId = null;
+                    screen.value = 'login-selection';
+                };
+
+                const filteredReportList = computed(() => {
+                    if (!user.value) return reportList.value; 
+                    return reportList.value.filter(r => r.studentName === user.value.toLowerCase());
+                });
 
                 const parentFilteredReports = computed(() => {
                     if (!selectedChildForReport.value) return [];
-                    return reportList.value.filter(r => r.username === selectedChildForReport.value.toLowerCase());
+                    return reportList.value.filter(r => r.studentName === selectedChildForReport.value.toLowerCase());
                 });
 
-                const filteredReportList = computed(() => {
-                    if (!user.value) return [];
-                    return reportList.value.filter(r => r.username === user.value.toLowerCase());
-                });
-
-                const clearChildReports = async () => {
-                    if (!selectedChildForReport.value) return;
-                    if (!confirm(`Padam semua rekod laporan untuk ${selectedChildForReport.value.toUpperCase()}?`)) return;
-
-                    try {
-                        const snapshot = await get(dbRef(fDatabase, `reports`));
-                        if (snapshot.exists()) {
-                            const data = snapshot.val();
-                            for (let key in data) {
-                                if (data[key].username === selectedChildForReport.value.toLowerCase()) {
-                                    await remove(dbRef(fDatabase, `reports/${key}`));
-                                }
-                            }
-                        }
-                    } catch (e) {
-                        alert("Ralat memadam rekod: " + e.message);
+                const currentQuestion = computed(() => {
+                    if (screen.value === 'correction' && correctionIndex.value !== null) {
+                        return questions.value[correctionIndex.value] || { num1: 0, num2: 0 };
                     }
+                    return questions.value[currentQuestionIndex.value] || { num1: 0, num2: 0 };
+                });
+
+                const currentSifirQuestion = computed(() => {
+                    return sifirQuestions.value[currentSifirIndex.value] || { num1: 0, num2: 0 };
+                });
+
+                const currentTopicQuestion = computed(() => {
+                    return topicQuestions.value[currentTopicIndex.value] || { question: '', options: [], correct: '', topicName: '' };
+                });
+
+                const maxColumns = computed(() => {
+                    const len1 = String(currentQuestion.value.num1).length;
+                    const len2 = String(currentQuestion.value.num2).length;
+                    return Math.max(len1, len2) + (config.value.operation === 'Tambah' || config.value.operation === 'Darab' ? 1 : 0);
+                });
+
+                const formattedTime = computed(() => {
+                    const mins = Math.floor(timerSeconds.value / 60);
+                    const secs = timerSeconds.value % 60;
+                    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                });
+
+                const currentAccuracy = computed(() => {
+                    if (currentQuestionIndex.value === 0) return 100;
+                    return Math.round((score.value / currentQuestionIndex.value) * 100);
+                });
+
+                const currentSessionTotalQuestions = computed(() => {
+                    if (currentSessionType.value === 'Latihan Ikut Topik') return 5;
+                    return currentSessionType.value === 'Bentuk Lazim' ? config.value.totalQuestions : sifirConfig.value.totalQuestions;
+                });
+
+                const getDigitAt = (number, index) => {
+                    const str = String(number);
+                    const revIndex = str.length - 1 - index;
+                    if (revIndex >= 0 && revIndex < str.length) {
+                        return str[revIndex];
+                    }
+                    return ''; 
                 };
 
-                // GENERASI & LOGIK BENTUK LAZIM
                 const changeOperation = (op) => {
                     config.value.operation = op;
                     playSound('click');
                 };
 
-                const currentQuestion = computed(() => questions.value[currentQuestionIndex.value] || { num1: 0, num2: 0 });
-
-                const maxColumns = computed(() => {
-                    if (config.value.operation === 'Bahagi') return String(currentQuestion.value.num1).length;
-                    const maxVal = Math.max(currentQuestion.value.num1, currentQuestion.value.num2);
-                    const len = String(maxVal).length;
-                    return config.value.operation === 'Darab' || config.value.operation === 'Tambah' ? len + 1 : len;
-                });
-
-                const getDigitAt = (num, posIndex) => {
-                    const str = String(num);
-                    if (posIndex >= str.length) return '';
-                    return str[str.length - 1 - posIndex];
+                const openReports = () => {
+                    playSound('click');
+                    screen.value = 'reports';
                 };
 
-                const generateQuestions = () => {
-                    const qList = [];
-                    const op = config.value.operation;
-                    const diff = config.value.difficulty;
+                // GENERASI SOALAN LATIHAN IKUT TOPIK
+                const startTopicSession = () => {
+                    if (!selectedYear.value || !selectedTopicKey.value) return;
+                    const topicObj = kssrTopics['tahun' + selectedYear.value][selectedTopicKey.value];
+                    if (!topicObj || !topicObj.questions) return;
 
-                    for (let i = 0; i < config.value.totalQuestions; i++) {
-                        let n1 = 0, n2 = 0;
-                        if (op === 'Tambah' || op === 'Tolak') {
-                            let min = 10, max = 99;
-                            if (diff === 'Sederhana') { min = 100; max = 999; }
-                            if (diff === 'Pro') { min = 1000; max = 9999; }
-                            n1 = Math.floor(Math.random() * (max - min + 1)) + min;
-                            n2 = Math.floor(Math.random() * (max - min + 1)) + min;
-                            if (op === 'Tolak' && n1 < n2) [n1, n2] = [n2, n1];
-                        } else if (op === 'Darab') {
-                            if (diff === 'Mudah') { n1 = Math.floor(Math.random() * 89) + 10; n2 = Math.floor(Math.random() * 8) + 2; }
-                            else if (diff === 'Sederhana') { n1 = Math.floor(Math.random() * 899) + 100; n2 = Math.floor(Math.random() * 8) + 2; }
-                            else { n1 = Math.floor(Math.random() * 899) + 100; n2 = Math.floor(Math.random() * 89) + 10; }
-                        } else if (op === 'Bahagi') {
-                            if (diff === 'Mudah') { n2 = Math.floor(Math.random() * 8) + 2; n1 = n2 * (Math.floor(Math.random() * 9) + 2); }
-                            else if (diff === 'Sederhana') { n2 = Math.floor(Math.random() * 8) + 2; n1 = Math.floor(Math.random() * 899) + 100; }
-                            else { n2 = Math.floor(Math.random() * 89) + 10; n1 = Math.floor(Math.random() * 8999) + 1000; }
-                        }
-                        qList.push({ num1: n1, num2: n2, isCorrect: false, studentAnsStr: '', correctAnsStr: '' });
+                    const langQuestions = topicObj.questions[lang.value] || topicObj.questions['ms'];
+                    let rawQuestions = [...langQuestions];
+                    rawQuestions.sort(() => Math.random() - 0.5);
+
+                    topicQuestions.value = rawQuestions.slice(0, 5).map(q => {
+                        let shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+                        return {
+                            ...q,
+                            options: shuffledOptions,
+                            topicName: topicObj.name[lang.value]
+                        };
+                    });
+
+                    currentSessionType.value = 'Latihan Ikut Topik';
+                    currentTopicIndex.value = 0;
+                    score.value = 0;
+                    playSound('correct');
+                    screen.value = 'topic-gameplay';
+                    startTimer();
+                };
+
+                const submitTopicAnswer = (selectedOpt) => {
+                    const q = currentTopicQuestion.value;
+                    if (selectedOpt === q.correct) {
+                        score.value += 1;
+                        playSound('correct');
+                    } else {
+                        playSound('wrong');
                     }
-                    questions.value = qList;
+
+                    if (currentTopicIndex.value < 4) {
+                        currentTopicIndex.value += 1;
+                    } else {
+                        endSession();
+                    }
                 };
 
-                const resetInputs = () => {
-                    carryArray.value = {};
-                    answerArray.value = {};
-                    borrowArray.value = {};
-                    divisionInputs.value = { quotientArray: {}, remainderArray: {}, finalRemainder: '' };
-                    activeTarget.value = { type: 'answer', index: 0 };
+                // GENERASI SOALAN BENTUK LAZIM
+                const generateQuestions = () => {
+                    questions.value = [];
+                    usedQuestionCombos.value.clear();
+                    let attempts = 0;
+                    while (questions.value.length < config.value.totalQuestions && attempts < 1500) {
+                        attempts++;
+                        let num1 = 0, num2 = 0;
+                        const diff = config.value.difficulty;
+                        const op = config.value.operation;
+
+                        if (op === 'Tambah' || op === 'Tolak') {
+                            if (diff === 'Mudah') { num1 = Math.floor(Math.random() * 90) + 10; num2 = Math.floor(Math.random() * 9) + 1; } 
+                            else if (diff === 'Sederhana') { num1 = Math.floor(Math.random() * 900) + 100; num2 = Math.floor(Math.random() * 90) + 10; } 
+                            else { num1 = Math.floor(Math.random() * 9000) + 1000; num2 = Math.floor(Math.random() * 900) + 100; }
+                            if (op === 'Tolak' && num1 < num2) { let temp = num1; num1 = num2; num2 = temp; }
+                        } else if (op === 'Darab') {
+                            if (diff === 'Mudah') { num1 = Math.floor(Math.random() * 9) + 1; num2 = Math.floor(Math.random() * 9) + 1; } 
+                            else if (diff === 'Sederhana') { num1 = Math.floor(Math.random() * 90) + 10; num2 = Math.floor(Math.random() * 9) + 1; } 
+                            else { num1 = Math.floor(Math.random() * 900) + 100; num2 = Math.floor(Math.random() * 9) + 1; }
+                        } else if (op === 'Bahagi') {
+                            if (diff === 'Mudah') {
+                                num2 = Math.floor(Math.random() * 8) + 2; let quotient = Math.floor(Math.random() * 4) + 11; num1 = num2 * quotient;
+                                if (num1 > 99) { quotient = Math.floor(99 / num2); num1 = num2 * quotient; }
+                            } else if (diff === 'Sederhana') {
+                                num2 = Math.floor(Math.random() * 8) + 2; num1 = Math.floor(Math.random() * 89) + 10;
+                                if (num1 % num2 === 0) { num1 = (num1 + 1) > 99 ? num1 - 1 : num1 + 1; }
+                            } else {
+                                num2 = Math.floor(Math.random() * 8) + 2; num1 = Math.floor(Math.random() * 899) + 100;
+                                if (num1 % num2 === 0) { num1 = (num1 + 1) > 999 ? num1 - 1 : num1 + 1; }
+                            }
+                        }
+
+                        const key = op === 'Tambah' || op === 'Darab' ? [num1, num2].sort((a,b)=>a-b).join('-') : `${num1}-${num2}`;
+                        if (!usedQuestionCombos.value.has(key)) {
+                            usedQuestionCombos.value.add(key);
+                            questions.value.push({ num1, num2, isCorrect: false, studentAnsStr: '', correctAnsStr: '', wasCorrected: false });
+                        }
+                    }
+                };
+
+                // GENERASI SOALAN SIFIR
+                const generateSifirQuestions = () => {
+                    sifirQuestions.value = [];
+                    const selected = sifirConfig.value.selectedSifir;
+                    const totalReq = sifirConfig.value.totalQuestions;
+
+                    let multipliers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+                    multipliers.sort(() => Math.random() - 0.5);
+
+                    while (multipliers.length < totalReq) {
+                        let extra = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].sort(() => Math.random() - 0.5);
+                        multipliers = multipliers.concat(extra);
+                    }
+
+                    const finalMultipliers = multipliers.slice(0, totalReq);
+
+                    sifirQuestions.value = finalMultipliers.map(m => ({
+                        num1: selected,
+                        num2: m,
+                        correctAns: selected * m
+                    }));
                 };
 
                 const startSession = () => {
+                    if (!user.value) user.value = "Utama";
                     currentSessionType.value = 'Bentuk Lazim';
+                    playSound('correct');
                     generateQuestions();
                     currentQuestionIndex.value = 0;
                     score.value = 0;
-                    resetInputs();
+                    correctionIndex.value = null;
+                    setupQuestionLayout();
                     screen.value = 'gameplay';
                     startTimer();
                 };
 
-                const triggerBorrow = (colPos) => {
-                    if (config.value.operation !== 'Tolak') return;
-                    const currentDigit = parseInt(getDigitAt(currentQuestion.value.num1, colPos) || 0);
-                    borrowArray.value[colPos] = (currentDigit + 10).toString();
-                    playSound('click');
-                };
-
-                const pressKey = (key) => {
-                    playSound('click');
-                    if (screen.value === 'sifir-gameplay') {
-                        if (key === 'C') sifirAnswerInput.value = '';
-                        else if (key === 'BACKSPACE') sifirAnswerInput.value = sifirAnswerInput.value.slice(0, -1);
-                        else if (sifirAnswerInput.value.length < 5) sifirAnswerInput.value += key;
-                        return;
-                    }
-
-                    const target = activeTarget.value;
-                    if (!target) return;
-
-                    let currentVal = '';
-                    if (target.type === 'carry') currentVal = carryArray.value[target.index] || '';
-                    else if (target.type === 'borrow') currentVal = borrowArray.value[target.index] || '';
-                    else if (target.type === 'answer') currentVal = answerArray.value[target.index] || '';
-                    else if (target.type === 'div_quotient_arr') currentVal = divisionInputs.value.quotientArray[target.index] || '';
-                    else if (target.type === 'div_remainder_arr') currentVal = divisionInputs.value.remainderArray[target.index] || '';
-                    else if (target.type === 'div_final_remainder') currentVal = divisionInputs.value.finalRemainder || '';
-
-                    if (key === 'C') currentVal = '';
-                    else if (key === 'BACKSPACE') currentVal = currentVal.slice(0, -1);
-                    else if (currentVal.length < 3) currentVal += key;
-
-                    if (target.type === 'carry') carryArray.value[target.index] = currentVal;
-                    else if (target.type === 'borrow') borrowArray.value[target.index] = currentVal;
-                    else if (target.type === 'answer') answerArray.value[target.index] = currentVal;
-                    else if (target.type === 'div_quotient_arr') divisionInputs.value.quotientArray[target.index] = currentVal;
-                    else if (target.type === 'div_remainder_arr') divisionInputs.value.remainderArray[target.index] = currentVal;
-                    else if (target.type === 'div_final_remainder') divisionInputs.value.finalRemainder = currentVal;
-                };
-
-                const submitAnswer = () => {
-                    const q = currentQuestion.value;
-                    let isCorrect = false;
-                    let studentAnsStr = '';
-                    let correctAnsStr = '';
-
-                    if (config.value.operation === 'Tambah' || config.value.operation === 'Tolak' || config.value.operation === 'Darab') {
-                        let constructedAns = '';
-                        for (let i = maxColumns.value - 1; i >= 0; i--) {
-                            constructedAns += (answerArray.value[i] || '');
-                        }
-                        const studentVal = parseInt(constructedAns) || 0;
-                        studentAnsStr = studentVal.toString();
-
-                        let correctVal = 0;
-                        if (config.value.operation === 'Tambah') correctVal = q.num1 + q.num2;
-                        if (config.value.operation === 'Tolak') correctVal = q.num1 - q.num2;
-                        if (config.value.operation === 'Darab') correctVal = q.num1 * q.num2;
-
-                        correctAnsStr = correctVal.toString();
-                        isCorrect = (studentVal === correctVal);
-                    } else if (config.value.operation === 'Bahagi') {
-                        const digits = String(q.num1).split('');
-                        let constructedQuotient = '';
-                        for (let i = 0; i < digits.length; i++) {
-                            constructedQuotient += (divisionInputs.value.quotientArray[i] || '');
-                        }
-                        const studentQuotient = parseInt(constructedQuotient) || 0;
-                        const studentRemainder = parseInt(divisionInputs.value.finalRemainder) || 0;
-
-                        const correctQuotient = Math.floor(q.num1 / q.num2);
-                        const correctRemainder = q.num1 % q.num2;
-
-                        studentAnsStr = `${studentQuotient}` + (studentRemainder > 0 ? ` Baki ${studentRemainder}` : '');
-                        correctAnsStr = `${correctQuotient}` + (correctRemainder > 0 ? ` Baki ${correctRemainder}` : '');
-
-                        isCorrect = (studentQuotient === correctQuotient && studentRemainder === correctRemainder);
-                    }
-
-                    if (screen.value === 'correction') {
-                        const targetQ = questions.value[correctionIndex.value];
-                        if (isCorrect) {
-                            targetQ.isCorrect = true;
-                            targetQ.wasCorrected = true;
-                            targetQ.studentAnsStr = studentAnsStr;
-                            score.value++;
-                        }
-                        screen.value = 'results';
-                        return;
-                    }
-
-                    q.isCorrect = isCorrect;
-                    q.studentAnsStr = studentAnsStr;
-                    q.correctAnsStr = correctAnsStr;
-                    if (isCorrect) score.value++;
-
-                    if (currentQuestionIndex.value < config.value.totalQuestions - 1) {
-                        currentQuestionIndex.value++;
-                        resetInputs();
-                    } else {
-                        stopTimer();
-                        saveSessionReport();
-                        screen.value = 'results';
-                    }
-                };
-
-                // LOGIK BIJAK SIFIR
                 const startSifirSession = () => {
+                    if (!user.value) user.value = "Utama";
                     currentSessionType.value = 'Bijak Sifir';
-                    const list = [];
-                    for (let i = 0; i < sifirConfig.value.totalQuestions; i++) {
-                        const randMultiplier = Math.floor(Math.random() * 12) + 1;
-                        list.push({ num1: sifirConfig.value.selectedSifir, num2: randMultiplier, answer: sifirConfig.value.selectedSifir * randMultiplier });
-                    }
-                    sifirQuestions.value = list;
+                    playSound('correct');
+                    generateSifirQuestions();
                     currentSifirIndex.value = 0;
                     score.value = 0;
                     sifirAnswerInput.value = '';
@@ -1404,207 +1614,276 @@
                     startTimer();
                 };
 
-                const currentSifirQuestion = computed(() => sifirQuestions.value[currentSifirIndex.value] || { num1: 2, num2: 1, answer: 2 });
+                const setupQuestionLayout = () => {
+                    const op = config.value.operation;
+                    activeTarget.value = { type: 'answer', index: 0 };
+                    answerArray.value = Array(maxColumns.value).fill('');
+                    carryArray.value = Array(maxColumns.value).fill('');
+                    borrowArray.value = Array(maxColumns.value).fill('');
 
-                const submitSifirAnswer = () => {
-                    const ans = parseInt(sifirAnswerInput.value) || 0;
-                    if (ans === currentSifirQuestion.value.answer) {
-                        score.value++;
-                    }
-
-                    if (currentSifirIndex.value < sifirConfig.value.totalQuestions - 1) {
-                        currentSifirIndex.value++;
-                        sifirAnswerInput.value = '';
-                    } else {
-                        stopTimer();
-                        saveSessionReport();
-                        screen.value = 'results';
+                    if (op === 'Bahagi') {
+                        const len = String(currentQuestion.value.num1).length;
+                        divisionInputs.value = { quotientArray: Array(len).fill(''), remainderArray: Array(len).fill(''), finalRemainder: '' };
+                        activeTarget.value = { type: 'div_quotient_arr', index: 0 };
                     }
                 };
 
-                // LOGIK TOPIK KSSR
-                const startTopicSession = () => {
-                    if (!selectedYear.value || !selectedTopicKey.value) return;
-                    currentSessionType.value = 'Latihan Topik';
-                    const topicObj = kssrTopics['tahun' + selectedYear.value][selectedTopicKey.value];
-                    
-                    topicQuestions.value = topicObj.questions.map(q => ({ ...q, topicName: topicObj.name[lang.value] }));
-                    currentTopicIndex.value = 0;
-                    score.value = 0;
-                    screen.value = 'topic-gameplay';
-                    startTimer();
-                };
-
-                const currentTopicQuestion = computed(() => topicQuestions.value[currentTopicIndex.value] || { question: '', options: [], answer: '', topicName: '' });
-
-                const submitTopicAnswer = (selectedOpt) => {
+                const startCorrection = (index) => {
                     playSound('click');
-                    if (selectedOpt === currentTopicQuestion.value.answer) {
-                        score.value++;
-                    }
-
-                    if (currentTopicIndex.value < 4) {
-                        currentTopicIndex.value++;
-                    } else {
-                        stopTimer();
-                        saveSessionReport();
-                        screen.value = 'results';
-                    }
-                };
-
-                // PERKONGSIAN & SIMPANAN KEPUTUSAN
-                const currentSessionTotalQuestions = computed(() => {
-                    if (currentSessionType.value === 'Bentuk Lazim') return config.value.totalQuestions;
-                    if (currentSessionType.value === 'Bijak Sifir') return sifirConfig.value.totalQuestions;
-                    return 5;
-                });
-
-                const currentAccuracy = computed(() => {
-                    if (currentQuestionIndex.value === 0) return 0;
-                    return Math.round((score.value / (currentQuestionIndex.value + 1)) * 100);
-                });
-
-                const saveSessionReport = async () => {
-                    if (!user.value) return;
-                    const totalQ = currentSessionTotalQuestions.value;
-                    const accuracy = Math.round((score.value / totalQ) * 100);
-
-                    let opTitle = config.value.operation;
-                    let diffTitle = config.value.difficulty;
-
-                    if (currentSessionType.value === 'Bijak Sifir') {
-                        opTitle = `Sifir ${sifirConfig.value.selectedSifir}`;
-                        diffTitle = 'Hafalan';
-                    } else if (currentSessionType.value === 'Latihan Topik') {
-                        opTitle = `Tahun ${selectedYear.value} (Topik)`;
-                        diffTitle = 'KSSR';
-                    }
-
-                    const reportData = {
-                        username: user.value.toLowerCase(),
-                        operation: opTitle,
-                        difficulty: diffTitle,
-                        score: score.value,
-                        total: totalQ,
-                        accuracy: accuracy,
-                        durationStr: formattedTime.value,
-                        date: new Date().toLocaleDateString('ms-MY')
-                    };
-
-                    try {
-                        const newReportRef = push(dbRef(fDatabase, `reports`));
-                        await set(newReportRef, reportData);
-                    } catch (e) {
-                        console.error("Gagal menyimpan laporan:", e);
-                    }
-                };
-
-                const startCorrection = (qIndex) => {
-                    correctionIndex.value = qIndex;
-                    currentQuestionIndex.value = qIndex;
-                    resetInputs();
+                    correctionIndex.value = index;
                     screen.value = 'correction';
+                    setupQuestionLayout();
                 };
 
                 const exitCorrection = () => {
-                    correctionIndex.value = -1;
+                    playSound('click');
+                    correctionIndex.value = null;
+                    screen.value = 'results';
+                };
+
+                const triggerBorrow = (idx) => {
+                    if (config.value.operation !== 'Tolak') return;
+                    playSound('click');
+                    activeTarget.value = { type: 'borrow', index: idx };
+                };
+
+                const pressKey = (key) => {
+                    playSound('click');
+
+                    if (screen.value === 'sifir-gameplay') {
+                        if (key === 'C') {
+                            sifirAnswerInput.value = '';
+                            return;
+                        }
+                        if (key === 'BACKSPACE') {
+                            sifirAnswerInput.value = sifirAnswerInput.value.slice(0, -1);
+                            return;
+                        }
+                        if (sifirAnswerInput.value.length < 4) {
+                            sifirAnswerInput.value += key;
+                        }
+                        return;
+                    }
+
+                    const target = activeTarget.value;
+                    const op = config.value.operation;
+                    const digitCount = String(currentQuestion.value.num1).length;
+                    
+                    if (key === 'C') { clearActiveTarget(); return; }
+                    if (key === 'BACKSPACE') { backspaceActiveTarget(); return; }
+
+                    if (target.type === 'answer') {
+                        answerArray.value[target.index] = key;
+                        if (target.index < maxColumns.value - 1) {
+                            let needsCarry = false;
+                            if (op === 'Tambah') {
+                                const d1 = parseInt(getDigitAt(currentQuestion.value.num1, target.index)) || 0;
+                                const d2 = parseInt(getDigitAt(currentQuestion.value.num2, target.index)) || 0;
+                                const c = parseInt(carryArray.value[target.index]) || 0;
+                                if ((d1 + d2 + c) > 9) needsCarry = true;
+                            } else if (op === 'Darab') {
+                                const d1 = parseInt(getDigitAt(currentQuestion.value.num1, target.index)) || 0;
+                                const num2Val = parseInt(currentQuestion.value.num2) || 0;
+                                const c = parseInt(carryArray.value[target.index]) || 0;
+                                if ((d1 * num2Val + c) > 9) needsCarry = true;
+                            }
+                            if (needsCarry) activeTarget.value = { type: 'carry', index: target.index + 1 };
+                            else activeTarget.value = { type: 'answer', index: target.index + 1 };
+                        }
+                    } else if (target.type === 'carry') {
+                        carryArray.value[target.index] = key;
+                        activeTarget.value = { type: 'answer', index: target.index };
+                    } else if (target.type === 'borrow') {
+                        let currentVal = String(borrowArray.value[target.index] || '');
+                        if (currentVal.length < 2) borrowArray.value[target.index] = currentVal + key;
+                    } else if (target.type === 'div_quotient_arr') {
+                        divisionInputs.value.quotientArray[target.index] = key;
+                        if (target.index < digitCount - 1) activeTarget.value = { type: 'div_remainder_arr', index: target.index };
+                        else activeTarget.value = { type: 'div_final_remainder', index: 0 };
+                    } else if (target.type === 'div_remainder_arr') {
+                        divisionInputs.value.remainderArray[target.index] = key;
+                        if (target.index + 1 < digitCount) activeTarget.value = { type: 'div_quotient_arr', index: target.index + 1 };
+                    } else if (target.type === 'div_final_remainder') {
+                        divisionInputs.value.finalRemainder = key;
+                    }
+                };
+
+                const clearActiveTarget = () => {
+                    const target = activeTarget.value;
+                    if (target.type === 'answer') answerArray.value[target.index] = '';
+                    if (target.type === 'carry') carryArray.value[target.index] = '';
+                    if (target.type === 'borrow') borrowArray.value[target.index] = '';
+                    if (target.type === 'div_quotient_arr') divisionInputs.value.quotientArray[target.index] = '';
+                    if (target.type === 'div_remainder_arr') divisionInputs.value.remainderArray[target.index] = '';
+                    if (target.type === 'div_final_remainder') divisionInputs.value.finalRemainder = '';
+                };
+
+                const backspaceActiveTarget = () => {
+                    const target = activeTarget.value;
+                    const op = config.value.operation;
+
+                    if (target.type === 'answer') {
+                        answerArray.value[target.index] = '';
+                        if (target.index > 0) {
+                            if (op === 'Tambah' || op === 'Darab') activeTarget.value = { type: 'carry', index: target.index };
+                            else activeTarget.value = { type: 'answer', index: target.index - 1 };
+                        }
+                    }
+                    if (target.type === 'carry') { carryArray.value[target.index] = ''; activeTarget.value = { type: 'answer', index: target.index - 1 }; }
+                    if (target.type === 'borrow') { let val = String(borrowArray.value[target.index] || ''); borrowArray.value[target.index] = val.substring(0, val.length - 1); }
+                    if (target.type === 'div_quotient_arr') { divisionInputs.value.quotientArray[target.index] = ''; if (target.index > 0) activeTarget.value = { type: 'div_remainder_arr', index: target.index - 1 }; }
+                    if (target.type === 'div_remainder_arr') { divisionInputs.value.remainderArray[target.index] = ''; activeTarget.value = { type: 'div_quotient_arr', index: target.index }; }
+                    if (target.type === 'div_final_remainder') { divisionInputs.value.finalRemainder = ''; const len = String(currentQuestion.value.num1).length; activeTarget.value = { type: 'div_quotient_arr', index: len - 1 }; }
+                };
+
+                const submitSifirAnswer = () => {
+                    const q = currentSifirQuestion.value;
+                    const userAns = parseInt(sifirAnswerInput.value, 10);
+
+                    if (userAns === q.correctAns) {
+                        score.value += 1;
+                        playSound('correct');
+                    } else {
+                        playSound('wrong');
+                    }
+
+                    sifirAnswerInput.value = '';
+
+                    if (currentSifirIndex.value < sifirConfig.value.totalQuestions - 1) {
+                        currentSifirIndex.value += 1;
+                    } else {
+                        endSession();
+                    }
+                };
+
+                const submitAnswer = () => {
+                    const op = config.value.operation;
+                    const q = currentQuestion.value;
+                    let isCorrect = false; let studentAnsStr = ''; let correctAnsStr = '';
+
+                    if (op === 'Tambah' || op === 'Tolak' || op === 'Darab') {
+                        const submittedString = [...answerArray.value].reverse().join('').trim();
+                        const submittedAns = parseInt(submittedString, 10) || 0;
+                        studentAnsStr = submittedString || '0';
+                        let actualAns = 0;
+                        if (op === 'Tambah') actualAns = q.num1 + q.num2;
+                        if (op === 'Tolak') actualAns = q.num1 - q.num2;
+                        if (op === 'Darab') actualAns = q.num1 * q.num2;
+                        correctAnsStr = String(actualAns);
+                        if (submittedAns === actualAns) isCorrect = true;
+                    } else if (op === 'Bahagi') {
+                        const actualQuotient = Math.floor(q.num1 / q.num2);
+                        const actualRemainder = q.num1 % q.num2;
+                        const submittedQuotientStr = divisionInputs.value.quotientArray.join('').trim();
+                        const sQuotient = parseInt(submittedQuotientStr, 10) || 0;
+                        const sRemainder = parseInt(divisionInputs.value.finalRemainder, 10) || 0;
+                        studentAnsStr = `${sQuotient}${sRemainder > 0 ? ' Baki ' + sRemainder : ''}`;
+                        correctAnsStr = `${actualQuotient}${actualRemainder > 0 ? ' Baki ' + actualRemainder : ''}`;
+                        if (sQuotient === actualQuotient && sRemainder === actualRemainder) isCorrect = true;
+                    }
+
+                    if (screen.value === 'correction') {
+                        if (isCorrect) {
+                            playSound('correct'); 
+                            alert(lang.value === 'ms' ? "Syabas! Pembetulan anda betul! 🎉" : "Great job! Your correction is correct! 🎉");
+                            const idx = correctionIndex.value;
+                            questions.value[idx].isCorrect = true;
+                            questions.value[idx].studentAnsStr = studentAnsStr;
+                            questions.value[idx].wasCorrected = true; 
+                            exitCorrection();
+                        } else {
+                            playSound('wrong'); 
+                            alert(lang.value === 'ms' ? "Alamak, jawapan pembetulan masih kurang tepat. Cuba lagi ya! 💪" : "Oops, the correction is still incorrect. Try again! 💪");
+                        }
+                        return;
+                    }
+
+                    questions.value[currentQuestionIndex.value].isCorrect = isCorrect;
+                    questions.value[currentQuestionIndex.value].studentAnsStr = studentAnsStr;
+                    questions.value[currentQuestionIndex.value].correctAnsStr = correctAnsStr;
+
+                    if (isCorrect) { score.value += 1; playSound('correct'); } 
+                    else { playSound('wrong'); }
+
+                    if (currentQuestionIndex.value < config.value.totalQuestions - 1) {
+                        currentQuestionIndex.value += 1;
+                        setupQuestionLayout();
+                    } else {
+                        endSession();
+                    }
+                };
+
+                const startTimer = () => { timerSeconds.value = 0; timerInterval.value = setInterval(() => { timerSeconds.value += 1; }, 1000); };
+                const stopTimer = () => { if (timerInterval.value) { clearInterval(timerInterval.value); timerInterval.value = null; } };
+
+                const endSession = async () => {
+                    stopTimer();
+                    const mins = Math.floor(timerSeconds.value / 60); const secs = timerSeconds.value % 60;
+                    let durationStr = `${secs}s`; if (mins > 0) durationStr = `${mins}m ${secs}s`;
+                    finalTimeDisplay.value = mins > 0 ? `${mins} ${t('minutes')} ${secs} ${t('seconds')}` : `${secs} ${t('seconds')}`;
+
+                    const now = new Date();
+                    const dateStr = `${now.getDate()}/${now.getMonth()+1} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+                    
+                    let totalQ = currentSessionTotalQuestions.value;
+                    let opName = '';
+                    let diffName = '';
+
+                    if (currentSessionType.value === 'Latihan Ikut Topik') {
+                        opName = `${t('topicPractice')} Y${selectedYear.value}`;
+                        diffName = kssrTopics['tahun' + selectedYear.value][selectedTopicKey.value].name[lang.value];
+                    } else if (currentSessionType.value === 'Bentuk Lazim') {
+                        opName = `${t('standardMath')} (${t('op' + (config.value.operation === 'Tambah' ? 'Add' : config.value.operation === 'Tolak' ? 'Sub' : config.value.operation === 'Darab' ? 'Mul' : 'Div'))})`;
+                        diffName = t('diff_' + config.value.difficulty);
+                    } else {
+                        opName = `${t('timesTables')} (${sifirConfig.value.selectedSifir})`;
+                        diffName = 'Hafalan';
+                    }
+
+                    const newRecord = {
+                        studentName: user.value.toLowerCase(),
+                        operation: opName,
+                        difficulty: diffName,
+                        score: score.value,
+                        total: totalQ,
+                        accuracy: Math.round((score.value / totalQ) * 100),
+                        durationSecs: timerSeconds.value,
+                        durationStr: durationStr,
+                        date: dateStr
+                    };
+
+                    const activeUid = parentUser.value || config.value.activeParentId;
+                    if (activeUid) {
+                        try {
+                            const reportsRef = dbRef(fDatabase, `users/${activeUid}/reports`);
+                            await push(reportsRef, newRecord);
+                        } catch (e) { console.log("Database write error:", e); }
+                    }
                     screen.value = 'results';
                 };
 
                 const retryCurrentSession = () => {
-                    if (currentSessionType.value === 'Bentuk Lazim') startSession();
-                    else if (currentSessionType.value === 'Bijak Sifir') startSifirSession();
-                    else if (currentSessionType.value === 'Latihan Topik') startTopicSession();
-                };
-
-                const openReports = () => {
-                    screen.value = 'reports';
+                    if (currentSessionType.value === 'Latihan Ikut Topik') startTopicSession();
+                    else if (currentSessionType.value === 'Bentuk Lazim') startSession();
+                    else startSifirSession();
                 };
 
                 const goToModeSelection = () => {
-                    stopTimer();
+                    playSound('click');
                     if (user.value) screen.value = 'mode-selection';
                     else if (parentUser.value) screen.value = 'parentDashboard';
                     else screen.value = 'login-selection';
                 };
 
-                onMounted(() => {
-                    onAuthStateChanged(fAuth, (authUser) => {
-                        if (authUser) {
-                            parentUser.value = authUser;
-                            listenParentData(authUser.uid);
-                        }
-                    });
-                });
-
                 return {
-                    user,
-                    parentUser,
-                    screen,
-                    lang,
-                    isMenuOpen,
-                    childPinInput,
-                    authLoading,
-                    isManagingPin,
-                    newChildName,
-                    selectedChildForReport,
-                    childProfiles,
-                    reportList,
-                    timerSeconds,
-                    formattedTime,
-                    finalTimeDisplay,
-                    config,
-                    questions,
-                    currentQuestionIndex,
-                    currentQuestion,
-                    maxColumns,
-                    activeTarget,
-                    carryArray,
-                    answerArray,
-                    borrowArray,
-                    divisionInputs,
-                    score,
-                    currentAccuracy,
-                    correctionIndex,
-                    sifirConfig,
-                    currentSifirIndex,
-                    currentSifirQuestion,
-                    sifirAnswerInput,
-                    selectedYear,
-                    selectedTopicKey,
-                    kssrTopics,
-                    currentTopicIndex,
-                    currentTopicQuestion,
-                    currentSessionType,
-                    currentSessionTotalQuestions,
-                    parentFilteredReports,
-                    filteredReportList,
-                    t,
-                    toggleLang,
-                    playSound,
-                    loginAsChild,
-                    handleGoogleLogin,
-                    logout,
-                    addChildProfile,
-                    regenerateChildPin,
-                    deleteChildProfile,
-                    getChildStats,
-                    clearChildReports,
-                    changeOperation,
-                    getDigitAt,
-                    startSession,
-                    triggerBorrow,
-                    pressKey,
-                    submitAnswer,
-                    startSifirSession,
-                    submitSifirAnswer,
-                    startTopicSession,
-                    submitTopicAnswer,
-                    startCorrection,
-                    exitCorrection,
-                    retryCurrentSession,
-                    openReports,
-                    goToModeSelection
+                    user, parentUser, screen, lang, t, toggleLang, childPinInput, authLoading, isManagingPin,
+                    newChildName, childProfiles, reportList, filteredReportList, parentFilteredReports, selectedChildForReport, config, sifirConfig, score, currentQuestionIndex,
+                    currentQuestion, currentSifirQuestion, currentSifirIndex, sifirAnswerInput, maxColumns, answerArray, carryArray, borrowArray, divisionInputs, activeTarget,
+                    formattedTime, currentAccuracy, currentSessionTotalQuestions, currentSessionType, finalTimeDisplay, questions, correctionIndex,
+                    selectedYear, selectedTopicKey, kssrTopics, currentTopicQuestion, currentTopicIndex, startTopicSession, submitTopicAnswer,
+                    handleGoogleLogin, loginAsChild, addChildProfile, regenerateChildPin, deleteChildProfile, getChildStats,
+                    logout, getDigitAt, changeOperation, startSession, startSifirSession, submitSifirAnswer, triggerBorrow, pressKey, 
+                    submitAnswer, retryCurrentSession, goToModeSelection, playSound, openReports, startCorrection, exitCorrection, clearChildReports
                 };
             }
         }).mount('#app');
