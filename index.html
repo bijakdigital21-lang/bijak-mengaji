@@ -561,6 +561,19 @@
             box-shadow: 0 2px 0 #8d5cc4;
         }
 
+        /* GAYA UNTUK BUTANG TERKUNCI */
+        .count-btn.locked {
+            background-color: #A0AEC0 !important;
+            box-shadow: 0 4px 0 #718096 !important;
+            opacity: 0.85;
+            position: relative;
+        }
+
+        .count-btn.locked:hover {
+            transform: none !important;
+            background-color: #A0AEC0 !important;
+        }
+
         /* SPELLING QUIZ STYLES */
         .spelling-img-container {
             width: 150px;
@@ -876,10 +889,10 @@
                 <p style="color: #666; margin-top: 5px;">How many questions would you like to answer?</p>
                 
                 <div class="question-count-grid">
-                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(5)">5 Questions</button>
-                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(10)">10 Questions</button>
-                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(20)">20 Questions</button>
-                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(40)">40 Questions</button>
+                    <button class="count-btn" onclick="playClickSound(); handleLockedCount(5)">5 Questions</button>
+                    <button class="count-btn locked" onclick="playClickSound(); handleLockedCount(10)">🔒 10 Questions</button>
+                    <button class="count-btn locked" onclick="playClickSound(); handleLockedCount(20)">🔒 20 Questions</button>
+                    <button class="count-btn locked" onclick="playClickSound(); handleLockedCount(40)">🔒 40 Questions</button>
                 </div>
                 <br>
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
@@ -1608,6 +1621,15 @@ pronouns: [
         function proceedToQuestionCount() {
             closeSidebar();
             showScreen("count-selection-screen");
+        }
+
+        // FUNGSI UNTUK MENGENDALIKAN PILIHAN SOALAN YANG DIKUNCI
+        function handleLockedCount(count) {
+            if (count > 5) {
+                alert('Upgrade to lifetime access and unlock more question.');
+                return;
+            }
+            startQuizWithCount(count);
         }
 
         function startQuizWithCount(count) {
