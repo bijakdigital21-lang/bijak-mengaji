@@ -561,19 +561,6 @@
             box-shadow: 0 2px 0 #8d5cc4;
         }
 
-        /* GAYA UNTUK BUTANG TERKUNCI */
-        .count-btn.locked {
-            background-color: #A0AEC0 !important;
-            box-shadow: 0 4px 0 #718096 !important;
-            opacity: 0.85;
-            position: relative;
-        }
-
-        .count-btn.locked:hover {
-            transform: none !important;
-            background-color: #A0AEC0 !important;
-        }
-
         /* SPELLING QUIZ STYLES */
         .spelling-img-container {
             width: 150px;
@@ -889,10 +876,10 @@
                 <p style="color: #666; margin-top: 5px;">How many questions would you like to answer?</p>
                 
                 <div class="question-count-grid">
-                    <button class="count-btn" onclick="playClickSound(); handleLockedCount(5)">5 Questions</button>
-                    <button class="count-btn locked" onclick="playClickSound(); handleLockedCount(10)">🔒 10 Questions</button>
-                    <button class="count-btn locked" onclick="playClickSound(); handleLockedCount(20)">🔒 20 Questions</button>
-                    <button class="count-btn locked" onclick="playClickSound(); handleLockedCount(40)">🔒 40 Questions</button>
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(5)">5 Questions</button>
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(10)">10 Questions</button>
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(20)">20 Questions</button>
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(40)">40 Questions</button>
                 </div>
                 <br>
                 <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
@@ -1063,13 +1050,13 @@
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyAgUl-DSLAGA4pRvmKTacvowO4E0OEXo5w",
-            authDomain: "abcd-b1870.firebaseapp.com",
-            databaseURL: "https://abcd-b1870-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "abcd-b1870",
-            storageBucket: "abcd-b1870.firebasestorage.app",
-            messagingSenderId: "890026579019",
-            appId: "1:890026579019:web:200fd135537b9ea2f7a9ce"
+            apiKey: "AIzaSyDXc06B8WLtqjkG0aScBHrd3L3M-n_5okc",
+            authDomain: "grammar-hub-6af80.firebaseapp.com",
+            databaseURL: "https://grammar-hub-6af80-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "grammar-hub-6af80",
+            storageBucket: "grammar-hub-6af80.firebasestorage.app",
+            messagingSenderId: "1092171234032",
+            appId: "1:1092171234032:web:7cc8efefb812993500e035"
         };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -1445,104 +1432,7 @@
         };
 
         const questionBank = {
-            nouns: [
-    { q: "My father drives a new ________ to work.", options: ["caring", "car", "cared", "cars"], answer: 1 },
-    { q: "There are three ________ in the cage.", options: ["bird", "birds", "birding", "birded"], answer: 1 },
-    { q: "Encik Ahmad is a hardworking ________.", options: ["teaching", "teacher", "taught", "teachers"], answer: 1 },
-    { q: "I need to brush my ________ every night.", options: ["tooths", "teethes", "tooth", "teeth"], answer: 3 },
-    { q: "The sweet ________ smells wonderful in the garden.", options: ["flowering", "flower", "flowered", "flowers"], answer: 1 }
-],
-pronouns: [
-    { q: "Aina is hungry. ________ wants to eat a burger.", options: ["He", "She", "It", "They"], answer: 1 },
-    { q: "Ali and Adam are brothers. ________ like to play football.", options: ["We", "They", "He", "You"], answer: 1 },
-    { q: "My name is Danial. ________ am eight years old.", options: ["I", "You", "We", "He"], answer: 0 },
-    { q: "The cat is sleeping because ________ is tired.", options: ["she", "he", "it", "they"], answer: 2 },
-    { q: "We should look after ________ health by eating nutritious food.", options: ["our", "ours", "us", "we"], answer: 0 }
-],
-            verbs: [
-    { q: "The pupils ________ to school every morning.", options: ["walk", "walks", "walking", "walked"], answer: 0 },
-    { q: "Siti ________ a song gracefully yesterday.", options: ["sing", "sings", "sang", "singing"], answer: 2 },
-    { q: "Listen! The baby is ________ in the bedroom.", options: ["crying", "cried", "cries", "cry"], answer: 0 },
-    { q: "My uncle ________ a big fish last weekend.", options: ["catch", "catches", "caught", "catching"], answer: 2 },
-    { q: "He ________ a cup of hot tea just now.", options: ["drink", "drinks", "drank", "drinking"], answer: 2 }
-],
-          adjectives: [
-    { q: "An elephant is a ________ animal.", options: ["huge", "small", "tiny", "short"], answer: 0 },
-    { q: "Ice cream is ________ and sweet.", options: ["hot", "cold", "spicy", "warm"], answer: 1 },
-    { q: "A cheetah is the ________ land animal.", options: ["fast", "faster", "fastest", "more fast"], answer: 2 },
-    { q: "This knife is very ________. Be careful!", options: ["sharp", "blunt", "soft", "smooth"], answer: 0 },
-    { q: "The deep well contains ________ water that is safe to drink.", options: ["shallow", "deep", "fresh", "stale"], answer: 2 }
-],
-           prepositions: [
-    { q: "The cat is sleeping ________ the table.", options: ["under", "in", "above", "between"], answer: 0 },
-    { q: "We go to school ________ 7.00 a.m.", options: ["on", "at", "in", "by"], answer: 1 },
-    { q: "Put the apples ________ the basket.", options: ["inside", "on", "over", "between"], answer: 0 },
-    { q: "The sun shines ________ our heads at noon.", options: ["under", "above", "in", "behind"], answer: 1 },
-    { q: "She divided the chocolate cake equally ________ her three friends.", options: ["between", "among", "in", "with"], answer: 1 }
-],
-           conjunctions: [
-    { q: "I like apples ________ oranges.", options: ["and", "but", "or", "so"], answer: 0 },
-    { q: "He is rich ________ he is not happy.", options: ["and", "but", "so", "or"], answer: 1 },
-    { q: "Do you want tea ________ coffee?", options: ["and", "but", "or", "so"], answer: 2 },
-    { q: "She stayed home ________ she was feeling sick.", options: ["because", "but", "or", "and"], answer: 0 },
-    { q: "He dropped the glass cup, ________ it broke into pieces.", options: ["because", "so", "but", "or"], answer: 1 }
-],
-            articles: [
-{ q: "She wants to eat ________ apple.", options: ["a", "an", "the", "-"], answer: 1 },
-{ q: "I saw ________ cat in our backyard.", options: ["a", "an", "the", "-"], answer: 0 },
-{ q: "________ sun rises in the east.", options: ["A", "An", "The", "-"], answer: 2 },
-{ q: "He bought ________ umbrella yesterday.", options: ["a", "an", "the", "-"], answer: 1 },
-{ q: "There is ________ fly in my soup!", options: ["a", "an", "the", "-"], answer: 0 }
-            ],
- presentTense: [
-    { q: "Cats ________ milk.", options: ["drink", "drinks", "drinking", "drank"], answer: 0 },
-    { q: "He ________ to school every day.", options: ["cycle", "cycles", "cycling", "cycled"], answer: 1 },
-    { q: "I ________ English grammar.", options: ["love", "loves", "loving", "loved"], answer: 0 },
-    { q: "My mother ________ delicious food.", options: ["cook", "cooks", "cooking", "cooked"], answer: 1 },
-    { q: "She always ________ the truth.", options: ["tell", "telling", "tells", "told"], answer: 2 }
-],
-            pastTense: [
-    { q: "Yesterday, I ________ to the library.", options: ["go", "goes", "went", "going"], answer: 2 },
-    { q: "She ________ a letter last night.", options: ["write", "writes", "wrote", "writing"], answer: 2 },
-    { q: "They ________ football last weekend.", options: ["play", "plays", "played", "playing"], answer: 2 },
-    { q: "My father ________ a new car last month.", options: ["buy", "buys", "bought", "buying"], answer: 2 },
-    { q: "We ________ English grammar last semester.", options: ["learn", "learned", "learns", "learning"], answer: 1 }
-],
-           singularPlural: [
-    { q: "Plural form of 'child' is ________.", options: ["childs", "children", "childes", "child"], answer: 1 },
-    { q: "Plural form of 'box' is ________.", options: ["boxs", "boxes", "boxen", "box"], answer: 1 },
-    { q: "Singular form of 'teeth' is ________.", options: ["tooth", "teeths", "toot", "teeth"], answer: 0 },
-    { q: "Plural form of 'baby' is ________.", options: ["babys", "babies", "baby", "babes"], answer: 1 },
-    { q: "Plural form of 'deer' is ________.", options: ["deers", "deer", "deeren", "deeres"], answer: 1 }
-],
-           demonstratives: [
-    { q: "________ is my apple here in my hand.", options: ["This", "That", "These", "Those"], answer: 0 },
-    { q: "Look at ________ stars high up in the sky.", options: ["this", "that", "these", "those"], answer: 3 },
-    { q: "________ books on this desk belong to me.", options: ["This", "That", "These", "Those"], answer: 2 },
-    { q: "Is ________ bird far away an eagle?", options: ["this", "that", "these", "those"], answer: 1 },
-    { q: "Can you explain ________ rule to me again?", options: ["this", "that", "these", "those"], answer: 0 }
-]
-        };
-
-        const spellingBank = [
-            { word: "CAT", img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=300" },
-            { word: "DOG", img: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=300" },
-            { word: "BOOK", img: "https://static.vecteezy.com/system/resources/previews/017/222/245/original/3d-stack-of-books-3d-rendering-illustration-free-png.png" },
-            { word: "APPLE", img: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=300" },
-            { word: "FISH", img: "https://images.unsplash.com/photo-1524704654690-b56c05c78a00?w=300" },
-            { word: "TREE", img: "https://cdn.pixabay.com/photo/2022/05/10/11/12/tree-7186835_1280.jpg" },
-            { word: "HAND", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6SOM7n4gFMQYI_cQTUnoprc0RM8beiEt9vzF7pTyHYw&s=10" }
-        
-        ];
-        const sentenceBank = [
-                "The cat is sleeping on the mat.",
-"She likes to eat fresh apples.",
-"They are playing football in the park.",
-"My father drives a blue car.",
-"The sun rises in the east.",
-"We go to school every morning.",
-"Always turn off the lights when you leave."
-        ];
+            
 
         let currentTopic = "";
         let currentQuestions = [];
@@ -1621,15 +1511,6 @@ pronouns: [
         function proceedToQuestionCount() {
             closeSidebar();
             showScreen("count-selection-screen");
-        }
-
-        // FUNGSI UNTUK MENGENDALIKAN PILIHAN SOALAN YANG DIKUNCI
-        function handleLockedCount(count) {
-            if (count > 5) {
-                alert('Upgrade to lifetime access and unlock more question.');
-                return;
-            }
-            startQuizWithCount(count);
         }
 
         function startQuizWithCount(count) {
