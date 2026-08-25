@@ -767,10 +767,10 @@
             <li class="nav-item" onclick="playClickSound(); navigateTo('scores-screen', this)">
                 🏆 Scores
             </li>
-            <!-- Tambahan Butang Little Readers Hub -->
+             <!-- Tambahan Butang Little Readers Hub -->
             <a href="https://bijakdigital21-lang.github.io/Little-Readers-Hub/" target="_blank" class="nav-item" onclick="playClickSound(); closeSidebar();" style="background-color: #9B59B6; color: white;">
                 📖 Little Readers Hub
-            </a>
+             </li>
             <a href="https://wa.me/60196818139" target="_blank" class="nav-item whatsapp-btn" onclick="playClickSound(); closeSidebar();">
                 💬 WhatsApp
             </a>
@@ -1435,8 +1435,8 @@
             }
         };
 
-        const questionBank = {};
-          nouns: [
+        const questionBank = {
+            nouns: [
     { q: "My father drives a new ________ to work.", options: ["caring", "car", "cared", "cars"], answer: 1 },
     { q: "There are three ________ in the cage.", options: ["bird", "birds", "birding", "birded"], answer: 1 },
     { q: "Encik Ahmad is a hardworking ________.", options: ["teaching", "teacher", "taught", "teachers"], answer: 1 },
@@ -2112,7 +2112,6 @@ pronouns: [
 "We have a picnic at the beach.",
 "Always turn off the lights when you leave."
         ];
-
 
         let currentTopic = "";
         let currentQuestions = [];
