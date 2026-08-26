@@ -27,7 +27,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Fungsi Tarik Senarai Data Customer & Reseller dari Database secara automatik
+// Fungsi Tarik Senarai Data Customer & Reseller dari Database secara automatik
         async function loadAdminData() {
             const tableBody = document.getElementById('adminTableBody');
             tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-500">Memuatkan data...</td></tr>`;
@@ -40,9 +40,25 @@
                     tableBody.innerHTML = '';
                     const data = snapshot.val();
                     
-                    let counter = 1;
+                    // 1. Tukar objek Firebase kepada Array supaya mudah disusun (sort)
+                    let usersArray = [];
                     for (const uid in data) {
-                        const user = data[uid];
+                        usersArray.push({
+                            uid: uid,
+                            ...data[uid]
+                        });
+                    }
+
+                    // 2. Susun data: Paling latest (tarikh besar/terkini) berada di atas
+                    usersArray.sort((a, b) => {
+                        let dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                        let dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                        return dateB - dateA; // Descending order (terkini ke lama)
+                    });
+
+                    // 3. Paparkan data yang telah disusun ke dalam jadual
+                    let counter = 1;
+                    usersArray.forEach(user => {
                         const dateFormatted = user.createdAt ? new Date(user.createdAt).toLocaleString() : '-';
                         const userEmail = user.email || '-';
                         let rawPhone = user.nofon || '';
@@ -50,7 +66,7 @@
                         // Bersihkan nombor telefon (buang simbol +, -, spasi) untuk format wa.me
                         let cleanPhone = rawPhone.replace(/[^0-9]/g, '');
                         
-                        // Jika nombor bermula dengan '0', tukar ke kod negara Malaysia '60' (contoh: 0123456789 -> 60123456789)
+                        // Jika nombor bermula dengan '0', tukar ke kod negara Malaysia '60'
                         if (cleanPhone.startsWith('0')) {
                             cleanPhone = '60' + cleanPhone.substring(1);
                         }
@@ -109,7 +125,7 @@ Hubungi kami melalui WhatsApp dan kami sedia membantu.
                             </tr>
                         `;
                         tableBody.innerHTML += row;
-                    }
+                    });
                 } else {
                     tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-500">Tiada rekod ditemui.</td></tr>`;
                 }
