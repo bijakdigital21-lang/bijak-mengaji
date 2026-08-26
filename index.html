@@ -70,7 +70,7 @@
             margin-top: 5px;
             margin-bottom: 15px;
         }
-        /* Kontena Jadual supaya muat dan boleh skrol menegak jika banyak data */
+        /* Kontena Jadual supaya muat dan boleh skrol */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
@@ -157,8 +157,8 @@
                 <thead>
                     <tr>
                         <th>Nama</th>
-                        <th>Email</th>
                         <th>No. Telefon</th>
+                        <th>Email</th>
                         <th>Tarikh Daftar</th>
                     </tr>
                 </thead>
@@ -247,8 +247,8 @@
                         rows += `
                             <tr>
                                 <td><strong>${escapeHtml(data.name || '-')}</strong></td>
-                                <td><a href="#" onclick="openGmail(event, '${escapeHtml(gmailAppUrl)}', '${escapeHtml(gmailWebUrl)}')" class="email-link">✉️ ${escapeHtml(customerEmail || '-')}</a></td>
                                 <td><a href="${whatsappUrl}" target="_blank" class="whatsapp-link">💬 ${escapeHtml(rawPhone)}</a></td>
+                                <td><a href="#" onclick="openGmail(event, '${escapeHtml(gmailAppUrl)}', '${escapeHtml(gmailWebUrl)}')" class="email-link">✉️ ${escapeHtml(customerEmail || '-')}</a></td>
                                 <td><span style="color: #555;">${formattedDate}</span></td>
                             </tr>
                         `;
