@@ -221,9 +221,9 @@ Hubungi kami melalui WhatsApp dan kami sedia membantu.
                         let encodedWhatsappMessage = encodeURIComponent(whatsappMessage);
                         let whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedWhatsappMessage}`;
 
-                        // Templat subjek dan mesej Emel baharu
-                        let emailSubject = encodeURIComponent("Akses & Maklumat Log Masuk Grammar Hub Anda");
-                        let emailBody = encodeURIComponent(`TERIMA KASIH! 🎉
+                        // Templat Subjek dan Mesej Emel untuk terus buka Gmail Web
+                        let emailSubject = "Akses & Maklumat Log Masuk Grammar Hub Anda";
+                        let emailBody = `TERIMA KASIH! 🎉
 
 Kami sangat teruja untuk anda mula belajar, berlatih dan meneroka pelbagai bahan pembelajaran yang disediakan dalam Grammar Hub.
 
@@ -261,14 +261,15 @@ https://www.wasap.my/60196818139/DaftarGrammarHub
 
 Semoga Grammar Hub membantu anda menguasai Bahasa Inggeris dengan lebih mudah, yakin dan menyeronokkan!
 
-Terima kasih atas pembelian dan kepercayaan anda bersama Grammar Hub.`);
+Terima kasih atas pembelian dan kepercayaan anda bersama Grammar Hub.`;
 
-                        let emailUrl = `mailto:${customerEmail}?subject=${emailSubject}&body=${emailBody}`;
+                        // Menggunakan URL rasmi Gmail supaya ia tidak lari ke Apple/iCloud Mail
+                        let gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(customerEmail)}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
                         rows += `
                             <tr>
                                 <td>${escapeHtml(data.name || '-')}</td>
-                                <td><a href="${emailUrl}" class="email-link">✉️ ${escapeHtml(customerEmail || '-')}</a></td>
+                                <td><a href="${gmailUrl}" target="_blank" class="email-link">✉️ ${escapeHtml(customerEmail || '-')}</a></td>
                                 <td><a href="${whatsappUrl}" target="_blank" class="whatsapp-link">${escapeHtml(rawPhone)}</a></td>
                                 <td>${formattedDate}</td>
                             </tr>
