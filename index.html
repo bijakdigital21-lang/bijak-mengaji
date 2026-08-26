@@ -5,24 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Senarai Customer</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            color: #333;
         }
         .admin-container {
             background: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 650px;
+            max-width: 800px;
             position: relative;
+            max-height: 95vh;
+            display: flex;
+            flex-direction: column;
         }
         .header-flex {
             display: flex;
@@ -30,71 +37,122 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 12px;
+        }
+        .header-flex h2 {
+            margin: 0;
+            font-size: 20px;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .btn-refresh {
-            background-color: #007bff;
+            background: linear-gradient(135deg, #00b4db, #0083b0);
             color: white;
             border: none;
-            padding: 8px 14px;
-            border-radius: 4px;
+            padding: 8px 16px;
+            border-radius: 20px;
             cursor: pointer;
             font-size: 13px;
             font-weight: bold;
-            transition: background-color 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 180, 219, 0.3);
+            transition: all 0.3s ease;
         }
         .btn-refresh:hover {
-            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 180, 219, 0.4);
+        }
+        .subtitle {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        /* Kontena Jadual supaya muat dan boleh skrol menegak jika banyak data */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: auto;
+            max-height: 60vh;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
         }
         /* Jadual Admin */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
+            white-space: nowrap;
         }
         th, td {
-            padding: 10px;
+            padding: 12px 15px;
             text-align: left;
             font-size: 13px;
         }
         th {
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            color: #495057;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-weight: 600;
+            border-bottom: 2px solid #dee2e6;
+        }
+        tbody tr {
+            transition: background-color 0.2s;
+            border-bottom: 1px solid #f1f1f1;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #fafbfc;
+        }
+        tbody tr:hover {
+            background-color: #f1f5f9;
         }
         /* Stail untuk pautan WhatsApp pada nombor telefon */
         .whatsapp-link {
-            color: #25d366;
+            color: #10b981;
             text-decoration: none;
             font-weight: bold;
+            background: #d1fae5;
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-block;
+            transition: background 0.2s;
         }
         .whatsapp-link:hover {
-            text-decoration: underline;
+            background: #a7f3d0;
+            text-decoration: none;
         }
         /* Stail untuk pautan Emel */
         .email-link {
-            color: #d93025;
+            color: #ef4444;
             text-decoration: none;
             font-weight: bold;
+            background: #fee2e2;
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-block;
             cursor: pointer;
+            transition: background 0.2s;
         }
         .email-link:hover {
-            text-decoration: underline;
+            background: #fecaca;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- PAPARAN ADMIN (Terus Dibuka Tanpa Password) -->
+    <!-- PAPARAN ADMIN -->
     <div class="admin-container" id="adminView">
         <div class="header-flex">
-            <h2>Admin Panel - Senarai Customer</h2>
+            <h2>✨ Admin Panel - Senarai Customer</h2>
             <button class="btn-refresh" id="refreshBtn" type="button">🔄 Refresh Data</button>
         </div>
-        <p style="font-size: 13px; color: #666; margin-top: 0;">Semua maklumat pendaftaran terkini dalam sistem (Tekan pada no. telefon atau emel untuk terus hantar mesej):</p>
+        <p class="subtitle">Semua maklumat pendaftaran terkini (Tekan pada no. telefon atau emel untuk terus hantar mesej):</p>
         
-        <div style="overflow-x: auto;">
+        <div class="table-responsive">
             <table>
                 <thead>
                     <tr>
@@ -106,7 +164,7 @@
                 </thead>
                 <tbody id="customerTableBody">
                     <tr>
-                        <td colspan="4" style="text-align: center;">Memuatkan data...</td>
+                        <td colspan="4" style="text-align: center; color: #888;">Memuatkan data...</td>
                     </tr>
                 </tbody>
             </table>
@@ -118,7 +176,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Konfigurasi Firebase anda
         const firebaseConfig = {
             apiKey: "AIzaSyDXc06B8WLtqjkG0aScBHrd3L3M-n_5okc",
             authDomain: "grammar-hub-6af80.firebaseapp.com",
@@ -129,27 +186,22 @@
             appId: "1:1092171234032:web:7cc8efefb812993500e035"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Elemen UI
         const customerTableBody = document.getElementById('customerTableBody');
         const refreshBtn = document.getElementById('refreshBtn');
 
-        // Terus muatkan data admin sebaik sahaja halaman dibuka
         window.addEventListener('DOMContentLoaded', () => {
             loadCustomerData();
         });
 
-        // Event listener untuk butang refresh
         refreshBtn.addEventListener('click', () => {
             loadCustomerData();
         });
 
-        // Fungsi Tarik Data Customer
         async function loadCustomerData() {
-            customerTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center;">Sedang memuat data...</td></tr>`;
+            customerTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #666;">Sedang memuat data...</td></tr>`;
             try {
                 const dbRef = ref(db, 'customers');
                 const snapshot = await get(dbRef);
@@ -157,7 +209,6 @@
                 if (snapshot.exists()) {
                     let customersArray = [];
 
-                    // Masukkan data ke dalam array terlebih dahulu
                     snapshot.forEach((childSnapshot) => {
                         const data = childSnapshot.val();
                         if (data) {
@@ -165,11 +216,10 @@
                         }
                     });
 
-                    // Sorting: Paling lewat (terkini) di atas sekali
                     customersArray.sort((a, b) => {
                         let timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
                         let timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-                        return timeB - timeA; // Descending order
+                        return timeB - timeA;
                     });
 
                     let rows = "";
@@ -178,113 +228,39 @@
                         let rawPhone = data.phone || '';
                         let customerEmail = data.email || '';
                         
-                        // Pembersihan nombor telefon untuk pautan WhatsApp
                         let cleanPhone = rawPhone.replace(/\D/g, ''); 
                         if (cleanPhone.startsWith('0')) {
                             cleanPhone = '6' + cleanPhone; 
                         }
 
-                        // Templat mesej WhatsApp
-                        let whatsappMessage = `🎉 TERIMA KASIH ATAS PEMBELIAN ANDA!
-
-Terima kasih kerana memilih Grammar Hub! 💙
-
-Kami sangat teruja untuk anda mula belajar, berlatih dan meneroka pelbagai bahan pembelajaran yang telah disediakan untuk membantu meningkatkan penguasaan English Grammar dengan lebih mudah dan menyeronokkan.
-
-📚 AKSES GRAMMAR HUB ANDA
-
-Klik pautan di bawah untuk mula menggunakan Grammar Hub:
-
-👇🏻👇🏻
-https://bijakdigital21-lang.github.io/Grammarhub./
-
-🔐 MAKLUMAT LOG MASUK
-
-Email: ${customerEmail}
-Password: GH548257af
-
-📌 Sila tukar password anda di laman profile selepas berjaya log masuk ke aplikasi ini.
-
-⚠️ PENTING
-
-📌 Simpan pautan Grammar Hub ini untuk rujukan dan akses anda pada masa akan datang.
-
-Sertai group reseller kami untuk info dan sokongan berterusan.
-👇🏻👇🏻👇🏻
-https://t.me/%2BZ-uxVSN8A54zNTdl
-
-📱 Sekiranya anda mengalami sebarang masalah untuk membuka atau mengakses Grammar Hub, jangan risau.
-
-Hubungi kami melalui WhatsApp dan kami sedia membantu.
-
-💙 Selamat belajar!`;
+                        let whatsappMessage = `🎉 TERIMA KASIH ATAS PEMBELIAN ANDA!\n\nTerima kasih kerana memilih Grammar Hub! 💙\n\nKami sangat teruja untuk anda mula belajar, berlatih dan meneroka pelbagai bahan pembelajaran yang telah disediakan untuk membantu meningkatkan penguasaan English Grammar dengan lebih mudah dan menyeronokkan.\n\n📚 AKSES GRAMMAR HUB ANDA\n\nKlik pautan di bawah untuk mula menggunakan Grammar Hub:\n\n👇🏻👇🏻\nhttps://bijakdigital21-lang.github.io/Grammarhub./\n\n🔐 MAKLUMAT LOG MASUK\n\nEmail: ${customerEmail}\nPassword: GH548257af\n\n📌 Sila tukar password anda di laman profile selepas berjaya log masuk ke aplikasi ini.\n\n⚠️ PENTING\n\n📌 Simpan pautan Grammar Hub ini untuk rujukan dan akses anda pada masa akan datang.\n\nSertai group reseller kami untuk info dan sokongan berterusan.\n👇🏻👇🏻👇🏻\nhttps://t.me/%2BZ-uxVSN8A54zNTdl\n\n📱 Sekiranya anda mengalami sebarang masalah untuk membuka atau mengakses Grammar Hub, jangan risau.\n\nHubungi kami melalui WhatsApp dan kami sedia membantu.\n\n💙 Selamat belajar!`;
 
                         let encodedWhatsappMessage = encodeURIComponent(whatsappMessage);
                         let whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedWhatsappMessage}`;
 
-                        // Templat Subjek dan Mesej Emel
                         let emailSubject = "Akses & Maklumat Log Masuk Grammar Hub Anda";
-                        let emailBody = `TERIMA KASIH! 🎉
+                        let emailBody = `TERIMA KASIH! 🎉\n\nKami sangat teruja untuk anda mula belajar, berlatih dan meneroka pelbagai bahan pembelajaran yang disediakan dalam Grammar Hub.\n\nSemoga Grammar Hub dapat membantu meningkatkan penguasaan English Grammar dengan cara yang lebih mudah, menyeronokkan dan berkesan!\n\n🔐 AKSES GRAMMAR HUB ANDA \nhttps://bijakdigital21-lang.github.io/Grammarhub./\n\nKlik pautan di atas untuk mula menggunakan platform Grammar Hub:\n\n📱 MAKLUMAT LOG MASUK\n\nEmail: ${customerEmail}\n\nPassword: GH548257af\n\nSila tukar kata laluan anda melalui ruangan Profile selepas berjaya log masuk.\n\n👥 JOIN GROUP RESELLER GRAMMAR HUB\n\nSertai group reseller kami di Telegram untuk mendapatkan info terkini, panduan dan sokongan berterusan.\nhttps://t.me/+Z-uxVSN8A54zNTdl\n\n⚠️ PENTING & BANTUAN\n\nSimpan Dokumen Ini:\nSimpan dokumen dan pautan Grammar Hub ini untuk rujukan serta akses anda pada masa akan datang.\n\nBantuan Akses:\nSekiranya anda mengalami sebarang masalah untuk membuka atau mengakses Grammar Hub, hubungi kami terus melalui WhatsApp.\nhttps://www.wasap.my/60196818139/DaftarGrammarHub\n\n\n🌟 SELAMAT BELAJAR!\n\nSemoga Grammar Hub membantu anda menguasai Bahasa Inggeris dengan lebih mudah, yakin dan menyeronokkan!\n\nTerima kasih atas pembelian dan kepercayaan anda bersama Grammar Hub.`;
 
-Kami sangat teruja untuk anda mula belajar, berlatih dan meneroka pelbagai bahan pembelajaran yang disediakan dalam Grammar Hub.
-
-Semoga Grammar Hub dapat membantu meningkatkan penguasaan English Grammar dengan cara yang lebih mudah, menyeronokkan dan berkesan!
-
-🔐 AKSES GRAMMAR HUB ANDA 
-https://bijakdigital21-lang.github.io/Grammarhub./
-
-Klik pautan di atas untuk mula menggunakan platform Grammar Hub:
-
-📱 MAKLUMAT LOG MASUK
-
-Email: ${customerEmail}
-
-Password: GH548257af
-
-Sila tukar kata laluan anda melalui ruangan Profile selepas berjaya log masuk.
-
-👥 JOIN GROUP RESELLER GRAMMAR HUB
-
-Sertai group reseller kami di Telegram untuk mendapatkan info terkini, panduan dan sokongan berterusan.
-https://t.me/+Z-uxVSN8A54zNTdl
-
-⚠️ PENTING & BANTUAN
-
-Simpan Dokumen Ini:
-Simpan dokumen dan pautan Grammar Hub ini untuk rujukan serta akses anda pada masa akan datang.
-
-Bantuan Akses:
-Sekiranya anda mengalami sebarang masalah untuk membuka atau mengakses Grammar Hub, hubungi kami terus melalui WhatsApp.
-https://www.wasap.my/60196818139/DaftarGrammarHub
-
-
-🌟 SELAMAT BELAJAR!
-
-Semoga Grammar Hub membantu anda menguasai Bahasa Inggeris dengan lebih mudah, yakin dan menyeronokkan!
-
-Terima kasih atas pembelian dan kepercayaan anda bersama Grammar Hub.`;
-
-                        // Pautan untuk terus buka App Gmail (fallback ke Web Gmail jika app tiada)
                         let gmailAppUrl = `googlegmail://co?to=${encodeURIComponent(customerEmail)}&subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
                         let gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(customerEmail)}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
                         rows += `
                             <tr>
-                                <td>${escapeHtml(data.name || '-')}</td>
+                                <td><strong>${escapeHtml(data.name || '-')}</strong></td>
                                 <td><a href="#" onclick="openGmail(event, '${escapeHtml(gmailAppUrl)}', '${escapeHtml(gmailWebUrl)}')" class="email-link">✉️ ${escapeHtml(customerEmail || '-')}</a></td>
-                                <td><a href="${whatsappUrl}" target="_blank" class="whatsapp-link">${escapeHtml(rawPhone)}</a></td>
-                                <td>${formattedDate}</td>
+                                <td><a href="${whatsappUrl}" target="_blank" class="whatsapp-link">💬 ${escapeHtml(rawPhone)}</a></td>
+                                <td><span style="color: #555;">${formattedDate}</span></td>
                             </tr>
                         `;
                     });
                     
                     if (rows === "") {
-                        customerTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center;">Tiada rekod data customer dijumpai.</td></tr>`;
+                        customerTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #666;">Tiada rekod data customer dijumpai.</td></tr>`;
                     } else {
                         customerTableBody.innerHTML = rows;
                     }
                 } else {
-                    customerTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center;">Pangkalan data kosong.</td></tr>`;
+                    customerTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #666;">Pangkalan data kosong.</td></tr>`;
                 }
             } catch (error) {
                 console.error("Ralat membaca database:", error);
@@ -292,11 +268,8 @@ Terima kasih atas pembelian dan kepercayaan anda bersama Grammar Hub.`;
             }
         }
 
-        // Fungsi Pintar Buka App Gmail (atau Web jika app gagal dikesan)
         window.openGmail = function(event, appUrl, webUrl) {
             event.preventDefault();
-            
-            // Cuba buka aplikasi Gmail menggunakan skema khusus
             let iframe = document.createElement('iframe');
             iframe.style.display = 'none';
             iframe.src = appUrl;
@@ -306,7 +279,6 @@ Terima kasih atas pembelian dan kepercayaan anda bersama Grammar Hub.`;
                 document.body.removeChild(iframe);
             }, 1000);
 
-            // Jika dalam masa 1 saat peranti tidak buka app, ia buka web Gmail secara automatik
             let start = Date.now();
             setTimeout(function() {
                 if (Date.now() - start < 1500) {
@@ -315,11 +287,9 @@ Terima kasih atas pembelian dan kepercayaan anda bersama Grammar Hub.`;
             }, 700);
         }
 
-        // Keselamatan asas untuk elak gangguan HTML
         function escapeHtml(text) {
             return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
     </script>
 </body>
 </html>
-```[cite: 1]
