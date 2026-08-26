@@ -218,7 +218,7 @@
         // Elemen UI
         const registrationView = document.getElementById('registrationView');
         const adminView = document.getElementById('adminView');
-        const goToAdminBtn = document.getElementById('goToAdmin`Btn');
+        const goToAdminBtn = document.getElementById('goToAdminBtn');
         const backToRegBtn = document.getElementById('backToRegBtn');
         const form = document.getElementById('registrationForm');
         const submitBtn = document.getElementById('submitBtn');
@@ -259,10 +259,10 @@
                             let rawPhone = data.phone || '';
                             let customerEmail = data.email || '';
                             
-                            // Pembersihan nombor telefon untuk pautan WhatsApp (pastikan bermula dengan kod negara cth: 60)
-                            let cleanPhone = rawPhone.replace(/\D/g, ''); // Buang simbol selain nombor
+                            // Pembersihan nombor telefon untuk pautan WhatsApp
+                            let cleanPhone = rawPhone.replace(/\D/g, ''); 
                             if (cleanPhone.startsWith('0')) {
-                                cleanPhone = '6' + cleanPhone; // Tukar 0123456789 kepada 60123456789 (Malaysia)
+                                cleanPhone = '6' + cleanPhone; 
                             }
 
                             // Templat mesej WhatsApp dengan email automatik
@@ -300,7 +300,6 @@ Hubungi kami melalui WhatsApp dan kami sedia membantu.
 
 💙 Selamat belajar!`;
 
-                            // Encode teks untuk URL WhatsApp
                             let encodedMessage = encodeURIComponent(whatsappMessage);
                             let whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
 
