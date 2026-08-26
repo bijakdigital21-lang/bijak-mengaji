@@ -145,22 +145,37 @@
                 const snapshot = await get(dbRef);
                 
                 if (snapshot.exists()) {
-                    let rows = "";
+                    let customersArray = [];
+
+                    // Masukkan data ke dalam array terlebih dahulu
                     snapshot.forEach((childSnapshot) => {
                         const data = childSnapshot.val();
                         if (data) {
-                            let formattedDate = data.createdAt ? new Date(data.createdAt).toLocaleString() : '-';
-                            let rawPhone = data.phone || '';
-                            let customerEmail = data.email || '';
-                            
-                            // Pembersihan nombor telefon untuk pautan WhatsApp
-                            let cleanPhone = rawPhone.replace(/\D/g, ''); 
-                            if (cleanPhone.startsWith('0')) {
-                                cleanPhone = '6' + cleanPhone; 
-                            }
+                            customersArray.push(data);
+                        }
+                    });
 
-                            // Templat mesej WhatsApp dengan email automatik
-                            let whatsappMessage = `🎉 TERIMA KASIH ATAS PEMBELIAN ANDA!
+                    // Sorting: Paling lewat (terkini) di atas sekali
+                    customersArray.sort((a, b) => {
+                        let timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                        let timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                        return timeB - timeA; // Descending order (terbesar/terkini di atas)
+                    });
+
+                    let rows = "";
+                    customersArray.forEach((data) => {
+                        let formattedDate = data.createdAt ? new Date(data.createdAt).toLocaleString() : '-';
+                        let rawPhone = data.phone || '';
+                        let customerEmail = data.email || '';
+                        
+                        // Pembersihan nombor telefon untuk pautan WhatsApp
+                        let cleanPhone = rawPhone.replace(/\D/g, ''); 
+                        if (cleanPhone.startsWith('0')) {
+                            cleanPhone = '6' + cleanPhone; 
+                        }
+
+                        // Templat mesej WhatsApp dengan email automatik
+                        let whatsappMessage = `🎉 TERIMA KASIH ATAS PEMBELIAN ANDA!
 
 Terima kasih kerana memilih Grammar Hub! 💙
 
@@ -194,18 +209,18 @@ Hubungi kami melalui WhatsApp dan kami sedia membantu.
 
 💙 Selamat belajar!`;
 
-                            let encodedMessage = encodeURIComponent(whatsappMessage);
-                            let whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
+                        let encodedMessage = encodeURIComponent(whatsappMessage);
+                        let whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
 
-                            rows += `
-                                <tr>
-                                    <td>${escapeHtml(data.name || '-')}</td>
-                                    <td>${escapeHtml(customerEmail || '-')}</td>
-                                    <td><a href="${whatsappUrl}" target="_blank" class="whatsapp-link">${escapeHtml(rawPhone)}</a></td>
-                                    <td>${formattedDate}</td>
-                                </tr>
-                            `;
-                        }
+                        rows += `
+                            <tr>
+                                <td>${escapeHtml(data.name || '-')}</td>
+                                ${(function(){ return ''; })()}
+                                <td>${escapeHtml(customerEmail || '-')}</td>
+                                <td><a href="${whatsappUrl}" target="_blank" class="whatsapp-link">${escapeHtml(rawPhone)}</a></td>
+                                <td>${formattedDate}</td>
+                            </tr>
+                        `;
                     });
                     
                     if (rows === "") {
