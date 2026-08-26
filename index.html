@@ -770,7 +770,11 @@
              <!-- Tambahan Butang Little Readers Hub -->
             <a href="https://bijakdigital21-lang.github.io/Little-Readers-Hub/" target="_blank" class="nav-item" onclick="playClickSound(); closeSidebar();" style="background-color: #9B59B6; color: white;">
                 📖 Little Readers Hub
-             </li>
+            </a>
+            <!-- Tambahan Butang Add This App to Home Screen -->
+            <a href="https://bijakdigital21-lang.github.io/billmate/" target="_blank" class="nav-item" onclick="playClickSound(); closeSidebar();" style="background-color: #E67E22; color: white;">
+                📱 Add This App to Home Screen
+            </a>
             <a href="https://wa.me/60196818139" target="_blank" class="nav-item whatsapp-btn" onclick="playClickSound(); closeSidebar();">
                 💬 WhatsApp
             </a>
@@ -1436,61 +1440,2597 @@
         };
 
         const questionBank = {
-            nouns: [
+     <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar Hub - Primary School English</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-yellow: #FFDE59;
+            --primary-pink: #FF66C4;
+            --primary-blue: #5CE1E6;
+            --primary-green: #7ED957;
+            --primary-purple: #C38FFF;
+            --sidebar-bg: rgba(44, 62, 80, 0.9);
+            --sidebar-text: #FFFFFF;
+            --text-dark: #2C3E50;
+            --white: rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://i.imgur.com/H46KuIJ.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            backdrop-filter: blur(8px);
+            color: var(--sidebar-text);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 15px;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 100;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar-logo {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 10px auto;
+            background: #E0F7FA;
+            border-radius: 50%;
+            padding: 4px;
+            border: 3px dashed var(--primary-green);
+            overflow: hidden;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        .sidebar-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .sidebar-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.5rem;
+            color: var(--primary-yellow);
+            text-align: center;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.85rem;
+            text-align: center;
+            color: #BDC3C7;
+            margin-bottom: 25px;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .nav-item {
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+            color: #ECF0F1;
+            text-decoration: none;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: var(--primary-pink);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-item.whatsapp-btn {
+            background-color: #25D366;
+            color: white;
+            margin-top: auto;
+        }
+
+        .nav-item.whatsapp-btn:hover {
+            background-color: #1EBE5D;
+        }
+
+        .nav-item.logout-btn {
+            background-color: #E74C3C;
+            margin-top: 5px;
+        }
+
+        .nav-item.logout-btn:hover {
+            background-color: #C0392B;
+        }
+
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: var(--sidebar-bg);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            margin-left: 250px;
+            padding: 40px 30px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--white);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 650px;
+            padding: 30px;
+            text-align: center;
+            border: 5px solid var(--primary-yellow);
+            position: relative;
+        }
+
+        .card {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .input-group {
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border: 2px solid var(--primary-blue);
+            border-radius: 12px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            outline: none;
+            background: #fff;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-pink);
+        }
+
+        .home-header {
+            margin-bottom: 15px;
+        }
+
+        .home-app-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 8px auto;
+            border-radius: 50%;
+            border: 4px solid var(--primary-yellow);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .home-intro-title {
+            font-family: 'Fredoka One', cursive;
+            color: #5E17EB;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+        }
+
+        .home-intro-subtitle {
+            font-size: 0.95rem;
+            color: #555;
+            font-weight: 700;
+        }
+
+        .active-profile-badge {
+            background: #E0F7FA;
+            border: 2px dashed var(--primary-blue);
+            padding: 8px 15px;
+            border-radius: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .switch-profile-btn {
+            background: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 0 #8d5cc4;
+        }
+
+        .switch-profile-btn:active {
+            transform: translateY(1px);
+            box-shadow: none;
+        }
+
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .topic-btn {
+            background-color: var(--primary-blue);
+            color: var(--text-dark);
+            border: none;
+            padding: 15px 12px;
+            border-radius: 18px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 5px 0 #3bafb3;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .topic-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 0 #3bafb3;
+        }
+
+        .topic-btn:nth-child(6n-5) { background-color: var(--primary-blue); box-shadow: 0 5px 0 #3bafb3; }
+        .topic-btn:nth-child(6n-4) { background-color: var(--primary-pink); box-shadow: 0 5px 0 #c74597; color: white;}
+        .topic-btn:nth-child(6n-3) { background-color: var(--primary-green); box-shadow: 0 5px 0 #5aa33d; }
+        .topic-btn:nth-child(6n-2) { background-color: var(--primary-purple); box-shadow: 0 5px 0 #8d5cc4; color: white;}
+        .topic-btn:nth-child(6n-1) { background-color: var(--primary-yellow); box-shadow: 0 5px 0 #c2a332; }
+        .topic-btn:nth-child(6n) { background-color: #FF7043; box-shadow: 0 5px 0 #D84315; color: white; }
+
+        .lesson-box {
+            background: #F0F4F8;
+            border-radius: 18px;
+            padding: 20px;
+            text-align: left;
+            margin: 20px 0;
+            border-left: 6px solid var(--primary-purple);
+        }
+
+        .lesson-title {
+            font-family: 'Fredoka One', cursive;
+            color: #5E17EB;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .lesson-desc {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .lesson-example {
+            background: #FFFFFF;
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 2px dashed var(--primary-blue);
+            margin-top: 10px;
+        }
+
+        .lesson-example ul {
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+            background: #FFF9C4;
+            padding: 10px 20px;
+            border-radius: 15px;
+        }
+
+        .question-box {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #F0F4F8;
+            border-radius: 15px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background-color: #FFFFFF;
+            border: 3px solid #CBD5E1;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary-blue);
+            background-color: #E0F7FA;
+        }
+
+        .option-btn.correct {
+            background-color: var(--primary-green) !important;
+            border-color: #4CAF50 !important;
+            color: white;
+        }
+
+        .option-btn.wrong {
+            background-color: #FF6B6B !important;
+            border-color: #E53935 !important;
+            color: white;
+        }
+
+        .quiz-action-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background-color: #FF9800;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #E65100;
+            margin: 5px;
+            text-decoration: none;
+        }
+
+        .action-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #E65100;
+        }
+
+        .login-whatsapp-btn {
+            background-color: #25D366;
+            box-shadow: 0 4px 0 #1EBE5D;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .login-whatsapp-btn:hover {
+            background-color: #1EBE5D;
+        }
+
+        .login-whatsapp-btn:active {
+            box-shadow: 0 2px 0 #1EBE5D;
+        }
+
+        .home-btn {
+            background-color: #3498DB;
+            box-shadow: 0 4px 0 #1F618D;
+        }
+
+        .home-btn:active {
+            box-shadow: 0 2px 0 #1F618D;
+        }
+
+        .clear-btn {
+            background-color: #E74C3C;
+            box-shadow: 0 4px 0 #922B21;
+        }
+
+        .clear-btn:active {
+            box-shadow: 0 2px 0 #922B21;
+        }
+
+        .result-score {
+            font-size: 3rem;
+            font-family: 'Fredoka One', cursive;
+            color: #5E17EB;
+            margin: 15px 0;
+        }
+
+        .completion-time {
+            font-size: 0.95rem;
+            color: #555;
+            background: #E0F7FA;
+            padding: 8px 15px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .table-container {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 15px;
+            border-radius: 12px;
+            border: 2px solid #FFE082;
+        }
+
+        .record-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #FFFDE7;
+        }
+
+        .record-table th, .record-table td {
+            padding: 10px;
+            border: 1px solid #FFE082;
+            font-size: 0.9rem;
+        }
+
+        .record-table th {
+            background-color: var(--primary-yellow);
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .profile-card-details {
+            background: #F0F4F8;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        .profile-card-details p {
+            margin-bottom: 8px;
+        }
+
+        .profile-list-box {
+            background: #FFFFFF;
+            border: 2px solid var(--primary-blue);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .question-count-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .count-btn {
+            background-color: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #8d5cc4;
+            transition: all 0.2s;
+        }
+
+        .count-btn:hover {
+            transform: translateY(-2px);
+            background-color: #b179ff;
+        }
+
+        .count-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #8d5cc4;
+        }
+
+        /* SPELLING QUIZ STYLES */
+        .spelling-img-container {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 10px auto;
+            border-radius: 15px;
+            border: 3px solid var(--primary-pink);
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .spelling-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .audio-btn {
+            background: var(--primary-blue);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            color: var(--text-dark);
+            box-shadow: 0 3px 0 #3bafb3;
+            margin-bottom: 15px;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .audio-btn:active {
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+
+        .slots-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .letter-slot {
+            width: 58px;
+            height: 58px;
+            border: 3px dashed var(--primary-purple);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            font-weight: bold;
+            background: #F9F6FF;
+            color: #5E17EB;
+            cursor: pointer;
+        }
+
+        .letter-slot.filled {
+            border: 3px solid var(--primary-purple);
+            background: #E8DFFB;
+        }
+
+        .bank-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+            min-height: 70px;
+        }
+
+        .draggable-letter {
+            width: 58px;
+            height: 58px;
+            background: var(--primary-yellow);
+            border: 3px solid #C2A332;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: grab;
+            box-shadow: 0 4px 0 #C2A332;
+            user-select: none;
+        }
+
+        .draggable-letter:active {
+            cursor: grabbing;
+        }
+
+        .draggable-letter.used {
+            opacity: 0.3;
+            pointer-events: none;
+            background: #DDD;
+            border-color: #AAA;
+            box-shadow: none;
+        }
+
+        /* BUILD THE SENTENCE STYLES */
+        .sentence-drop-area {
+            min-height: 80px;
+            border: 3px dashed var(--primary-purple);
+            border-radius: 15px;
+            background: #F9F6FF;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            margin: 20px 0;
+        }
+
+        .word-chip {
+            background-color: var(--primary-yellow);
+            border: 3px solid #C2A332;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: grab;
+            box-shadow: 0 3px 0 #C2A332;
+            user-select: none;
+            display: inline-block;
+        }
+
+        .word-chip:active {
+            cursor: grabbing;
+        }
+
+        .word-chip.used {
+            opacity: 0.3;
+            pointer-events: none;
+            background: #DDD;
+            border-color: #AAA;
+            box-shadow: none;
+        }
+
+        .correct-answer-box {
+            background: #E8F5E9;
+            border: 2px solid #4CAF50;
+            color: #2E7D32;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 15px 0;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                left: -260px;
+                height: 100vh;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 70px 15px 20px 15px;
+            }
+
+            .record-table th, .record-table td {
+                font-size: 0.8rem;
+                padding: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MOBILE TOGGLE BUTTON -->
+    <button class="mobile-toggle" id="mobile-toggle-btn" onclick="toggleSidebar(event)">☰</button>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="Grammar Hub Logo">
+        </div>
+        <div class="sidebar-title">Grammar Hub</div>
+        <div class="sidebar-subtitle">English KSSR Primary</div>
+
+        <ul class="nav-menu" id="nav-menu" style="display: none;">
+            <li class="nav-item active" onclick="playClickSound(); navigateTo('home-screen', this)">
+                📚 Home
+            </li>
+            <li class="nav-item" onclick="playClickSound(); navigateTo('profile-view-screen', this)">
+                👤 Profiles
+            </li>
+            <li class="nav-item" onclick="playClickSound(); navigateTo('scores-screen', this)">
+                🏆 Scores
+            </li>
+             <!-- Tambahan Butang Little Readers Hub -->
+            <a href="https://bijakdigital21-lang.github.io/Little-Readers-Hub/" target="_blank" class="nav-item" onclick="playClickSound(); closeSidebar();" style="background-color: #9B59B6; color: white;">
+                📖 Little Readers Hub
+            </a>
+            <!-- Tambahan Butang Add This App to Home Screen -->
+            <a href="https://bijakdigital21-lang.github.io/billmate/" target="_blank" class="nav-item" onclick="playClickSound(); closeSidebar();" style="background-color: #E67E22; color: white;">
+                📱 Add This App to Home Screen
+            </a>
+            <a href="https://wa.me/60196818139" target="_blank" class="nav-item whatsapp-btn" onclick="playClickSound(); closeSidebar();">
+                💬 WhatsApp
+            </a>
+            <li class="nav-item logout-btn" onclick="playClickSound(); logout()">
+                🚪 Logout
+            </li>
+        </ul>
+    </div>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-content">
+        <div class="container">
+
+            <!-- 1. LOGIN SCREEN -->
+            <div id="login-screen" class="card active">
+                <h1 style="font-family: 'Fredoka One', cursive; color: #FF5757; margin-bottom: 10px;">Grammar Hub</h1>
+                <h2>Welcome Back! 👋</h2>
+                <p style="margin-top: 5px; color: #666;">Log in using your authorized email.</p>
+                
+                <div class="input-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="example@email.com">
+                </div>
+                <div class="input-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-input" placeholder="••••••••">
+                </div>
+                <button class="action-btn" style="display:inline-block; width: 100%;" onclick="playClickSound(); handleLogin()">Log In 🚀</button>
+                
+                <!-- SEKSYEN CONTACT US PADA PAPARAN LOG IN -->
+                <div style="margin-top: 25px; border-top: 2px dashed #DDD; padding-top: 20px;">
+                    <p style="font-weight: 700; color: #555; margin-bottom: 10px; font-size: 1rem;">Contact Us</p>
+                    <a href="https://wa.me/60196818139" target="_blank" class="action-btn login-whatsapp-btn" onclick="playClickSound()">
+                        💬 WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2. PROFILE SELECTION / ADD SCREEN -->
+            <div id="profile-selection-screen" class="card">
+                <h2>Who is Learning? 🧒👧</h2>
+                <p style="color: #666; margin-top: 5px;">Select a student profile or add a new one.</p>
+                
+                <div class="profile-list-box" id="profile-selection-list">
+                    <!-- Profile buttons populated dynamically -->
+                </div>
+
+                <div style="margin-top: 20px; border-top: 2px dashed #DDD; padding-top: 15px;">
+                    <h3>Add New Profile</h3>
+                    <div class="input-group">
+                        <input type="text" id="new-profile-name" class="form-input" placeholder="Enter student name..." maxlength="20">
+                    </div>
+                    <button class="action-btn" style="display:inline-block;" onclick="playClickSound(); addNewProfile()">Add Profile ➕</button>
+                </div>
+            </div>
+
+            <!-- 3. HOME SCREEN -->
+            <div id="home-screen" class="card">
+                <div class="home-header">
+                    <img src="https://i.imgur.com/vPd4cjj.jpeg" alt="Grammar Hub Logo" class="home-app-logo">
+                    <h2 class="home-intro-title" id="home-greeting">Hi Student! 👋</h2>
+                    
+                    <div class="active-profile-badge">
+                        <span>Profile: <strong id="current-badge-name" style="color: #5E17EB;">-</strong></span>
+                        <button class="switch-profile-btn" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch 🔄</button>
+                    </div>
+
+                    <p class="home-intro-subtitle">Pick a topic below to start learning.</p>
+                </div>
+
+                <div class="topic-grid">
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('nouns')">Nouns 🍎</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('pronouns')">Pronouns 👦👧</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('verbs')">Verbs 🏃‍♂️</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('adjectives')">Adjectives 🎨</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('prepositions')">Prepositions 📦</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('conjunctions')">Conjunctions 🔗</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('articles')">Articles (A, An, The) 🔤</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('presentTense')">Simple Present ⏰</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('pastTense')">Simple Past ⌛</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('singularPlural')">Singular & Plural 👥</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('demonstratives')">This, That, These, Those 👉</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('spelling')">Spelling ✍️</button>
+                    <button class="topic-btn" onclick="playClickSound(); openLesson('buildSentence')">Build Sentence 🧩</button>
+                </div>
+            </div>
+
+            <!-- 4. LESSON SCREEN -->
+            <div id="lesson-screen" class="card">
+                <h2 style="color: #333;">Lesson Time! 📖</h2>
+                <div class="lesson-box">
+                    <div class="lesson-title" id="lesson-title">Topic Title</div>
+                    <div class="lesson-desc" id="lesson-desc">Lesson explanation content goes here...</div>
+                    <div class="lesson-example">
+                        <strong>Examples:</strong>
+                        <div id="lesson-examples">Examples go here...</div>
+                    </div>
+                </div>
+                <button class="action-btn" style="display:inline-block; background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); proceedToQuestionCount()">Choose Questions 🚀</button>
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Home 🏠</button>
+            </div>
+
+            <!-- SCREEN PILIH BILANGAN SOALAN -->
+            <div id="count-selection-screen" class="card">
+                <h2 style="color: #5E17EB; font-family: 'Fredoka One', cursive;">Select Question Count 📝</h2>
+                <p style="color: #666; margin-top: 5px;">How many questions would you like to answer?</p>
+                
+                <div class="question-count-grid">
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(5)">5 Questions</button>
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(10)">10 Questions</button>
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(20)">20 Questions</button>
+                    <button class="count-btn" onclick="playClickSound(); startQuizWithCount(40)">40 Questions</button>
+                </div>
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+            </div>
+
+            <!-- 5. PROFILES & ACCOUNT MANAGEMENT VIEW -->
+            <div id="profile-view-screen" class="card">
+                <h2>Account & Profiles 👤</h2>
+                <div class="profile-card-details">
+                    <p><strong>Account Email:</strong> <span id="acc-email-val" style="color: #5E17EB;">-</span></p>
+                    <p><strong>Active Student Profile:</strong> <span id="active-profile-val" style="color: #FF5757; font-weight: bold;">-</span></p>
+                    <p><strong>Level:</strong> Primary School English (KSSR)</p>
+                </div>
+
+                <button class="action-btn" style="background-color: var(--primary-purple); box-shadow: 0 4px 0 #8d5cc4; width: 100%; margin-bottom: 15px;" onclick="playClickSound(); showScreen('profile-selection-screen')">Switch / Add Profiles 🔄</button>
+                
+                <div style="background: #FFF9C4; padding: 15px; border-radius: 15px; border: 2px dashed #FBC02D; text-align: left; margin-bottom: 15px;">
+                    <h3 style="color: #D35400; font-size: 1.1rem; margin-bottom: 8px;">🔐 Change Password</h3>
+                    <div class="input-group" style="margin: 10px 0;">
+                        <label for="current-password-input">Current Password</label>
+                        <input type="password" id="current-password-input" class="form-input" placeholder="Enter current password">
+                    </div>
+                    <div class="input-group" style="margin: 10px 0;">
+                        <label for="new-password-input">New Password (Min. 6 characters)</label>
+                        <input type="password" id="new-password-input" class="form-input" placeholder="Enter new password">
+                    </div>
+                    <button class="action-btn" style="background-color: #E67E22; box-shadow: 0 4px 0 #B9770E; width: 100%; margin-top: 5px;" onclick="playClickSound(); handlePasswordChange()">Update Password 🔑</button>
+                </div>
+
+                <button class="action-btn home-btn" style="width: 100%; margin: 0;" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+            </div>
+
+            <!-- 6. SCORES HISTORY SCREEN -->
+            <div id="scores-screen" class="card">
+                <h2 style="color: #333;">🏆 Quiz Attempt History</h2>
+                <p style="color: #666; margin-top: 5px;">Records of every quiz session completed!</p>
+                
+                <div class="table-container">
+                    <table class="record-table">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Topic</th>
+                                <th>Score (%)</th>
+                                <th>Date & Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="score-records-body">
+                            <!-- Loaded via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <button class="action-btn home-btn" onclick="playClickSound(); navigateTo('home-screen')">Back to Home 🏠</button>
+                <button class="action-btn clear-btn" onclick="playClickSound(); clearHistory()">Clear History 🗑️</button>
+            </div>
+
+            <!-- 7. QUIZ SCREEN (STANDARD MULTIPLE CHOICE) -->
+            <div id="quiz-screen" class="card">
+                <div class="quiz-header">
+                    <span id="topic-title">Topic</span>
+                    <span>Question: <span id="question-num">1</span>/<span id="total-q-num">10</span></span>
+                    <span>Score: <span id="current-score">0</span></span>
+                </div>
+
+                <div id="question-text" class="question-box">
+                    Question content goes here...
+                </div>
+
+                <div id="options-container" class="options-grid">
+                    <!-- Option buttons -->
+                </div>
+
+                <div class="quiz-action-container">
+                    <button id="next-btn" class="action-btn" style="display:none;" onclick="playClickSound(); nextQuestion()">Next Question ➔</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); confirmBackToHome()">Home 🏠</button>
+                </div>
+            </div>
+
+            <!-- 7B. SPELLING QUIZ SCREEN (DRAG & DROP LETTERS) -->
+            <div id="spelling-quiz-screen" class="card">
+                <div class="quiz-header">
+                    <span>SPELLING</span>
+                    <span>Question: <span id="spelling-question-num">1</span>/<span id="spelling-total-q-num">10</span></span>
+                    <span>Score: <span id="spelling-current-score">0</span></span>
+                </div>
+
+                <div class="spelling-img-container">
+                    <img id="spelling-img" src="" alt="Spelling Object">
+                </div>
+
+                <button class="audio-btn" onclick="playSpellingAudio()">🔊 Hear Word</button>
+
+                <p style="font-weight: 700; color: #555; margin-bottom: 5px;">Drag or tap letters into the boxes below:</p>
+                
+                <!-- Huruf Kosong Tempat Masuk -->
+                <div id="slots-container" class="slots-container"></div>
+
+                <!-- Pilihan Huruf di Bawah -->
+                <div id="letter-bank" class="bank-container"></div>
+
+                <div class="quiz-action-container" style="margin-top: 20px;">
+                    <button id="spelling-next-btn" class="action-btn" style="display:none;" onclick="playClickSound(); nextSpellingQuestion()">Next Word ➔</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); confirmBackToHome()">Home 🏠</button>
+                </div>
+            </div>
+
+            <!-- 7C. BUILD THE SENTENCE QUIZ SCREEN -->
+            <div id="sentence-quiz-screen" class="card">
+                <div class="quiz-header">
+                    <span>BUILD THE SENTENCE</span>
+                    <span>Question: <span id="sentence-question-num">1</span>/<span id="sentence-total-q-num">10</span></span>
+                    <span>Score: <span id="sentence-current-score">0</span></span>
+                </div>
+
+                <p style="font-weight: 700; color: #555; margin-bottom: 5px;">Drag or tap words below to arrange the correct sentence:</p>
+
+                <!-- Tempat Susunan Ayat -->
+                <div id="sentence-drop-area" class="sentence-drop-area"></div>
+
+                <!-- Pilihan Perkataan Secara Rawak -->
+                <div id="sentence-word-bank" class="bank-container"></div>
+
+                <!-- Paparan Jawapan Betul Jika Salah -->
+                <div id="sentence-correct-answer" class="correct-answer-box"></div>
+
+                <div class="quiz-action-container" style="margin-top: 15px;">
+                    <button id="sentence-check-btn" class="action-btn" style="background-color: var(--primary-green); box-shadow: 0 4px 0 #5aa33d;" onclick="playClickSound(); checkSentenceAnswer()">Check Answer ✔️</button>
+                    <button id="sentence-next-btn" class="action-btn" style="display:none;" onclick="playClickSound(); nextSentenceQuestion()">Next Question ➔</button>
+                    <button class="action-btn home-btn" onclick="playClickSound(); confirmBackToHome()">Home 🏠</button>
+                </div>
+            </div>
+
+            <!-- 8. RESULT SCREEN -->
+            <div id="result-screen" class="card">
+                <h2>Awesome Job! 🎉</h2>
+                <p>You have completed the quiz!</p>
+                <div class="result-score" id="final-score">0%</div>
+                <div class="completion-time" id="completion-time">📅 Completed on: -</div>
+                <p id="feedback-message" style="font-weight: 700; color: #555;"></p>
+                <br>
+                <button class="action-btn home-btn" style="display:inline-block;" onclick="playClickSound(); navigateTo('home-screen')">Back to Menu 🏠</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FIREBASE SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getAuth, 
+            signInWithEmailAndPassword, 
+            signOut, 
+            onAuthStateChanged,
+            EmailAuthProvider,
+            reauthenticateWithCredential,
+            updatePassword
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getDatabase, 
+            ref, 
+            set, 
+            push, 
+            get, 
+            child, 
+            remove 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDXc06B8WLtqjkG0aScBHrd3L3M-n_5okc",
+            authDomain: "grammar-hub-6af80.firebaseapp.com",
+            databaseURL: "https://grammar-hub-6af80-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "grammar-hub-6af80",
+            storageBucket: "grammar-hub-6af80.firebasestorage.app",
+            messagingSenderId: "1092171234032",
+            appId: "1:1092171234032:web:7cc8efefb812993500e035"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        window.currentUserAuth = null;
+        window.activeProfile = "";
+        window.userProfiles = [];
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                window.currentUserAuth = user;
+                document.getElementById("nav-menu").style.display = "flex";
+                document.getElementById("acc-email-val").innerText = user.email;
+                await fetchProfiles();
+            } else {
+                window.currentUserAuth = null;
+                window.activeProfile = "";
+                document.getElementById("nav-menu").style.display = "none";
+                showScreen("login-screen");
+            }
+        });
+
+        window.handleLogin = async function() {
+            const email = document.getElementById("login-email").value.trim();
+            const password = document.getElementById("login-password").value.trim();
+
+            if (!email || !password) {
+                alert("Please fill in both email and password.");
+                return;
+            }
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                alert("Login failed: " + error.message);
+            }
+        };
+
+        window.logout = async function() {
+            closeSidebar();
+            try {
+                await signOut(auth);
+                alert("You have logged out successfully.");
+            } catch (error) {
+                alert("Error logging out: " + error.message);
+            }
+        };
+
+        window.handlePasswordChange = async function() {
+            const currentPass = document.getElementById("current-password-input").value;
+            const newPass = document.getElementById("new-password-input").value;
+
+            if (!currentPass || !newPass) {
+                alert("Please fill in both current and new password fields.");
+                return;
+            }
+
+            if (newPass.length < 6) {
+                alert("New password must be at least 6 characters long.");
+                return;
+            }
+
+            const user = auth.currentUser;
+            if (!user) {
+                alert("No user signed in.");
+                return;
+            }
+
+            try {
+                const credential = EmailAuthProvider.credential(user.email, currentPass);
+                await reauthenticateWithCredential(user, credential);
+                await updatePassword(user, newPass);
+                
+                alert("Password updated successfully! 🎉");
+                document.getElementById("current-password-input").value = "";
+                document.getElementById("new-password-input").value = "";
+            } catch (error) {
+                alert("Failed to update password: " + error.message);
+            }
+        };
+
+        async function fetchProfiles() {
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
+            const dbRef = ref(db);
+            
+            try {
+                const snapshot = await get(child(dbRef, `users/${uid}/profiles`));
+                const listContainer = document.getElementById("profile-selection-list");
+                listContainer.innerHTML = "";
+
+                if (snapshot.exists()) {
+                    window.userProfiles = Object.values(snapshot.val());
+                    window.userProfiles.forEach(profName => {
+                        const btn = document.createElement("button");
+                        btn.className = "action-btn";
+                        btn.style.display = "block";
+                        btn.style.width = "100%";
+                        btn.style.margin = "8px 0";
+                        btn.innerText = `👤 ${profName}`;
+                        btn.onclick = () => selectProfile(profName);
+                        listContainer.appendChild(btn);
+                    });
+                } else {
+                    window.userProfiles = [];
+                    listContainer.innerHTML = "<p style='color:#777;'>No profiles created yet. Please create one below!</p>";
+                }
+
+                if (!window.activeProfile) {
+                    showScreen("profile-selection-screen");
+                }
+            } catch (err) {
+                console.error("Error fetching profiles:", err);
+            }
+        }
+
+        window.addNewProfile = async function() {
+            const nameInput = document.getElementById("new-profile-name");
+            const newName = nameInput.value.trim();
+
+            if (!newName) {
+                alert("Please enter a student name.");
+                return;
+            }
+
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
+
+            try {
+                const newProfileRef = push(ref(db, `users/${uid}/profiles`));
+                await set(newProfileRef, newName);
+                nameInput.value = "";
+                await fetchProfiles();
+                selectProfile(newName);
+            } catch (err) {
+                alert("Failed to add profile: " + err.message);
+            }
+        };
+
+        function selectProfile(profileName) {
+            window.activeProfile = profileName;
+            document.getElementById("home-greeting").innerText = `Hi ${profileName}! 👋`;
+            document.getElementById("active-profile-val").innerText = profileName;
+            document.getElementById("current-badge-name").innerText = profileName;
+            showScreen("home-screen");
+        }
+
+        window.saveSessionRecord = async function(topic, scoreValue, totalQ, formattedTime) {
+            if (!window.currentUserAuth || !window.activeProfile) return;
+            const uid = window.currentUserAuth.uid;
+
+            const percentage = Math.round((scoreValue / totalQ) * 100);
+
+            const sessionData = {
+                profile: window.activeProfile,
+                topic: topic,
+                score: `${percentage}%`,
+                rawScore: `${scoreValue} / ${totalQ}`,
+                time: formattedTime,
+                timestamp: Date.now()
+            };
+
+            try {
+                const historyRef = ref(db, `users/${uid}/history`);
+                const newSessionRef = push(historyRef);
+                await set(newSessionRef, sessionData);
+            } catch (err) {
+                console.error("Failed to save score history:", err);
+            }
+        };
+
+        window.loadScoreBoard = async function() {
+            const tbody = document.getElementById("score-records-body");
+            tbody.innerHTML = "<tr><td colspan='4'>Loading history...</td></tr>";
+
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
+            const dbRef = ref(db);
+
+            try {
+                const snapshot = await get(child(dbRef, `users/${uid}/history`));
+                tbody.innerHTML = "";
+
+                if (snapshot.exists()) {
+                    const allData = Object.values(snapshot.val());
+                    const profileData = allData.filter(item => item.profile === window.activeProfile);
+
+                    if (profileData.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">No quiz sessions recorded for ${window.activeProfile} yet!</td></tr>`;
+                        return;
+                    }
+
+                    profileData.slice().reverse().forEach((session, idx) => {
+                        const tr = document.createElement("tr");
+                        const sessionNum = profileData.length - idx;
+
+                        tr.innerHTML = `
+                            <td style="font-weight:700;">#${sessionNum}</td>
+                            <td style="text-transform: capitalize; font-weight:700;">${session.topic}</td>
+                            <td style="font-weight:700; color:#5E17EB;">${session.score}</td>
+                            <td style="font-size:0.8rem; color:#555;">${session.time}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="4" style="color:#777; padding: 20px;">No quiz sessions recorded yet! Start a quiz to see your history.</td></tr>`;
+                }
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="4" style="color:red;">Error loading history.</td></tr>`;
+            }
+        };
+
+        window.clearHistory = async function() {
+            if (!confirm(`Are you sure you want to clear all history for ${window.activeProfile}?`)) return;
+
+            if (!window.currentUserAuth) return;
+            const uid = window.currentUserAuth.uid;
+
+            try {
+                const snapshot = await get(ref(db, `users/${uid}/history`));
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    for (let key in data) {
+                        if (data[key].profile === window.activeProfile) {
+                            await remove(ref(db, `users/${uid}/history/${key}`));
+                        }
+                    }
+                }
+                loadScoreBoard();
+            } catch (err) {
+                alert("Failed to clear history: " + err.message);
+            }
+        };
+    </script>
+
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playClickSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.08);
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.08);
+        }
+
+        function playCorrectSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc1 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+            osc1.type = 'triangle';
+            osc1.frequency.setValueAtTime(523.25, now); 
+            gain1.gain.setValueAtTime(0.3, now);
+            gain1.gain.linearRampToValueAtTime(0.01, now + 0.15);
+            osc1.connect(gain1);
+            gain1.connect(audioCtx.destination);
+            osc1.start(now);
+            osc1.stop(now + 0.15);
+
+            const osc2 = audioCtx.createOscillator();
+            const gain2 = audioCtx.createGain();
+            osc2.type = 'triangle';
+            osc2.frequency.setValueAtTime(659.25, now + 0.1); 
+            gain2.gain.setValueAtTime(0.3, now + 0.1);
+            gain2.gain.linearRampToValueAtTime(0.01, now + 0.3);
+            osc2.connect(gain2);
+            gain2.connect(audioCtx.destination);
+            osc2.start(now + 0.1);
+            osc2.stop(now + 0.3);
+        }
+
+        function playWrongSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(220, now);
+            osc.frequency.linearRampToValueAtTime(130, now + 0.25);
+            gain.gain.setValueAtTime(0.3, now);
+            gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(now + 0.25);
+        }
+
+        function speakWord(word) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        const lessonData = {
+            nouns: {
+                title: "Nouns",
+                desc: "<strong>Nouns</strong> are words used to name people, places, animals, or things. Pay attention to Singular (one) and Plural (more than one).",
+                examples: "<ul><li>Singular: <i>car, dog, child, tooth</i></li><li>Plural: <i>cars, dogs, children, teeth</i></li></ul>"
+            },
+            pronouns: {
+                title: "Pronouns",
+                desc: "<strong>Pronouns</strong> are words that take the place of nouns so we don't have to repeat the same noun.",
+                examples: "<ul><li>Girl/Woman: <b>She, Her</b></li><li>Boy/Man: <b>He, Him</b></li><li>Animal/Object: <b>It, Its</b></li><li>Group: <b>They, We</b></li></ul>"
+            },
+            verbs: {
+                title: "Verbs",
+                desc: "<strong>Verbs</strong> are action words. They show what someone or something is doing. Remember to check the tenses (present or past)!",
+                examples: "<ul><li>Present Tense: <i>walks, sings, flying</i></li><li>Past Tense: <i>walked, sang, caught</i></li></ul>"
+            },
+            adjectives: {
+                title: "Adjectives",
+                desc: "<strong>Adjectives</strong> describe or give more information about a noun (size, color, shape, feeling).",
+                examples: "<ul><li>Size: <i>huge, small, long</i></li><li>Taste/Feel: <i>sweet, sour, cold, heavy</i></li><li>Comparison: <i>fast ➔ faster ➔ fastest</i></li></ul>"
+            },
+            prepositions: {
+                title: "Prepositions",
+                desc: "<strong>Prepositions</strong> tell us the position or location of something, or when something happens.",
+                examples: "<ul><li>Position: <i>under, on, inside, between, behind</i></li><li>Time: <i>at 7.00 a.m., in July, on Sunday</i></li></ul>"
+            },
+            conjunctions: {
+                title: "Conjunctions",
+                desc: "<strong>Conjunctions</strong> are joining words that connect words, phrases, or sentences together.",
+                examples: "<ul><li><b>And:</b> joins similar ideas.</li><li><b>But:</b> joins opposite ideas.</li><li><b>Because:</b> shows a reason.</li><li><b>So:</b> shows a result.</li></ul>"
+            },
+            articles: {
+                title: "Articles (A, An, The)",
+                desc: "<strong>Articles</strong> are words that define a noun as specific or unspecific. Use 'a' before consonant sounds, 'an' before vowel sounds (a, e, i, o, u), and 'the' for specific things.",
+                examples: "<ul><li><b>A:</b> <i>a cat, a book, a university</i></li><li><b>An:</b> <i>an apple, an umbrella, an hour</i></li><li><b>The:</b> <i>the sun, the tallest boy</i></li></ul>"
+            },
+            presentTense: {
+                title: "Simple Present Tense",
+                desc: "<strong>Simple Present Tense</strong> is used to talk about habits, general truths, or things that happen regularly.",
+                examples: "<ul><li>Singular subject (He/She/It/Ali): Add <b>-s</b> or <b>-es</b> (e.g., <i>eats, goes</i>).</li><li>Plural subject (I/You/We/They): Use base verb (e.g., <i>eat, go</i>).</li></ul>"
+            },
+            pastTense: {
+                title: "Simple Past Tense",
+                desc: "<strong>Simple Past Tense</strong> is used for actions that happened and finished in the past.",
+                examples: "<ul><li>Regular verbs: Add <b>-ed</b> (e.g., <i>walk ➔ walked</i>).</li><li>Irregular verbs: Change form completely (e.g., <i>go ➔ went, eat ➔ ate</i>).</li></ul>"
+            },
+            singularPlural: {
+                title: "Singular and Plural",
+                desc: "<strong>Singular</strong> means only one person, place, or thing. <strong>Plural</strong> means more than one.",
+                examples: "<ul><li>Regular: add <b>-s</b> (<i>cat ➔ cats</i>) or <b>-es</b> (<i>box ➔ boxes</i>).</li><li>Irregular: <i>man ➔ men, child ➔ children, foot ➔ feet</i>.</li></ul>"
+            },
+            demonstratives: {
+                title: "This, That, These, Those",
+                desc: "<strong>Demonstrative pronouns</strong> point to specific things near or far away.",
+                examples: "<ul><li>Near (Singular): <b>This</b> (<i>This is my pencil</i>)</li><li>Far (Singular): <b>That</b> (<i>That is a star</i>)</li><li>Near (Plural): <b>These</b> (<i>These are my shoes</i>)</li><li>Far (Plural): <b>Those</b> (<i>Those are birds</i>)</li></ul>"
+            },
+            spelling: {
+                title: "Spelling Challenge",
+                desc: "<strong>Spelling</strong> helps you write words correctly! Look at the picture, listen to the audio pronunciation, and drag or tap the letters into the correct boxes to spell the word.",
+                examples: "<ul><li>Example: Picture of a cat ➔ Listen to 'CAT' ➔ Arrange letters <b>C - A - T</b>.</li></ul>"
+            },
+            buildSentence: {
+                title: "Build the Sentence",
+                desc: "<strong>Build the Sentence</strong> teaches you how to construct correct English sentences. Drag or tap the scrambled words to arrange them into a meaningful sentence.",
+                examples: "<ul><li>Scrambled: <i>cat / The / sleeping / is</i></li><li>Correct: <b>The cat is sleeping.</b></li></ul>"
+            }
+        };
+
+        const questionBank = {
+    nouns: [
     { q: "My father drives a new ________ to work.", options: ["caring", "car", "cared", "cars"], answer: 1 },
+    { q: "There are three ________ in the cage.", options: ["bird", "birds", "birding", "birded"], answer: 1 },
+    { q: "Encik Ahmad is a hardworking ________.", options: ["teaching", "teacher", "taught", "teachers"], answer: 1 },
+    { q: "I need to brush my ________ every night.", options: ["tooths", "teethes", "tooth", "teeth"], answer: 3 },
+    { q: "The ________ is barking loudly at the cat.", options: ["dog", "dogging", "dogs", "dogged"], answer: 0 },
+    { q: "She bought two ________ of bread from the bakery.", options: ["loafs", "loaves", "loaf", "loafes"], answer: 1 },
+    { q: "Kuala Lumpur is a big ________.", options: ["cities", "citys", "citing", "city"], answer: 3 },
+    { q: "All the ________ are playing in the field.", options: ["children", "child", "childs", "childrens"], answer: 0 },
+    { q: "Put the books on the ________, please.", options: ["tabling", "table", "tabled", "tables"], answer: 1 },
+    { q: "Five ________ are swimming in the pond.", options: ["gooses", "geese", "geeses", "goose"], answer: 1 },
+    { q: "The farmer has a large ________ on his farm.", options: ["cowing", "cowed", "cow", "cows"], answer: 2 },
+    { q: "Please wash your ________ before eating.", options: ["hands", "handing", "hand", "handed"], answer: 0 },
+    { q: "My mother is cooking in the ________.", options: ["kitchening", "kitchen", "kitchened", "kitchens"], answer: 1 },
+    { q: "There are many ________ in the library.", options: ["booking", "booked", "books", "book"], answer: 2 },
+    { q: "The sharp ________ is on the kitchen counter.", options: ["knives", "knife", "knifing", "knifes"], answer: 1 },
+    { q: "Several ________ are flying south for the winter.", options: ["goose", "duck", "geese", "ducks"], answer: 2 },
+    { q: "A clever ________ caught a big piece of cheese.", options: ["micing", "mouses", "mouse", "mice"], answer: 2 },
+    { q: "The doctor examined the sick ________ in the ward.", options: ["men's", "man", "men", "mans"], answer: 1 },
+    { q: "We need a clean ________ to dry the dishes.", options: ["towel", "toweled", "towels", "toweling"], answer: 0 },
+    { q: "The gardener cuts the grass with a lawn ________.", options: ["mowing", "mower", "mowed", "mowers"], answer: 1 },
+    { q: "Please give me a glass of ________.", options: ["waters", "water", "watered", "watering"], answer: 1 },
+    { q: "She wears a lovely ________ to the party.", options: ["dresses", "dress", "dressing", "dressed"], answer: 1 },
+    { q: "The small ________ is sleeping under the tree.", options: ["catty", "cat", "catting", "cats"], answer: 1 },
+    { q: "Ten ________ are grazing in the green meadow.", options: ["sheepping", "shept", "sheep", "sheeps"], answer: 2 },
+    { q: "The brave ________ chased the thief away.", options: ["policeman", "police", "policewoman", "policemen"], answer: 0 },
+    { q: "He keeps his important documents in a ________.", options: ["boxes", "box", "boxing", "boxed"], answer: 1 },
+    { q: "The bright ________ shines brightly in the sky.", options: ["sun", "sunning", "suns", "sunned"], answer: 0 },
+    { q: "A young ________ is learning how to jump.", options: ["frogging", "frog", "froged", "frogs"], answer: 1 },
+    { q: "She put on her ________ before going out in the rain.", options: ["booting", "boot", "boots", "booted"], answer: 2 },
+    { q: "The little ________ lost his way in the shopping mall.", options: ["boy", "boys", "boyed", "boying"], answer: 0 },
+    { q: "The baby is sleeping peacefully in her ________.", options: ["cot", "cotted", "cots", "cotting"], answer: 0 },
+    { q: "We saw a colorful ________ flying in the garden.", options: ["butterflys", "butterfying", "butterfly", "butterflies"], answer: 2 },
+    { q: "He wrote his name on a piece of ________.", options: ["papers", "papering", "paper", "papered"], answer: 2 },
+    { q: "The old ________ fell down during the storm.", options: ["tree", "treing", "trees", "treed"], answer: 0 },
+    { q: "Please turn on the ________ to get some cool air.", options: ["fans", "fanning", "fan", "fanned"], answer: 2 },
+    { q: "The hungry ________ ate a banana.", options: ["monkeys", "monkeying", "monkeyed", "monkey"], answer: 3 },
+    { q: "An intelligent ________ solved the difficult puzzle.", options: ["students", "student", "studying", "studied"], answer: 1 },
+    { q: "The postman delivered a ________ this morning.", options: ["letters", "lettering", "letter", "lettered"], answer: 2 },
+    { q: "We need three ________ to complete this project.", options: ["men", "man", "mans", "mens"], answer: 0 },
+    { q: "The heavy ________ fell from the dark clouds.", options: ["rains", "raining", "rain", "rained"], answer: 2 },
+    { q: "She loves to eat fresh ________ after dinner.", options: ["fruits", "fruit", "fruiting", "fruited"], answer: 1 },
+    { q: "The carpenter uses a ________ to drive nails.", options: ["hammers", "hammering", "hammer", "hammered"], answer: 2 },
+    { q: "A friendly ________ welcomed us at the hotel.", options: ["waiters", "waiting", "waiter", "waited"], answer: 2 },
+    { q: "He caught a big ________ in the river.", options: ["fishing", "fishes", "fished", "fish"], answer: 3 },
+    { q: "The tall ________ has many skyscrapers.", options: ["towns", "towning", "city", "towned"], answer: 2 },
+    { q: "She wears a gold ________ on her finger.", options: ["rings", "ring", "ringing", "ringed"], answer: 1 },
+    { q: "The teacher wrote the sentence on the ________.", options: ["boards", "boarding", "board", "boarded"], answer: 2 },
+    { q: "A busy ________ is making sweet honey.", options: ["bees", "beeing", "beed", "bee"], answer: 3 },
+    { q: "He opened the ________ to let the fresh air in.", options: ["window", "windows", "windowing", "windowed"], answer: 0 },
     { q: "The sweet ________ smells wonderful in the garden.", options: ["flowering", "flower", "flowered", "flowers"], answer: 1 }
 ],
 pronouns: [
     { q: "Aina is hungry. ________ wants to eat a burger.", options: ["He", "She", "It", "They"], answer: 1 },
+    { q: "Ali and Adam are brothers. ________ like to play football.", options: ["We", "They", "He", "You"], answer: 1 },
+    { q: "My name is Danial. ________ am eight years old.", options: ["I", "You", "We", "He"], answer: 0 },
+    { q: "The cat is sleeping because ________ is tired.", options: ["she", "he", "it", "they"], answer: 2 },
+    { q: "My mother made a cake for ________ because it is my birthday.", options: ["me", "I", "my", "mine"], answer: 0 },
+    { q: "This is Mei Ling's bag. It belongs to ________.", options: ["him", "her", "she", "his"], answer: 1 },
+    { q: "Are ________ coming to my house tomorrow?", options: ["you", "he", "she", "it"], answer: 0 },
+    { q: "We are classmates. Miss Lee teaches ________ English.", options: ["them", "us", "we", "our"], answer: 1 },
+    { q: "The boys finished ________ homework early.", options: ["their", "his", "her", "its"], answer: 0 },
+    { q: "The dog wagged ________ tail happily.", options: ["it", "it's", "its", "their"], answer: 2 },
+    { q: "Farah and I are going to the library. ________ need to study for the exam.", options: ["They", "We", "You", "He"], answer: 1 },
+    { q: "Please give the book back to ________ when you are done.", options: ["I", "he", "me", "they"], answer: 2 },
+    { q: "My father washed ________ car this morning.", options: ["his", "their", "her", "our"], answer: 0 },
+    { q: "Is this pen ________? I found it on the floor.", options: ["yours", "your", "you", "them"], answer: 0 },
+    { q: "The children are playing in the garden. Look at ________!", options: ["they", "them", "their", "theirs"], answer: 1 },
+    { q: "Susan cooked dinner by ________ because her parents were away.", options: ["himself", "herself", "myself", "itself"], answer: 1 },
+    { q: "The boys completed ________ project on time.", options: ["his", "their", "them", "our"], answer: 1 },
+    { q: "Can ________ help me carry these heavy boxes, please?", options: ["yours", "thou", "you", "them"], answer: 2 },
+    { q: "This classroom is much bigger than ________.", options: ["our", "ours", "we", "us"], answer: 1 },
+    { q: "Haikal hurt ________ while playing football yesterday.", options: ["himself", "herself", "yourself", "myself"], answer: 0 },
+    { q: "The teacher asked the students to submit ________ assignments.", options: ["his", "her", "their", "its"], answer: 2 },
+    { q: "Nobody knows the answer except ________.", options: ["she", "her", "hers", "they"], answer: 1 },
+    { q: "That beautiful house on the hill belongs to them. It is ________.", options: ["theirs", "their", "them", "they"], answer: 0 },
+    { q: "Ahmad loves reading books. ________ has a large collection of novels.", options: ["She", "It", "They", "He"], answer: 3 },
+    { q: "Mother made this delicious cake all by ________.", options: ["himself", "myself", "herself", "itself"], answer: 2 },
+    { q: "Excuse ________, is this seat taken?", options: ["me", "I", "my", "mine"], answer: 0 },
+    { q: "Those shoes are too small for ________.", options: ["I", "my", "me", "mine"], answer: 2 },
+    { q: "Sarah must bring ________ own stationery to the test.", options: ["their", "her", "our", "my"], answer: 1 },
+    { q: "We enjoyed ________ very much at the amusement park.", options: ["ourselves", "themselves", "myself", "yourselves"], answer: 0 },
+    { q: "Zainab and Siti are best friends. ________ always share their secrets.", options: ["They", "We", "She", "He"], answer: 0 },
+    { q: "Look at that bird! ________ is building a nest in the tree.", options: ["He", "She", "It", "They"], answer: 2 },
+    { q: "The principal congratulated ________ on winning the competition.", options: ["we", "us", "our", "ours"], answer: 1 },
+    { q: "Are these keys ________ or mine?", options: ["your", "yours", "you", "their"], answer: 1 },
+    { q: "I can't find my phone anywhere. Have you seen ________?", options: ["them", "him", "her", "it"], answer: 3 },
+    { q: "My sister and I baked cookies. ________ taste very good.", options: ["They", "We", "You", "It"], answer: 0 },
+    { q: "John cut ________ with a sharp knife while slicing vegetables.", options: ["itself", "herself", "himself", "yourself"], answer: 2 },
+    { q: "This is my laptop, and that one over there is ________.", options: ["mine", "yours", "his", "hers"], answer: 1 },
+    { q: "The little puppy chased ________ tail in circles.", options: ["his", "its", "her", "their"], answer: 1 },
+    { q: "All the students brought ________ own lunch to the picnic.", options: ["their", "his", "our", "my"], answer: 0 },
+    { q: "Can you pass the salt to ________, please?", options: ["I", "my", "mine", "me"], answer: 3 },
+    { q: "Salma forgot to bring ________ umbrella, so she got wet in the rain.", options: ["his", "her", "their", "its"], answer: 1 },
+    { q: "My brother and ________ went to the cinema last night.", options: ["me", "mine", "I", "my"], answer: 2 },
+    { q: "The teacher gave ________ a reward for good behavior.", options: ["they", "them", "their", "theirs"], answer: 1 },
+    { q: "Is ________ ready to leave for the trip now?", options: ["everyone", "they", "we", "you"], answer: 0 },
+    { q: "Please remind ________ to call her mother later.", options: ["she", "her", "hers", "herself"], answer: 1 },
+    { q: "The famous artist is very talented. ________ has won many awards.", options: ["He", "She", "It", "They"], answer: 3 },
+    { q: "The guests have arrived. Have you offered ________ some drinks?", options: ["they", "their", "them", "theirs"], answer: 2 },
+    { q: "I bought a new book and started reading ________ immediately.", options: ["him", "her", "them", "it"], answer: 3 },
+    { q: "Sarah left ________ jacket on the sofa.", options: ["this", "that", "these", "her"], answer: 3 },
     { q: "We should look after ________ health by eating nutritious food.", options: ["our", "ours", "us", "we"], answer: 0 }
 ],
             verbs: [
     { q: "The pupils ________ to school every morning.", options: ["walk", "walks", "walking", "walked"], answer: 0 },
+    { q: "Siti ________ a song gracefully yesterday.", options: ["sing", "sings", "sang", "singing"], answer: 2 },
+    { q: "Listen! The baby is ________ in the bedroom.", options: ["crying", "cried", "cries", "cry"], answer: 0 },
+    { q: "My uncle ________ a big fish last weekend.", options: ["catch", "catches", "caught", "catching"], answer: 2 },
+    { q: "He ________ his teeth twice a day.", options: ["brush", "brushes", "brushed", "brushing"], answer: 1 },
+    { q: "Birds ________ in the sky.", options: ["fly", "flies", "flying", "flew"], answer: 0 },
+    { q: "Mother ________ delicious fried rice this morning.", options: ["cook", "cooks", "cooked", "cooking"], answer: 2 },
+    { q: "They ________ swimming in the pool right now.", options: ["is", "are", "was", "were"], answer: 1 },
+    { q: "Raju ________ a funny story to his friends.", options: ["told", "tell", "tells", "telling"], answer: 0 },
+    { q: "Please ________ your shoes before entering.", options: ["remove", "removes", "removed", "removing"], answer: 0 },
+    { q: "The sun ________ brightly in the afternoon sky.", options: ["shine", "shining", "shines", "shone"], answer: 2 },
+    { q: "Ali ________ his bicycle to the playground just now.", options: ["ride", "rode", "ridden", "riding"], answer: 1 },
+    { q: "Look! The cat ________ up the tall tree.", options: ["climbed", "is climbing", "climbs", "climb"], answer: 1 },
+    { q: "We ________ a very interesting movie last night.", options: ["watch", "watched", "watching", "watches"], answer: 1 },
+    { q: "She usually ________ milk before going to bed.", options: ["drink", "drinking", "drank", "drinks"], answer: 3 },
+    { q: "The students ________ listening attentively to the teacher.", options: ["are", "is", "am", "was"], answer: 0 },
+    { q: "Father ________ the grass in the garden every weekend.", options: ["cut", "cuts", "cutting", "cutted"], answer: 1 },
+    { q: "Ahmad ________ his homework before he watched television yesterday.", options: ["finish", "finishes", "finished", "finishing"], answer: 2 },
+    { q: "Do you ________ how to swim?", options: ["know", "knows", "knew", "knowing"], answer: 0 },
+    { q: "The wind ________ strongly during the thunderstorm last night.", options: ["blow", "blows", "blew", "blown"], answer: 2 },
+    { q: "Shanti ________ a letter to her grandmother yesterday.", options: ["write", "writes", "wrote", "written"], answer: 2 },
+    { q: "Be quiet! The baby ________ sleeping.", options: ["is", "are", "am", "was"], answer: 0 },
+    { q: "My brother ________ a new computer game last week.", options: ["buy", "buys", "bought", "buying"], answer: 2 },
+    { q: "Horses can ________ very fast.", options: ["run", "runs", "ran", "running"], answer: 0 },
+    { q: "The boys ________ football in the field right now.", options: ["play", "plays", "are playing", "played"], answer: 2 },
+    { q: "Grandmother ________ a delicious cake for my birthday last year.", options: ["bake", "bakes", "baked", "baking"], answer: 2 },
+    { q: "Please ________ the door when you leave the room.", options: ["close", "closes", "closed", "closing"], answer: 0 },
+    { q: "I ________ a strange noise outside my window last midnight.", options: ["hear", "hears", "heard", "hearing"], answer: 2 },
+    { q: "The stars ________ in the night sky.", options: ["twinkle", "twinkles", "twinkled", "twinkling"], answer: 0 },
+    { q: "Zainab ________ her hands before eating lunch.", options: ["wash", "washes", "washed", "washing"], answer: 1 },
+    { q: "They ________ to the museum last Saturday.", options: ["go", "goes", "went", "gone"], answer: 2 },
+    { q: "He ________ English very well when he lived in London.", options: ["speak", "speaks", "spoke", "spoken"], answer: 2 },
+    { q: "Listen! Someone ________ at the front door.", options: ["knock", "knocks", "is knocking", "knocked"], answer: 2 },
+    { q: "The baby ________ when he is hungry.", options: ["cry", "cries", "cried", "crying"], answer: 1 },
+    { q: "We ________ our grandparents during the last school holidays.", options: ["visit", "visits", "visited", "visiting"], answer: 2 },
+    { q: "Fish ________ in water.", options: ["swim", "swims", "swam", "swimming"], answer: 0 },
+    { q: "She ________ her keys on the kitchen table yesterday.", options: ["leave", "leaves", "left", "leaving"], answer: 2 },
+    { q: "The gardener ________ the plants every evening.", options: ["water", "waters", "watered", "watering"], answer: 1 },
+    { q: "Why are you ________ so loudly?", options: ["laugh", "laughs", "laughed", "laughing"], answer: 3 },
+    { q: "My mother ________ a beautiful dress at the wedding last Saturday.", options: ["wear", "wears", "wore", "worn"], answer: 2 },
+    { q: "The dog ________ at the stranger.", options: ["bark", "barks", "barked", "barking"], answer: 1 },
+    { q: "I ________ my pencil case in the classroom yesterday.", options: ["lose", "loses", "lost", "losing"], answer: 2 },
+    { q: "They ________ ready for the exam next week.", options: ["is", "are", "was", "were"], answer: 1 },
+    { q: "He ________ his lunch box on the bus this morning.", options: ["forget", "forgets", "forgot", "forgotten"], answer: 2 },
+    { q: "Can you ________ this heavy box for me?", options: ["lift", "lifts", "lifted", "lifting"], answer: 0 },
+    { q: "The birds ________ flying south for the winter.", options: ["is", "are", "was", "were"], answer: 1 },
+    { q: "She ________ her room before her friends arrived.", options: ["clean", "cleans", "cleaned", "cleaning"], answer: 2 },
+    { q: "We ________ to music on the radio every evening.", options: ["listen", "listens", "listened", "listening"], answer: 0 },
+    { q: "The teacher ________ the difficult math problem on the whiteboard.", options: ["explain", "explains", "explained", "explaining"], answer: 1 },
     { q: "He ________ a cup of hot tea just now.", options: ["drink", "drinks", "drank", "drinking"], answer: 2 }
 ],
           adjectives: [
     { q: "An elephant is a ________ animal.", options: ["huge", "small", "tiny", "short"], answer: 0 },
+    { q: "Ice cream is ________ and sweet.", options: ["hot", "cold", "spicy", "warm"], answer: 1 },
+    { q: "A cheetah is the ________ land animal.", options: ["fast", "faster", "fastest", "more fast"], answer: 2 },
+    { q: "This knife is very ________. Be careful!", options: ["sharp", "blunt", "soft", "smooth"], answer: 0 },
+    { q: "My grandfather is ________, but he is still strong.", options: ["young", "old", "new", "fresh"], answer: 1 },
+    { q: "She wore a ________ dress to the party.", options: ["beautiful", "beauty", "beautify", "more beautiful"], answer: 0 },
+    { q: "The box is too ________ for me to carry.", options: ["light", "heavy", "soft", "thin"], answer: 1 },
+    { q: "A giraffe has a ________ neck.", options: ["short", "long", "small", "broad"], answer: 1 },
+    { q: "Lemon juice tastes ________.", options: ["sour", "sweet", "salty", "bitter"], answer: 0 },
+    { q: "This riddle is ________ than the first one.", options: ["easy", "easier", "easiest", "more easy"], answer: 1 },
+    { q: "The weather today is very ________; the sun is shining brightly.", options: ["cold", "hot", "freezing", "chilly"], answer: 1 },
+    { q: "Mount Everest is the ________ mountain in the world.", options: ["high", "higher", "highest", "more high"], answer: 2 },
+    { q: "This pillow is very ________ and comfortable to sleep on.", options: ["hard", "rough", "soft", "stiff"], answer: 2 },
+    { q: "My little brother is afraid of the ________ room at night.", options: ["bright", "dark", "light", "sunny"], answer: 1 },
+    { q: "The water in the river is so ________ that we can see the fish swimming.", options: ["dirty", "muddy", "clear", "dark"], answer: 2 },
+    { q: "An ant is a very ________ insect.", options: ["huge", "giant", "large", "tiny"], answer: 3 },
+    { q: "We need a ________ jacket because it is snowing outside.", options: ["thin", "warm", "light", "cool"], answer: 1 },
+    { q: "The mathematics test was quite ________, so most students passed.", options: ["difficult", "hard", "easy", "complex"], answer: 2 },
+    { q: "My grandmother's soup tastes a bit too ________ because she added too much salt.", options: ["sweet", "salty", "sour", "bitter"], answer: 1 },
+    { q: "That comedian told a very ________ joke that made everyone laugh.", options: ["sad", "boring", "funny", "serious"], answer: 2 },
+    { q: "The floor is wet and ________, so please walk carefully.", options: ["dry", "slippery", "rough", "hard"], answer: 1 },
+    { q: "Gold is more ________ than silver.", options: ["cheap", "valuable", "common", "low"], answer: 1 },
+    { q: "This room is very ________; we need to open the windows for fresh air.", options: ["clean", "spacious", "stuffy", "airy"], answer: 2 },
+    { q: "A turtle moves at a very ________ speed.", options: ["fast", "quick", "rapid", "slow"], answer: 3 },
+    { q: "The rich man lives in a ________ mansion.", options: ["small", "tiny", "huge", "little"], answer: 2 },
+    { q: "Medicine usually tastes ________.", options: ["sweet", "bitter", "delicious", "tasty"], answer: 1 },
+    { q: "Ali is the ________ boy in his class. He is 1.8 metres tall.", options: ["tall", "short", "shorter", "tallest"], answer: 3 },
+    { q: "The road to the old village is very ________ and bumpy.", options: ["smooth", "flat", "rough", "straight"], answer: 2 },
+    { q: "I feel so ________ after running a marathon.", options: ["energetic", "tired", "active", "fresh"], answer: 1 },
+    { q: "This dress is too ________ for me; I need a larger size.", options: ["loose", "tight", "wide", "big"], answer: 1 },
+    { q: "The library is a very ________ place for studying.", options: ["noisy", "loud", "quiet", "busy"], answer: 2 },
+    { q: "My sister has ________ hair that falls down to her shoulders.", options: ["short", "long", "bald", "brief"], answer: 1 },
+    { q: "The newborn baby has ________ skin.", options: ["rough", "smooth", "tough", "hard"], answer: 1 },
+    { q: "This soup is too ________; let it cool down before drinking.", options: ["cold", "hot", "freezing", "chilly"], answer: 1 },
+    { q: "A diamond is a very ________ stone.", options: ["soft", "weak", "hard", "fragile"], answer: 2 },
+    { q: "We had a ________ time at the theme park yesterday.", options: ["boring", "wonderful", "dull", "terrible"], answer: 1 },
+    { q: "The naughty boy was ________ for breaking the window.", options: ["happy", "glad", "guilty", "proud"], answer: 2 },
+    { q: "Her bedroom is always neat and ________.", options: ["messy", "untidy", "clean", "dirty"], answer: 2 },
+    { q: "The old man walked with a ________ step.", options: ["fast", "quick", "slow", "rapid"], answer: 2 },
+    { q: "This new smartphone has a very ________ screen.", options: ["small", "large", "narrow", "tiny"], answer: 1 },
+    { q: "The hungry stray cat looked very ________ and thin.", options: ["fat", "weak", "strong", "healthy"], answer: 1 },
+    { q: "That is a ________ idea! Let's do it.", options: ["bad", "foolish", "brilliant", "stupid"], answer: 2 },
+    { q: "The metal gate felt very ________ in the morning frost.", options: ["hot", "warm", "cold", "boiling"], answer: 2 },
+    { q: "Please be ________ with the glass vase; it breaks easily.", options: ["careless", "careful", "rough", "heavy"], answer: 1 },
+    { q: "My teacher was ________ with us for completing our homework early.", options: ["angry", "pleased", "upset", "mad"], answer: 1 },
+    { q: "The fierce tiger has ________ teeth.", options: ["blunt", "sharp", "flat", "dull"], answer: 1 },
+    { q: "It was a ________ night, and we could see millions of stars clearly.", options: ["cloudy", "clear", "foggy", "stormy"], answer: 1 },
+    { q: "The green apples are quite ________; the red apples are much sweeter.", options: ["sweet", "sour", "ripe", "juicy"], answer: 1 },
+    { q: "He wore a ________ shirt to the formal dinner event.", options: ["dirty", "colorful", "neat", "messy"], answer: 2 },
     { q: "The deep well contains ________ water that is safe to drink.", options: ["shallow", "deep", "fresh", "stale"], answer: 2 }
 ],
            prepositions: [
     { q: "The cat is sleeping ________ the table.", options: ["under", "in", "above", "between"], answer: 0 },
+    { q: "We go to school ________ 7.00 a.m.", options: ["on", "at", "in", "by"], answer: 1 },
+    { q: "Put the apples ________ the basket.", options: ["inside", "on", "over", "between"], answer: 0 },
+    { q: "The sun shines ________ our heads at noon.", options: ["under", "above", "in", "behind"], answer: 1 },
+    { q: "My birthday is ________ July.", options: ["at", "on", "in", "to"], answer: 2 },
+    { q: "She hangs the clock ________ the wall.", options: ["on", "in", "under", "at"], answer: 0 },
+    { q: "The boy is standing ________ his mother and father.", options: ["among", "between", "under", "in"], answer: 1 },
+    { q: "They walk ________ the bridge to cross the river.", options: ["across", "under", "into", "at"], answer: 0 },
+    { q: "The train arrived ________ Sunday morning.", options: ["in", "at", "on", "from"], answer: 2 },
+    { q: "He hid ________ the door during hide and seek.", options: ["behind", "on", "in", "over"], answer: 0 },
+    { q: "The airplane is flying high ________ the clouds.", options: ["under", "above", "in", "between"], answer: 1 },
+    { q: "Ali parked his bicycle ________ the front of the house.", options: ["in", "at", "on", "by"], answer: 0 },
+    { q: "The bookstore is located ________ the post office and the bank.", options: ["among", "between", "next to", "behind"], answer: 1 },
+    { q: "She keeps her diary locked ________ her drawer.", options: ["on", "under", "inside", "over"], answer: 2 },
+    { q: "We usually visit our grandparents ________ Hari Raya.", options: ["in", "on", "at", "during"], answer: 3 },
+    { q: "The thief jumped ________ the fence to escape from the police.", options: ["over", "under", "in", "through"], answer: 0 },
+    { q: "I left my keys ________ the kitchen counter.", options: ["in", "on", "at", "under"], answer: 1 },
+    { q: "The fish swim deep ________ the water.", options: ["on", "over", "under", "in"], answer: 3 },
+    { q: "Please sign your name ________ the dotted line at the bottom.", options: ["on", "in", "at", "over"], answer: 0 },
+    { q: "The ball rolled ________ the sofa and got stuck.", options: ["under", "above", "on", "between"], answer: 0 },
+    { q: "They arrived ________ Kuala Lumpur International Airport late last night.", options: ["on", "in", "at", "to"], answer: 2 },
+    { q: "The cat jumped ________ the table to catch the mouse.", options: ["onto", "into", "over", "under"], answer: 0 },
+    { q: "My father goes to work ________ car every morning.", options: ["on", "in", "by", "with"], answer: 2 },
+    { q: "The teacher wrote the answers ________ the whiteboard.", options: ["in", "on", "at", "over"], answer: 1 },
+    { q: "We have been living in this city ________ five years.", options: ["since", "for", "during", "at"], answer: 1 },
+    { q: "The children are playing ________ the rain.", options: ["in", "on", "at", "under"], answer: 0 },
+    { q: "He looked ________ the telescope to see the stars closely.", options: ["by", "through", "with", "in"], answer: 1 },
+    { q: "The shop is situated just ________ the corner of the street.", options: ["in", "on", "at", "by"], answer: 2 },
+    { q: "She has been working in this company ________ 2020.", options: ["for", "since", "from", "until"], answer: 1 },
+    { q: "The old man walked slowly ________ the dark tunnel.", options: ["across", "through", "over", "on"], answer: 1 },
+    { q: "Birds migrate to warmer places ________ winter.", options: ["in", "on", "at", "by"], answer: 0 },
+    { q: "The cat is hiding ________ the curtains.", options: ["behind", "under", "above", "on"], answer: 0 },
+    { q: "Please hand your assignments ________ the teacher before Friday.", options: ["to", "at", "in", "on"], answer: 0 },
+    { q: "We walked ________ the beach and collected beautiful seashells.", options: ["across", "along", "through", "over"], answer: 1 },
+    { q: "The picture hangs neatly ________ the fireplace.", options: ["above", "under", "in", "between"], answer: 0 },
+    { q: "He poured the warm milk ________ the glass mug.", options: ["in", "into", "on", "onto"], answer: 1 },
+    { q: "The temperature drops below zero ________ night.", options: ["in", "on", "at", "by"], answer: 2 },
+    { q: "She sat quietly ________ her mother during the ceremony.", options: ["beside", "over", "between", "under"], answer: 0 },
+    { q: "The swimmer dived gracefully ________ the swimming pool.", options: ["in", "into", "onto", "on"], answer: 1 },
+    { q: "I am looking ________ my lost pen everywhere.", options: ["at", "for", "after", "into"], answer: 1 },
+    { q: "The train passed safely ________ the long dark tunnel.", options: ["across", "through", "over", "under"], answer: 1 },
+    { q: "We stayed at a cozy hotel ________ our vacation in Penang.", options: ["in", "on", "at", "during"], answer: 3 },
+    { q: "The spider crawled slowly ________ the bedroom wall.", options: ["across", "over", "on", "through"], answer: 2 },
+    { q: "My house is just ________ the street from the local school.", options: ["across", "over", "through", "along"], answer: 0 },
+    { q: "The cat fell asleep ________ the warm blanket.", options: ["under", "above", "between", "behind"], answer: 0 },
+    { q: "He prefers to study ________ the library because it is quiet.", options: ["on", "at", "in", "by"], answer: 2 },
+    { q: "The airplane flew directly ________ our town.", options: ["over", "under", "across", "through"], answer: 0 },
+    { q: "Please leave your muddy shoes ________ the front door.", options: ["at", "in", "on", "over"], answer: 0 },
+    { q: "The secret message was written ________ invisible ink.", options: ["by", "with", "in", "on"], answer: 2 },
     { q: "She divided the chocolate cake equally ________ her three friends.", options: ["between", "among", "in", "with"], answer: 1 }
 ],
            conjunctions: [
     { q: "I like apples ________ oranges.", options: ["and", "but", "or", "so"], answer: 0 },
+    { q: "He is rich ________ he is not happy.", options: ["and", "but", "so", "or"], answer: 1 },
+    { q: "Do you want tea ________ coffee?", options: ["and", "but", "or", "so"], answer: 2 },
+    { q: "She stayed home ________ she was feeling sick.", options: ["because", "but", "or", "and"], answer: 0 },
+    { q: "It started to rain, ________ we took out our umbrellas.", options: ["because", "so", "but", "or"], answer: 1 },
+    { q: "Abu is tall ________ his brother is short.", options: ["and", "or", "but", "because"], answer: 2 },
+    { q: "You can play video games ________ you finish your homework.", options: ["after", "but", "or", "so"], answer: 0 },
+    { q: "Wash your hands ________ you eat your meal.", options: ["before", "but", "so", "or"], answer: 0 },
+    { q: "He ran fast, ________ he missed the bus.", options: ["and", "but", "so", "because"], answer: 1 },
+    { q: "Is the answer true ________ false?", options: ["and", "but", "or", "so"], answer: 2 },
+    { q: "We wanted to go to the beach, ________ it started raining heavily.", options: ["so", "but", "and", "or"], answer: 1 },
+    { q: "She loves reading books ________ writing short stories.", options: ["or", "but", "and", "so"], answer: 2 },
+    { q: "You must hurry up, ________ you will miss the train.", options: ["or", "and", "but", "because"], answer: 0 },
+    { q: "He was very tired, ________ he went to sleep early.", options: ["because", "so", "but", "or"], answer: 1 },
+    { q: "I will call you ________ I reach home safely.", options: ["when", "but", "so", "or"], answer: 0 },
+    { q: "Ali could not attend the party ________ he was sick.", options: ["so", "because", "but", "and"], answer: 1 },
+    { q: "Would you prefer an ice cream ________ a piece of cake?", options: ["and", "but", "or", "so"], answer: 2 },
+    { q: "The test was difficult, ________ most students passed it.", options: ["although", "because", "so", "and"], answer: 0 },
+    { q: "Keep quiet ________ the teacher is explaining the lesson.", options: ["while", "but", "so", "or"], answer: 0 },
+    { q: "She practiced every day, ________ she won the singing competition.", options: ["because", "so", "but", "or"], answer: 1 },
+    { q: "Father bought a new car ________ it was on sale.", options: ["because", "but", "so", "and"], answer: 0 },
+    { q: "We can watch a movie ________ we finish our chores.", options: ["after", "but", "so", "or"], answer: 0 },
+    { q: "He is small in size, ________ he is very strong.", options: ["and", "or", "but", "because"], answer: 2 },
+    { q: "Take an umbrella with you ________ it rains later.", options: ["in case", "so", "but", "and"], answer: 0 },
+    { q: "She brushed her teeth ________ she went to bed.", options: ["before", "after", "while", "so"], answer: 0 },
+    { q: "Neither John ________ his brother came to the meeting.", options: ["or", "nor", "and", "but"], answer: 1 },
+    { q: "The weather was cold ________ windy yesterday.", options: ["and", "but", "or", "so"], answer: 0 },
+    { q: "I didn't buy the shoes ________ they were too expensive.", options: ["because", "so", "but", "and"], answer: 0 },
+    { q: "You can have either the red shirt ________ the blue one.", options: ["and", "nor", "or", "but"], answer: 2 },
+    { q: "He studied hard for the exam, ________ he got an A.", options: ["because", "so", "but", "or"], answer: 1 },
+    { q: "Mother cooked dinner ________ we set the dining table.", options: ["while", "because", "but", "so"], answer: 0 },
+    { q: "She smiled ________ she was feeling sad inside.", options: ["although", "because", "so", "and"], answer: 0 },
+    { q: "Turn off the lights ________ you leave the room.", options: ["before", "after", "so", "because"], answer: 0 },
+    { q: "The boy fell off his bicycle, ________ he did not cry.", options: ["and", "but", "so", "or"], answer: 1 },
+    { q: "We stayed indoors ________ the heavy thunderstorm.", options: ["because of", "because", "so", "but"], answer: 0 },
+    { q: "Both Ali ________ Ahmad are talented football players.", options: ["and", "or", "nor", "but"], answer: 0 },
+    { q: "He missed the school bus ________ he woke up late.", options: ["so", "because", "but", "and"], answer: 1 },
+    { q: "I waited for my friend ________ he arrived.", options: ["until", "because", "so", "but"], answer: 0 },
+    { q: "The water was freezing, ________ we still went swimming.", options: ["so", "yet", "because", "or"], answer: 1 },
+    { q: "Please check your answers ________ you submit the test paper.", options: ["before", "after", "while", "so"], answer: 0 },
+    { q: "She sings ________ she plays the piano wonderfully.", options: ["and", "but", "or", "so"], answer: 0 },
+    { q: "The little girl was crying ________ she lost her favorite toy.", options: ["because", "so", "but", "and"], answer: 0 },
+    { q: "We must hurry, ________ we will be late for school.", options: ["or", "and", "but", "because"], answer: 0 },
+    { q: "He wore a thick jacket ________ it was snowing outside.", options: ["because", "so", "but", "or"], answer: 0 },
+    { q: "Finish your homework ________ you can play later.", options: ["so", "and", "but", "or"], answer: 0 },
+    { q: "The old man walked slowly ________ steadily.", options: ["but", "and", "or", "so"], answer: 1 },
+    { q: "I like him ________ he is always kind and helpful.", options: ["because", "so", "but", "or"], answer: 0 },
+    { q: "She washed the dishes ________ her brother dried them.", options: ["while", "because", "so", "but"], answer: 0 },
+    { q: "The test was long, ________ it was quite easy.", options: ["and", "but", "or", "so"], answer: 1 },
     { q: "He dropped the glass cup, ________ it broke into pieces.", options: ["because", "so", "but", "or"], answer: 1 }
 ],
             articles: [
 { q: "She wants to eat ________ apple.", options: ["a", "an", "the", "-"], answer: 1 },
+{ q: "I saw ________ cat in our backyard.", options: ["a", "an", "the", "-"], answer: 0 },
+{ q: "________ sun rises in the east.", options: ["A", "An", "The", "-"], answer: 2 },
+{ q: "He bought ________ umbrella yesterday.", options: ["a", "an", "the", "-"], answer: 1 },
+{ q: "My brother is ________ honest boy.", options: ["a", "an", "the", "-"], answer: 1 },
+{ q: "Please give me ________ book on the desk.", options: ["a", "an", "the", "-"], answer: 2 },
+{ q: "There is ________ elephant at the zoo.", options: ["a", "an", "the", "-"], answer: 1 },
+{ q: "Ali has ________ pet dog.", options: ["a", "an", "the", "-"], answer: 0 },
+{ q: "She is ________ best student in class.", options: ["a", "an", "the", "-"], answer: 2 },
+{ q: "He waits for ________ hour.", options: ["a", "an", "the", "-"], answer: 1 },
+{ q: "We went to ________ French restaurant last night.", options: ["a", "an", "the", "-"], answer: 0 },
+{ q: "Paris is ________ capital of France.", options: ["a", "an", "the", "-"], answer: 2 },
+{ q: "She loves reading ________ books in her free time.", options: ["a", "an", "the", "-"], answer: 3 },
+{ q: "Can you close ________ door, please?", options: ["a", "an", "the", "-"], answer: 2 },
+{ q: "My father is ________ engineer.", options: ["a", "an", "the", "-"], answer: 1 },
+{ q: "Mount Everest is ________ highest mountain in the world.", options: ["a", "an", "the", "-"], answer: 2 },
+{ q: "They live in ________ old house near the river.", options: ["a", "an", "the", "-"], answer: 1 },
+{ q: "I need to buy ________ new laptop for university.", options: ["a", "an", "the", "-"], answer: 0 },
+{ q: "He is playing ________ piano in the living room.", options: ["a", "an", "the", "-"], answer: 2 },
+{ q: "________ water boils at 100 degrees Celsius.", options: ["A", "An", "The", "-"], answer: 3 },
+{ q: "Do you have ________ umbrella I can borrow?", options: ["a", "an", "the", "-"], answer: 1 },
+{ q: "She wants to become ________ doctor when she grows up.", options: ["a", "an", "the", "-"], answer: 0 },
+{ q: "I found ________ useful website for our project.", options: ["a", "an", "the", "-"], answer: 0 },
+{ q: "He speaks ________ English fluently.", options: ["a", "an", "the", "-"], answer: 3 },
+{ q: "The Pacific Ocean is ________ largest ocean on Earth.", options: ["a", "an", "the", "-"], answer: 2 },
+{ q: "They usually eat ________ dinner at 8 PM.", options: ["a", "an", "the", "-"], answer: 3 },
+{ q: "She ate ________ orange for breakfast this morning.", options: ["a", "an", "the", "-"], answer: 1 },
+{ q: "Look at ________ moon tonight! It looks so bright.", options: ["a", "an", "the", "-"], answer: 2 },
+{ q: "My mother gave me ________ piece of advice.", options: ["a", "an", "the", "-"], answer: 0 },
+{ q: "We visited ________ Louvre Museum when we were in Paris.", options: ["a", "an", "the", "-"], answer: 2 },
+{ q: "He is ________ university student.", options: ["a", "an", "the", "-"], answer: 0 },
+{ q: "________ cats are independent animals.", options: ["A", "An", "The", "-"], answer: 3 },
+{ q: "I saw ________ eagle flying high in the sky.", options: ["a", "an", "the", "-"], answer: 1 },
+{ q: "Could you pass me ________ salt, please?", options: ["a", "an", "the", "-"], answer: 2 },
+{ q: "She has ________ headache today.", options: ["a", "an", "the", "-"], answer: 0 },
+{ q: "They arrived in London on ________ Monday.", options: ["a", "an", "the", "-"], answer: 3 },
+{ q: "This is ________ best movie I have ever watched.", options: ["a", "an", "the", "-"], answer: 2 },
+{ q: "He ate ________ sandwich for lunch.", options: ["a", "an", "the", "-"], answer: 0 },
+{ q: "Honesty is ________ best policy.", options: ["a", "an", "the", "-"], answer: 2 },
+{ q: "Do you like playing ________ football?", options: ["a", "an", "the", "-"], answer: 3 },
+{ q: "I need ________ information about the flight schedule.", options: ["a", "an", "the", "-"], answer: 3 },
+{ q: "She wore ________ beautiful dress to the party.", options: ["a", "an", "the", "-"], answer: 0 },
+{ q: "Madrid is ________ capital of Spain.", options: ["a", "an", "the", "-"], answer: 2 },
+{ q: "He works as ________ artist in the city center.", options: ["a", "an", "the", "-"], answer: 1 },
+{ q: "We had ________ wonderful time on our vacation.", options: ["a", "an", "the", "-"], answer: 0 },
+{ q: "________ Nile is the longest river in Africa.", options: ["A", "An", "The", "-"], answer: 2 },
+{ q: "She bought ________ pair of shoes yesterday.", options: ["a", "an", "the", "-"], answer: 0 },
+{ q: "My sister loves listening to ________ music.", options: ["a", "an", "the", "-"], answer: 3 },
+{ q: "He is ________ tallest boy in our class.", options: ["a", "an", "the", "-"], answer: 2 },
 { q: "There is ________ fly in my soup!", options: ["a", "an", "the", "-"], answer: 0 }
             ],
  presentTense: [
     { q: "Cats ________ milk.", options: ["drink", "drinks", "drinking", "drank"], answer: 0 },
+    { q: "He ________ to school every day.", options: ["cycle", "cycles", "cycling", "cycled"], answer: 1 },
+    { q: "I ________ English grammar.", options: ["love", "loves", "loving", "loved"], answer: 0 },
+    { q: "My mother ________ delicious food.", options: ["cook", "cooks", "cooking", "cooked"], answer: 1 },
+    { q: "Birds ________ in the sky.", options: ["fly", "flies", "flying", "flew"], answer: 0 },
+    { q: "The sun ________ in the east.", options: ["set", "sets", "setting", "rises"], answer: 3 },
+    { q: "We ________ football every evening.", options: ["play", "plays", "playing", "played"], answer: 0 },
+    { q: "She ________ her teeth twice a day.", options: ["brush", "brushes", "brushed", "brushing"], answer: 1 },
+    { q: "They ________ hard for their exams.", options: ["study", "studies", "studying", "studied"], answer: 0 },
+    { q: "A dog ________ a tail.", options: ["have", "has", "having", "had"], answer: 1 },
+    { q: "Water ________ at 100 degrees Celsius.", options: ["boil", "boils", "boiling", "boiled"], answer: 1 },
+    { q: "They ________ in a big house near the city.", options: ["lives", "living", "live", "lived"], answer: 2 },
+    { q: "She always ________ breakfast before going to work.", options: ["eat", "eating", "eats", "ate"], answer: 2 },
+    { q: "Children ________ playing video games.", options: ["likes", "like", "liking", "liked"], answer: 1 },
+    { q: "My father ________ a blue car.", options: ["drive", "driving", "drives", "drove"], answer: 2 },
+    { q: "He ________ how to play the guitar very well.", options: ["knowing", "knew", "know", "knows"], answer: 3 },
+    { q: "We ________ our grandparents every weekend.", options: ["visit", "visits", "visiting", "visited"], answer: 0 },
+    { q: "The Earth ________ around the sun.", options: ["revolve", "revolving", "revolves", "revolved"], answer: 2 },
+    { q: "Ali and Ahmad ________ good friends.", options: ["is", "am", "are", "be"], answer: 2 },
+    { q: "An honest person never ________.", options: ["lie", "lies", "lying", "lied"], answer: 1 },
+    { q: "She ________ French and Spanish fluently.", options: ["speak", "speaking", "speaks", "spoke"], answer: 2 },
+    { q: "Good students ________ to their teachers carefully.", options: ["listen", "listens", "listening", "listened"], answer: 0 },
+    { q: "My sister ________ a book before going to sleep.", options: ["read", "reading", "reads", "readed"], answer: 2 },
+    { q: "Babies ________ when they are hungry.", options: ["cries", "crying", "cry", "cried"], answer: 2 },
+    { q: "He ________ to music while working.", options: ["listen", "listening", "listens", "listened"], answer: 2 },
+    { q: "Farmers ________ crops in the fields.", options: ["grow", "grows", "growing", "grew"], answer: 0 },
+    { q: "The train ________ at 8:00 AM every morning.", options: ["leave", "leaving", "leaves", "left"], answer: 2 },
+    { q: "I ________ what you mean.", options: ["understand", "understands", "understanding", "understood"], answer: 0 },
+    { q: "Fire ________ hot.", options: ["are", "is", "am", "be"], answer: 1 },
+    { q: "Flowers ________ in spring.", options: ["bloom", "blooms", "blooming", "bloomed"], answer: 0 },
+    { q: "She ________ her room every Saturday.", options: ["clean", "cleaning", "cleans", "cleaned"], answer: 2 },
+    { q: "Dogs ________ when they see strangers.", options: ["bark", "barks", "barking", "barked"], answer: 0 },
+    { q: "He ________ very hard for his family.", options: ["work", "working", "works", "worked"], answer: 2 },
+    { q: "We ________ breakfast at 7 AM daily.", options: ["have", "has", "having", "had"], answer: 0 },
+    { q: "The sun ________ us warmth and light.", options: ["give", "giving", "gives", "gave"], answer: 2 },
+    { q: "Birds ________ nests in tall trees.", options: ["build", "builds", "building", "built"], answer: 0 },
+    { q: "She ________ coffee every morning.", options: ["drink", "drinking", "drinks", "drank"], answer: 2 },
+    { q: "I ________ my homework after dinner.", options: ["do", "does", "doing", "did"], answer: 0 },
+    { q: "He ________ tired after a long day at work.", options: ["feel", "feeling", "feels", "felt"], answer: 2 },
+    { q: "Cats ________ well in the dark.", options: ["see", "sees", "seeing", "saw"], answer: 0 },
+    { q: "The library ________ at 9 PM on weekdays.", options: ["close", "closing", "closes", "closed"], answer: 2 },
+    { q: "You ________ very smart.", options: ["is", "am", "are", "be"], answer: 2 },
+    { q: "She ________ her mother in the kitchen.", options: ["help", "helping", "helps", "helped"], answer: 2 },
+    { q: "They ________ television in the evening.", options: ["watch", "watches", "watching", "watched"], answer: 0 },
+    { q: "A chef ________ food in a restaurant.", options: ["cook", "cooking", "cooks", "cooked"], answer: 2 },
+    { q: "Stars ________ brightly at night.", options: ["shine", "shines", "shining", "shone"], answer: 0 },
+    { q: "He ________ a shower every morning.", options: ["take", "taking", "takes", "took"], answer: 2 },
+    { q: "We ________ in Malaysia.", options: ["live", "lives", "living", "lived"], answer: 0 },
+    { q: "The shop ________ fresh bread daily.", options: ["sell", "selling", "sells", "sold"], answer: 2 },
     { q: "She always ________ the truth.", options: ["tell", "telling", "tells", "told"], answer: 2 }
 ],
             pastTense: [
     { q: "Yesterday, I ________ to the library.", options: ["go", "goes", "went", "going"], answer: 2 },
+    { q: "She ________ a letter last night.", options: ["write", "writes", "wrote", "writing"], answer: 2 },
+    { q: "They ________ football last weekend.", options: ["play", "plays", "played", "playing"], answer: 2 },
+    { q: "My father ________ a new car last month.", options: ["buy", "buys", "bought", "buying"], answer: 2 },
+    { q: "The baby ________ all night long.", options: ["cry", "cries", "cried", "crying"], answer: 2 },
+    { q: "We ________ a movie yesterday.", options: ["watch", "watches", "watched", "watching"], answer: 2 },
+    { q: "He ________ an apple just now.", options: ["eat", "eats", "ate", "eating"], answer: 2 },
+    { q: "It ________ heavily last evening.", options: ["rain", "rains", "rained", "raining"], answer: 2 },
+    { q: "Ali ________ his homework an hour ago.", options: ["finish", "finishes", "finished", "finishing"], answer: 2 },
+    { q: "The bird ________ away quickly.", options: ["fly", "flies", "flew", "flying"], answer: 2 },
+    { q: "She ________ her keys on the table five minutes ago.", options: ["leave", "leaves", "left", "leaving"], answer: 2 },
+    { q: "They ________ to Japan for their holiday last year.", options: ["travel", "travels", "traveled", "travelling"], answer: 2 },
+    { q: "I ________ a strange noise outside my room last night.", options: ["hear", "hears", "heard", "hearing"], answer: 2 },
+    { q: "He ________ his bike to school this morning.", options: ["rode", "ride", "rides", "riding"], answer: 0 },
+    { q: "The teacher ________ a difficult question on the board.", options: ["write", "wrote", "written", "writing"], answer: 1 },
+    { q: "We ________ dinner at an Italian restaurant yesterday.", options: ["eat", "ate", "eaten", "eating"], answer: 1 },
+    { q: "She ________ her hand to answer the question.", options: ["raise", "raises", "raised", "raising"], answer: 2 },
+    { q: "My mother ________ a delicious cake for my birthday.", options: ["bake", "baked", "bakes", "baking"], answer: 1 },
+    { q: "The thief ________ through the open window.", options: ["escape", "escapes", "escaped", "escaping"], answer: 2 },
+    { q: "I ________ my best friend at the shopping mall last Sunday.", options: ["meet", "met", "meets", "meeting"], answer: 1 },
+    { q: "He ________ a glass of water because he was thirsty.", options: ["drink", "drank", "drunk", "drinking"], answer: 1 },
+    { q: "The sun ________ brightly yesterday.", options: ["shine", "shines", "shone", "shining"], answer: 2 },
+    { q: "They ________ the house before the guests arrived.", options: ["clean", "cleaned", "cleans", "cleaning"], answer: 1 },
+    { q: "She ________ her grandmother on the phone last night.", options: ["call", "called", "calls", "calling"], answer: 1 },
+    { q: "The cat ________ up the tree to catch a bird.", options: ["climb", "climbs", "climbed", "climbing"], answer: 2 },
+    { q: "I ________ a ghost story before going to sleep.", options: ["read", "reads", "reading", "readed"], answer: 0 },
+    { q: "He ________ his wallet in the park yesterday.", options: ["lose", "lost", "loses", "losing"], answer: 1 },
+    { q: "We ________ the test results last Monday.", options: ["receive", "received", "receives", "receiving"], answer: 1 },
+    { q: "She ________ a beautiful song at the talent show.", options: ["sing", "sang", "sung", "singing"], answer: 1 },
+    { q: "The baby ________ asleep within minutes.", options: ["fall", "fell", "fallen", "falling"], answer: 1 },
+    { q: "They ________ a new computer last week.", options: ["buy", "bought", "buys", "buying"], answer: 1 },
+    { q: "I ________ my umbrella at home, so I got wet.", options: ["forget", "forgot", "forgotten", "forgetting"], answer: 1 },
+    { q: "He ________ very tired after running a marathon.", options: ["was", "were", "is", "are"], answer: 0 },
+    { q: "The students ________ quietly during the examination.", options: ["sit", "sat", "sitting", "sits"], answer: 1 },
+    { q: "She ________ her hair short last month.", options: ["cut", "cuts", "cutting", "cuted"], answer: 0 },
+    { q: "We ________ a lot of interesting places during our trip.", options: ["see", "saw", "seen", "seeing"], answer: 1 },
+    { q: "The wind ________ strongly last night.", options: ["blow", "blew", "blown", "blowing"], answer: 1 },
+    { q: "He ________ to the radio while driving.", options: ["listen", "listened", "listens", "listening"], answer: 1 },
+    { q: "They ________ soccer in the rain yesterday.", options: ["play", "played", "plays", "playing"], answer: 1 },
+    { q: "I ________ a picture of the sunset.", options: ["take", "took", "taken", "taking"], answer: 1 },
+    { q: "She ________ her room before going out.", options: ["tidy", "tidied", "tidies", "tidying"], answer: 1 },
+    { q: "The phone ________ while I was having a shower.", options: ["ring", "rang", "rung", "ringing"], answer: 1 },
+    { q: "We ________ a great time at the party.", options: ["have", "had", "has", "having"], answer: 1 },
+    { q: "He ________ his name at the bottom of the form.", options: ["sign", "signed", "signs", "signing"], answer: 1 },
+    { q: "The dog ________ loudly at the postman.", options: ["bark", "barked", "barks", "barking"], answer: 1 },
+    { q: "She ________ the door because it was noisy outside.", options: ["shut", "shuts", "shutting", "shuted"], answer: 0 },
+    { q: "I ________ my keys in my pocket all day.", options: ["keep", "kept", "keeps", "keeping"], answer: 1 },
+    { q: "They ________ up early in the morning.", options: ["wake", "woke", "woken", "waking"], answer: 1 },
+    { q: "He ________ the window to let some fresh air in.", options: ["open", "opened", "opens", "opening"], answer: 1 },
     { q: "We ________ English grammar last semester.", options: ["learn", "learned", "learns", "learning"], answer: 1 }
 ],
            singularPlural: [
     { q: "Plural form of 'child' is ________.", options: ["childs", "children", "childes", "child"], answer: 1 },
+    { q: "Plural form of 'box' is ________.", options: ["boxs", "boxes", "boxen", "box"], answer: 1 },
+    { q: "Singular form of 'teeth' is ________.", options: ["tooth", "teeths", "toot", "teeth"], answer: 0 },
+    { q: "Plural form of 'baby' is ________.", options: ["babys", "babies", "baby", "babes"], answer: 1 },
+    { q: "Plural form of 'fish' is usually ________.", options: ["fishes", "fish", "fishs", "fishen"], answer: 1 },
+    { q: "Plural form of 'man' is ________.", options: ["mans", "men", "menn", "man"], answer: 1 },
+    { q: "Plural form of 'tomato' is ________.", options: ["tomatos", "tomatoes", "tomato", "tomatoe"], answer: 1 },
+    { q: "Singular form of 'mice' is ________.", options: ["mouse", "mices", "mous", "mice"], answer: 0 },
+    { q: "Plural form of 'bus' is ________.", options: ["buss", "buses", "busies", "busi"], answer: 1 },
+    { q: "Plural form of 'foot' is ________.", options: ["foots", "feets", "feet", "foot"], answer: 2 },
+    { q: "Plural form of 'city' is ________.", options: ["cities", "citys", "cites", "city"], answer: 0 },
+    { q: "Singular form of 'geese' is ________.", options: ["goose", "geese", "gouse", "gees"], answer: 0 },
+    { q: "Plural form of 'leaf' is ________.", options: ["leafs", "leaves", "leafes", "leave"], answer: 1 },
+    { q: "Plural form of 'person' is ________.", options: ["persons", "people", "peoples", "person"], answer: 1 },
+    { q: "Singular form of 'women' is ________.", options: ["womans", "woman", "womens", "womyn"], answer: 1 },
+    { q: "Plural form of 'knife' is ________.", options: ["knifes", "knives", "knifees", "knife"], answer: 1 },
+    { q: "Plural form of 'potato' is ________.", options: ["potatos", "potatoes", "potatoe", "potati"], answer: 1 },
+    { q: "Plural form of 'sheep' is ________.", options: ["sheeps", "sheep", "sheepen", "sheepes"], answer: 1 },
+    { q: "Singular form of 'oxen' is ________.", options: ["ox", "oxes", "oxen", "oxs"], answer: 0 },
+    { q: "Plural form of 'mouse' is ________.", options: ["mouses", "mice", "mices", "mouse"], answer: 1 },
+    { q: "Plural form of 'country' is ________.", options: ["countrys", "countries", "countrie", "countris"], answer: 1 },
+    { q: "Plural form of 'story' is ________.", options: ["stories", "storys", "storeis", "store"], answer: 0 },
+    { q: "Plural form of 'hero' is ________.", options: ["heros", "heroes", "heroies", "hero"], answer: 1 },
+    { q: "Plural form of 'party' is ________.", options: ["partys", "parties", "partes", "parti"], answer: 1 },
+    { q: "Plural form of 'wolf' is ________.", options: ["wolfs", "wolves", "wolfes", "wolvs"], answer: 1 },
+    { q: "Plural form of 'half' is ________.", options: ["halfs", "halves", "halve", "halfes"], answer: 1 },
+    { q: "Plural form of 'family' is ________.", options: ["familys", "families", "familie", "famil"], answer: 1 },
+    { q: "Plural form of 'cherry' is ________.", options: ["cherrys", "cherries", "cherryes", "cherri"], answer: 1 },
+    { q: "Plural form of 'watch' is ________.", options: ["watchs", "watches", "watchies", "watch"], answer: 1 },
+    { q: "Plural form of 'brush' is ________.", options: ["brushs", "brushes", "brushies", "brush"], answer: 1 },
+    { q: "Plural form of 'dish' is ________.", options: ["dishs", "dishes", "dishies", "dish"], answer: 1 },
+    { q: "Plural form of 'mango' is ________.", options: ["mangos", "mangoes", "mango", "mangoe"], answer: 1 },
+    { q: "Plural form of 'church' is ________.", options: ["churchs", "churches", "churchies", "church"], answer: 1 },
+    { q: "Singular form of 'feet' is ________.", options: ["foot", "feets", "fot", "foots"], answer: 0 },
+    { q: "Plural form of 'glass' is ________.", options: ["glasss", "glasses", "glassies", "glass"], answer: 1 },
+    { q: "Plural form of 'thief' is ________.", options: ["thiefs", "thieves", "thiefes", "thivs"], answer: 1 },
+    { q: "Plural form of 'lady' is ________.", options: ["ladys", "ladies", "ladyes", "ladeis"], answer: 1 },
+    { q: "Singular form of 'teeth' is ________.", options: ["tooth", "teeth", "toot", "teet"], answer: 0 },
+    { q: "Plural form of 'monkey' is ________.", options: ["monkies", "monkeys", "monkei", "monkees"], answer: 1 },
+    { q: "Plural form of 'key' is ________.", options: ["keys", "kies", "keye", "keies"], answer: 0 },
+    { q: "Plural form of 'day' is ________.", options: ["days", "daies", "dayes", "dais"], answer: 0 },
+    { q: "Plural form of 'boy' is ________.", options: ["boys", "boies", "boyes", "boisi"], answer: 0 },
+    { q: "Plural form of 'zoo' is ________.", options: ["zoos", "zooes", "zoi", "zous"], answer: 0 },
+    { q: "Plural form of 'radio' is ________.", options: ["radios", "radioes", "radis", "radii"], answer: 0 },
+    { q: "Plural form of 'piano' is ________.", options: ["pianos", "pianoes", "pianis", "pianii"], answer: 0 },
+    { q: "Singular form of 'men' is ________.", options: ["man", "mens", "mann", "min"], answer: 0 },
     { q: "Plural form of 'deer' is ________.", options: ["deers", "deer", "deeren", "deeres"], answer: 1 }
 ],
            demonstratives: [
     { q: "________ is my apple here in my hand.", options: ["This", "That", "These", "Those"], answer: 0 },
+    { q: "Look at ________ stars high up in the sky.", options: ["this", "that", "these", "those"], answer: 3 },
+    { q: "________ books on this desk belong to me.", options: ["This", "That", "These", "Those"], answer: 2 },
+    { q: "Is ________ bird far away an eagle?", options: ["this", "that", "these", "those"], answer: 1 },
+    { q: "________ are my new shoes.", options: ["This", "That", "These", "Those"], answer: 2 },
+    { q: "Can you see ________ airplanes flying far away?", options: ["this", "that", "these", "those"], answer: 3 },
+    { q: "________ is a wonderful day.", options: ["This", "That", "These", "Those"], answer: 0 },
+    { q: "Who left ________ dirty dishes over there?", options: ["this", "that", "these", "those"], answer: 3 },
+    { q: "Take ________ pencil and write your name.", options: ["this", "these", "those", "they"], answer: 0 },
+    { q: "________ mountains in the distance are huge.", options: ["This", "That", "These", "Those"], answer: 3 },
+    { q: "________ cat beside me is very friendly.", options: ["This", "That", "These", "Those"], answer: 0 },
+    { q: "Who owns ________ car parked across the street?", options: ["this", "that", "these", "those"], answer: 1 },
+    { q: "________ flowers in my garden smell lovely.", options: ["This", "That", "These", "Those"], answer: 2 },
+    { q: "Can you hand me ________ pen right here?", options: ["this", "that", "these", "those"], answer: 0 },
+    { q: "________ clouds over there look dark.", options: ["This", "That", "These", "Those"], answer: 3 },
+    { q: "I love ________ cookies that I am eating.", options: ["this", "that", "these", "those"], answer: 2 },
+    { q: "Do you remember ________ trip we took last year?", options: ["this", "that", "these", "those"], answer: 1 },
+    { q: "________ shoes that you are wearing look nice.", options: ["This", "That", "These", "Those"], answer: 3 },
+    { q: "Is ________ your jacket hanging on the hook?", options: ["this", "that", "these", "those"], answer: 1 },
+    { q: "________ students in the front row are paying attention.", options: ["This", "That", "These", "Those"], answer: 2 },
+    { q: "Put ________ boxes over there in the corner.", options: ["this", "that", "these", "those"], answer: 3 },
+    { q: "________ is my favorite song.", options: ["This", "That", "These", "Those"], answer: 0 },
+    { q: "Listen to ________ instructions carefully.", options: ["this", "that", "these", "those"], answer: 2 },
+    { q: "________ house on the hill is very old.", options: ["This", "That", "These", "Those"], answer: 1 },
+    { q: "Hold ________ end of the rope for me.", options: ["this", "that", "these", "those"], answer: 0 },
+    { q: "________ are the best moments of my life.", options: ["This", "That", "These", "Those"], answer: 2 },
+    { q: "Do you see ________ bird in that tree?", options: ["this", "that", "these", "those"], answer: 1 },
+    { q: "________ questions on this page are difficult.", options: ["This", "That", "These", "Those"], answer: 2 },
+    { q: "Who wrote ________ amazing book I am reading?", options: ["this", "that", "these", "those"], answer: 0 },
+    { q: "________ are my keys here in my pocket.", options: ["This", "That", "These", "Those"], answer: 2 },
+    { q: "Could you pass me ________ papers on your desk?", options: ["this", "that", "these", "those"], answer: 2 },
+    { q: "________ was a terrible mistake we made yesterday.", options: ["This", "That", "These", "Those"], answer: 1 },
+    { q: "Are ________ your books across the room?", options: ["this", "that", "these", "those"], answer: 3 },
+    { q: "________ coffee in my mug is still hot.", options: ["This", "That", "These", "Those"], answer: 0 },
+    { q: "Look at ________ puppies playing in the yard.", options: ["this", "that", "these", "those"], answer: 3 },
+    { q: "________ cake here tastes delicious.", options: ["This", "That", "These", "Those"], answer: 0 },
+    { q: "I will never forget ________ day we first met.", options: ["this", "that", "these", "those"], answer: 1 },
+    { q: "________ are my friends standing next to me.", options: ["This", "That", "These", "Those"], answer: 2 },
+    { q: "Take ________ apples and wash them.", options: ["this", "that", "these", "those"], answer: 2 },
+    { q: "________ man standing over there is a famous actor.", options: ["This", "That", "These", "Those"], answer: 1 },
+    { q: "________ tests we took last week were difficult.", options: ["This", "That", "These", "Those"], answer: 3 },
+    { q: "Is ________ your phone on the table?", options: ["this", "that", "these", "those"], answer: 0 },
+    { q: "________ are my favorite shoes.", options: ["This", "That", "These", "Those"], answer: 2 },
+    { q: "Did you hear ________ loud noise outside?", options: ["this", "that", "these", "those"], answer: 1 },
+    { q: "________ trees near our house give us shade.", options: ["This", "That", "These", "Those"], answer: 2 },
+    { q: "Who put ________ dirty cups over there?", options: ["this", "that", "these", "those"], answer: 3 },
+    { q: "________ soup I am tasting needs more salt.", options: ["This", "That", "These", "Those"], answer: 0 },
+    { q: "Look at ________ painting on the far wall.", options: ["this", "that", "these", "those"], answer: 1 },
+    { q: "________ tasks for today are quite simple.", options: ["This", "That", "These", "Those"], answer: 2 },
     { q: "Can you explain ________ rule to me again?", options: ["this", "that", "these", "those"], answer: 0 }
 ]
         };
 
         const spellingBank = [
             { word: "CAT", img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=300" },
+            { word: "DOG", img: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=300" },
+            { word: "BOOK", img: "https://static.vecteezy.com/system/resources/previews/017/222/245/original/3d-stack-of-books-3d-rendering-illustration-free-png.png" },
+            { word: "APPLE", img: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=300" },
+            { word: "FISH", img: "https://images.unsplash.com/photo-1524704654690-b56c05c78a00?w=300" },
+            { word: "TREE", img: "https://cdn.pixabay.com/photo/2022/05/10/11/12/tree-7186835_1280.jpg" },
+            { word: "STAR", img: "https://img.magnific.com/free-vector/3d-metal-star-isolated_1308-117760.jpg?semt=ais_hybrid&w=740&q=80" },
+            { word: "BALL", img: "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=300" },
+            { word: "DUCK", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1lBQsIP8TQKvt8bDqEax2r9twBadftD7t-7IjBZq7JQ&s=10" },
+            { word: "MILK", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300" },
+            { word: "BIRD", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuARXyNRb3k_lCTA_GM4lq69RUZVpJR4t3JxEJJp47XA&s" },
+            { word: "LION", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSciTKo2Thsfc7vfT75aasclu3M8WcqzrtyWBvNT8S-hw&s=10" },
+            { word: "FROG", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIWI8HWva1RNSKdWSkyqaKytfqf0wcln2LKAnJl0SH0Q&s=10" },
+            { word: "BEAR", img: "https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=300" },
+            { word: "ELEPHANT", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3kHWnHIAPU1g7Ntc42t-KG77eqv5cuys9WGa0W8o-dQ&s" },
+            { word: "HORSE", img: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=300" },
+            { word: "MONKEY", img: "https://th.bing.com/th/id/OIP.P88q_PdofyMf3gb8FnoWegHaHa?w=197&h=197&c=7&r=0&o=7&pid=1.7&rm=3" },
+            { word: "RABBIT", img: "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=300" },
+            { word: "SNAKE", img: "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?w=300" },
+            { word: "TIGER", img: "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=300" },
+            { word: "BREAD", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8usLfSSIMRUQ88bDXOTSc6NLPF02OIZBRiJLgQ5eFCw&s=10" },
+            { word: "CAKE", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=300" },
+            { word: "BANANA", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=300" },
+            { word: "EGG", img: "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=300" },
+            { word: "PIZZA", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300" },
+            { word: "CHEESE", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeoZan9I5Z0joqS7yZd4hH9WXAHtzgnHOK1Gcj5JZn6g&s=10" },
+            { word: "ORANGE", img: "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=300" },
+            { word: "ICE", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLs_c_bKivWn1OH88PQ3P5oN_vI83IaAQkHRXAiJfAsw&s=10" },
+            { word: "CHAIR", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxCkhDafNP9fQAHat2tL5th-3yUdrNZWbBjDiVYuDNpA&s=10" },
+            { word: "TABLE", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWIxpn4M3gBudIvMVmlmyw3emCdmzhfsYQkCLGZpVjfw&s=10" },
+            { word: "CLOCK", img: "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=300" },
+            { word: "LAMP", img: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=300" },
+            { word: "DOOR", img: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQ9529QdCXpa2Xbp-Vv_7WVDedpKCYoGqaZULKaRECq5F0qseaDjpiiSPvS4sF3wmTONM5ph-IcOkMQr-ZzU_TBoUOzGMEfMLvPTot7zkPx_Ub0ErpllTkOWQp6HvV-5a0hDvQFoJA&usqp=CAc" },
+            { word: "PHONE", img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300" },
+            { word: "PEN", img: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=300" },
+            { word: "CUP", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTeFa1xUDdgZxpsNEM2WjasJKH82LRYDcEykaU9d5MkQ&s=10" },
+            { word: "SUN", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJNX4krQyjlDRljzi984f8GoYVysvpweXgo37F6IKvOg&s=10" },
+            { word: "MOON", img: "https://images.unsplash.com/photo-1532693322450-2cb5c511067d?w=300" },
+            { word: "RAIN", img: "https://images.unsplash.com/photo-1519692933481-e162a57d6721?w=300" },
+            { word: "FLOWER", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTE97wzpAcXRQWUFbg6JGvWivxBLHnzFq2p9DVZRMKZg&s=10" },
+            { word: "MOUNTAIN", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=300" },
+            { word: "SEA", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300" },
+            { word: "CAR", img: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=300" },
+            { word: "BUS", img: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=300" },
+            { word: "TRAIN", img: "https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=300" },
+            { word: "BOAT", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgp7-gvfdXvwyImvq494Awxo47TcFEZf3pMZscIA1Ecw&s=10" },
+            { word: "PLANE", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3kutKSPWFsqEFe1-_DhNCgHqtS_cawayspQqfGDqQDA&s=10" },
+            { word: "HAT", img: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?w=300" },
+            { word: "SHOE", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300" },
             { word: "HAND", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6SOM7n4gFMQYI_cQTUnoprc0RM8beiEt9vzF7pTyHYw&s=10" }
         
         ];
         const sentenceBank = [
                 "The cat is sleeping on the mat.",
+"She likes to eat fresh apples.",
+"They are playing football in the park.",
+"My father drives a blue car.",
+"The sun rises in the east.",
+"We go to school every morning.",
+"Ahmad is reading an interesting book.",
+"Birds are flying high in the sky.",
+"Mother cooked delicious food for dinner.",
+"Please wash your hands before eating.",
+"The little dog barked at the stranger.",
+"I brush my teeth twice a day.",
+"There are many books in the library.",
+"She wears a beautiful dress today.",
+"The children are swimming in the pool.",
+"He bought a new laptop yesterday.",
+"Water boils at one hundred degrees.",
+"An elephant is a very huge animal.",
+"They will visit their grandparents this weekend.",
+"The teacher wrote on the whiteboard.",
+"It started to rain heavily last night.",
+"My sister loves to draw pictures.",
+"We should drink plenty of water.",
+"The boy fell off his bicycle.",
+"Cats like to drink warm milk.",
+"She opened the window for fresh air.",
+"They won the first prize in the contest.",
+"A giraffe has a very long neck.",
+"He is listening to his favorite music.",
+"My mother baked a chocolate cake.",
+"The train arrived at the station on time.",
+"We enjoyed our trip to Penang.",
+"Always be polite to your teachers.",
+"The monkeys are eating sweet bananas.",
+"She finished her homework before dinner.",
+"He lost his wallet in the market.",
+"The clock hangs on the living room wall.",
+"I saw a colorful butterfly in the garden.",
+"They walked across the old bridge.",
+"The doctor examined the sick patient.",
+"She sings a sweet song gracefully.",
+"He drinks a glass of milk every morning.",
+"The stars twinkle in the night sky.",
+"We must keep our classroom clean.",
+"The farmer is planting rice in the field.",
+"She found a shiny coin on the ground.",
+"My brother is learning how to swim.",
+"The firemen put out the big fire.",
+"We have a picnic at the beach.",
 "Always turn off the lights when you leave."
         ];
+
+
+        let currentTopic = "";
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let canAnswer = true;
+        let selectedQuestionCount = 10;
+
+        let spellingQuestions = [];
+        let spellingIndex = 0;
+        let spellingScore = 0;
+        let userFilledLetters = [];
+        let availableLetters = [];
+
+        /* BUILD THE SENTENCE VARIABLES */
+        let sentenceQuestions = [];
+        let sentenceIndex = 0;
+        let sentenceScore = 0;
+        let userArrangedWords = [];
+        let availableWords = [];
+
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById("sidebar");
+            const mobileBtn = document.getElementById("mobile-toggle-btn");
+            
+            if (sidebar.classList.contains("open")) {
+                if (!sidebar.contains(event.target) && !mobileBtn.contains(event.target)) {
+                    closeSidebar();
+                }
+            }
+        });
+
+        function closeSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            if (sidebar) {
+                sidebar.classList.remove("open");
+            }
+        }
+
+        function toggleSidebar(event) {
+            if(event) event.stopPropagation();
+            document.getElementById("sidebar").classList.toggle("open");
+        }
+
+        function navigateTo(screenId, element = null) {
+            closeSidebar();
+
+            if (element) {
+                document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+                element.classList.add('active');
+            }
+            if (screenId === 'scores-screen') {
+                window.loadScoreBoard();
+            }
+            showScreen(screenId);
+        }
+
+        function confirmBackToHome() {
+            if (confirm("Are you sure you want to exit the quiz and return to Home? Your current score for this quiz will not be saved.")) {
+                navigateTo('home-screen');
+            }
+        }
+
+        function openLesson(topic) {
+            closeSidebar();
+            currentTopic = topic;
+            const lesson = lessonData[topic];
+
+            document.getElementById("lesson-title").innerText = lesson.title;
+            document.getElementById("lesson-desc").innerHTML = lesson.desc;
+            document.getElementById("lesson-examples").innerHTML = lesson.examples;
+
+            showScreen("lesson-screen");
+        }
+
+        function proceedToQuestionCount() {
+            closeSidebar();
+            showScreen("count-selection-screen");
+        }
+
+        function startQuizWithCount(count) {
+            closeSidebar();
+            selectedQuestionCount = count;
+            if (currentTopic === 'spelling') {
+                startSpellingQuiz(count);
+            } else if (currentTopic === 'buildSentence') {
+                startBuildSentenceQuiz(count);
+            } else {
+                startQuiz(currentTopic, selectedQuestionCount);
+            }
+        }
+
+        function getFormattedDateTime() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-GB'); 
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); 
+            return `${dateStr}, ${timeStr}`;
+        }
+
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        function startQuiz(topic, count) {
+            closeSidebar();
+            currentTopic = topic;
+            
+            let extendedBank = [];
+            while (extendedBank.length < count) {
+                extendedBank = extendedBank.concat(shuffle([...questionBank[topic]]));
+            }
+            
+            currentQuestions = extendedBank.slice(0, count);
+            currentQuestionIndex = 0;
+            score = 0;
+
+            document.getElementById('topic-title').innerText = topic.toUpperCase();
+            document.getElementById('current-score').innerText = score;
+            document.getElementById('total-q-num').innerText = count;
+
+            showScreen('quiz-screen');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            canAnswer = true;
+            document.getElementById('next-btn').style.display = 'none';
+            
+            const qData = currentQuestions[currentQuestionIndex];
+            document.getElementById('question-num').innerText = currentQuestionIndex + 1;
+            document.getElementById('question-text').innerText = qData.q;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIndex, btnElement) {
+            if (!canAnswer) return;
+            canAnswer = false;
+
+            const qData = currentQuestions[currentQuestionIndex];
+            const allBtns = document.querySelectorAll('.option-btn');
+
+            if (selectedIndex === qData.answer) {
+                btnElement.classList.add('correct');
+                playCorrectSound();
+                score++;
+                document.getElementById('current-score').innerText = score;
+            } else {
+                btnElement.classList.add('wrong');
+                playWrongSound();
+                allBtns[qData.answer].classList.add('correct');
+            }
+
+            document.getElementById('next-btn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < currentQuestions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        /* SPELLING QUIZ LOGIC */
+        function startSpellingQuiz(count) {
+            let extended = [];
+            while (extended.length < count) {
+                extended = extended.concat(shuffle([...spellingBank]));
+            }
+            spellingQuestions = extended.slice(0, count);
+            spellingIndex = 0;
+            spellingScore = 0;
+
+            document.getElementById('spelling-total-q-num').innerText = count;
+            document.getElementById('spelling-current-score').innerText = spellingScore;
+
+            showScreen('spelling-quiz-screen');
+            loadSpellingQuestion();
+        }
+
+        function loadSpellingQuestion() {
+            document.getElementById('spelling-next-btn').style.display = 'none';
+            const currentItem = spellingQuestions[spellingIndex];
+
+            document.getElementById('spelling-question-num').innerText = spellingIndex + 1;
+            document.getElementById('spelling-img').src = currentItem.img;
+
+            speakWord(currentItem.word);
+
+            const wordLength = currentItem.word.length;
+            userFilledLetters = new Array(wordLength).fill(null);
+
+            let lettersArr = currentItem.word.split('');
+            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            while (lettersArr.length < wordLength + 3) {
+                let randomLetter = alphabet[Math.floor(Math.random() * alphabet.length)];
+                lettersArr.push(randomLetter);
+            }
+            availableLetters = shuffle(lettersArr).map((letter, idx) => ({ id: idx, letter: letter, used: false }));
+
+            renderSpellingBoard(currentItem.word);
+        }
+
+        function playSpellingAudio() {
+            const currentItem = spellingQuestions[spellingIndex];
+            speakWord(currentItem.word);
+        }
+
+        function renderSpellingBoard(targetWord) {
+            const slotsContainer = document.getElementById('slots-container');
+            slotsContainer.innerHTML = '';
+            userFilledLetters.forEach((val, index) => {
+                const slot = document.createElement('div');
+                slot.className = `letter-slot ${val ? 'filled' : ''}`;
+                slot.innerText = val ? val.letter : '_';
+                slot.onclick = () => {
+                    if (val !== null) {
+                        availableLetters[val.bankIndex].used = false;
+                        userFilledLetters[index] = null;
+                        renderSpellingBoard(targetWord);
+                    }
+                };
+                slotsContainer.appendChild(slot);
+            });
+
+            const bankContainer = document.getElementById('letter-bank');
+            bankContainer.innerHTML = '';
+            availableLetters.forEach((item, bankIdx) => {
+                const lBtn = document.createElement('div');
+                lBtn.className = `draggable-letter ${item.used ? 'used' : ''}`;
+                lBtn.innerText = item.letter;
+                
+                lBtn.onclick = () => {
+                    if (!item.used) {
+                        const emptyIndex = userFilledLetters.indexOf(null);
+                        if (emptyIndex !== -1) {
+                            userFilledLetters[emptyIndex] = { letter: item.letter, bankIndex: bankIdx };
+                            availableLetters[bankIdx].used = true;
+                            renderSpellingBoard(targetWord);
+                            checkSpellingCompletion(targetWord);
+                        }
+                    }
+                };
+
+                lBtn.draggable = !item.used;
+                lBtn.ondragstart = (e) => {
+                    e.dataTransfer.setData('text/plain', JSON.stringify({ letter: item.letter, bankIndex: bankIdx }));
+                };
+
+                bankContainer.appendChild(lBtn);
+            });
+
+            const slots = slotsContainer.children;
+            for(let i=0; i<slots.length; i++) {
+                slots[i].ondragover = (e) => e.preventDefault();
+                slots[i].ondrop = (e) => {
+                    e.preventDefault();
+                    const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+                    if (userFilledLetters[i] === null) {
+                        userFilledLetters[i] = { letter: data.letter, bankIndex: data.bankIndex };
+                        availableLetters[data.bankIndex].used = true;
+                        renderSpellingBoard(targetWord);
+                        checkSpellingCompletion(targetWord);
+                    }
+                };
+            }
+        }
+
+        function checkSpellingCompletion(targetWord) {
+            if (!userFilledLetters.includes(null)) {
+                const formedWord = userFilledLetters.map(item => item.letter).join('');
+                if (formedWord === targetWord) {
+                    playCorrectSound();
+                    spellingScore++;
+                    document.getElementById('spelling-current-score').innerText = spellingScore;
+                    
+                    speakWord("Great job! Correct!");
+                    document.getElementById('spelling-next-btn').style.display = 'block';
+                } else {
+                    playWrongSound();
+                    speakWord("Try again!");
+                }
+            }
+        }
+
+        function nextSpellingQuestion() {
+            spellingIndex++;
+            if (spellingIndex < spellingQuestions.length) {
+                loadSpellingQuestion();
+            } else {
+                score = spellingScore;
+                selectedQuestionCount = spellingQuestions.length;
+                showResults();
+            }
+        }
+
+        /* BUILD THE SENTENCE LOGIC */
+        function startBuildSentenceQuiz(count) {
+            let extended = [];
+            while (extended.length < count) {
+                extended = extended.concat(shuffle([...sentenceBank]));
+            }
+            sentenceQuestions = extended.slice(0, count);
+            sentenceIndex = 0;
+            sentenceScore = 0;
+
+            document.getElementById('sentence-total-q-num').innerText = count;
+            document.getElementById('sentence-current-score').innerText = sentenceScore;
+
+            showScreen('sentence-quiz-screen');
+            loadSentenceQuestion();
+        }
+
+        function loadSentenceQuestion() {
+            canAnswer = true;
+            document.getElementById('sentence-check-btn').style.display = 'inline-block';
+            document.getElementById('sentence-next-btn').style.display = 'none';
+            
+            const correctBox = document.getElementById('sentence-correct-answer');
+            correctBox.style.display = 'none';
+            correctBox.innerHTML = '';
+
+            const targetSentence = sentenceQuestions[sentenceIndex];
+            document.getElementById('sentence-question-num').innerText = sentenceIndex + 1;
+
+            const words = targetSentence.split(" ");
+            userArrangedWords = [];
+            
+            availableWords = shuffle([...words]).map((w, idx) => ({
+                id: idx,
+                word: w,
+                used: false
+            }));
+
+            renderSentenceBoard();
+        }
+
+        function renderSentenceBoard() {
+            const dropArea = document.getElementById('sentence-drop-area');
+            dropArea.innerHTML = '';
+
+            userArrangedWords.forEach((item, arrIdx) => {
+                const chip = document.createElement('div');
+                chip.className = 'word-chip';
+                chip.innerText = item.word;
+                chip.onclick = () => {
+                    if (!canAnswer) return;
+                    availableWords[item.bankIndex].used = false;
+                    userArrangedWords.splice(arrIdx, 1);
+                    renderSentenceBoard();
+                };
+                dropArea.appendChild(chip);
+            });
+
+            const wordBank = document.getElementById('sentence-word-bank');
+            wordBank.innerHTML = '';
+
+            availableWords.forEach((item, bankIdx) => {
+                const chip = document.createElement('div');
+                chip.className = `word-chip ${item.used ? 'used' : ''}`;
+                chip.innerText = item.word;
+
+                chip.onclick = () => {
+                    if (!canAnswer || item.used) return;
+                    userArrangedWords.push({ word: item.word, bankIndex: bankIdx });
+                    availableWords[bankIdx].used = true;
+                    renderSentenceBoard();
+                };
+
+                chip.draggable = !item.used && canAnswer;
+                chip.ondragstart = (e) => {
+                    e.dataTransfer.setData('text/plain', JSON.stringify({ word: item.word, bankIndex: bankIdx }));
+                };
+
+                wordBank.appendChild(chip);
+            });
+
+            dropArea.ondragover = (e) => e.preventDefault();
+            dropArea.ondrop = (e) => {
+                e.preventDefault();
+                if (!canAnswer) return;
+                const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+                if (!availableWords[data.bankIndex].used) {
+                    userArrangedWords.push({ word: data.word, bankIndex: data.bankIndex });
+                    availableWords[data.bankIndex].used = true;
+                    renderSentenceBoard();
+                }
+            };
+        }
+
+        function checkSentenceAnswer() {
+            if (!canAnswer) return;
+
+            const targetSentence = sentenceQuestions[sentenceIndex];
+            const userSentence = userArrangedWords.map(item => item.word).join(" ");
+
+            canAnswer = false;
+            document.getElementById('sentence-check-btn').style.display = 'none';
+
+            if (userSentence === targetSentence) {
+                playCorrectSound();
+                sentenceScore++;
+                document.getElementById('sentence-current-score').innerText = sentenceScore;
+            } else {
+                playWrongSound();
+                const correctBox = document.getElementById('sentence-correct-answer');
+                correctBox.innerHTML = `<strong>Correct Sentence:</strong><br>${targetSentence}`;
+                correctBox.style.display = 'block';
+            }
+
+            document.getElementById('sentence-next-btn').style.display = 'inline-block';
+        }
+
+        function nextSentenceQuestion() {
+            sentenceIndex++;
+            if (sentenceIndex < sentenceQuestions.length) {
+                loadSentenceQuestion();
+            } else {
+                score = sentenceScore;
+                selectedQuestionCount = sentenceQuestions.length;
+                showResults();
+            }
+        }
+
+        function showResults() {
+            const completionTime = getFormattedDateTime();
+            window.saveSessionRecord(currentTopic, score, selectedQuestionCount, completionTime);
+            
+            showScreen('result-screen');
+            const percentage = Math.round((score / selectedQuestionCount) * 100);
+            document.getElementById('final-score').innerText = `${percentage}%`;
+            document.getElementById('completion-time').innerText = `📅 Completed on: ${completionTime}`;
+
+            const feedback = document.getElementById('feedback-message');
+            
+            if (percentage === 100) {
+                feedback.innerText = "🌟 Outstanding! Perfect Score! You're a Grammar Champion! 🌟";
+            } else if (percentage >= 70) {
+                feedback.innerText = "👍 Great Job! Keep up the brilliant work!";
+            } else if (percentage >= 50) {
+                feedback.innerText = "😊 Good try! Practice makes perfect!";
+            } else {
+                feedback.innerText = "💪 Don't give up! You can do better next time!";
+            }
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
 
         let currentTopic = "";
         let currentQuestions = [];
