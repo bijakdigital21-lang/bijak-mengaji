@@ -72,6 +72,15 @@
         .whatsapp-link:hover {
             text-decoration: underline;
         }
+        /* Stail untuk pautan Emel */
+        .email-link {
+            color: #d93025;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .email-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -82,7 +91,7 @@
             <h2>Admin Panel - Senarai Customer</h2>
             <button class="btn-refresh" id="refreshBtn" type="button">🔄 Refresh Data</button>
         </div>
-        <p style="font-size: 13px; color: #666; margin-top: 0;">Semua maklumat pendaftaran terkini dalam sistem (Tekan pada no. telefon untuk hantar WhatsApp):</p>
+        <p style="font-size: 13px; color: #666; margin-top: 0;">Semua maklumat pendaftaran terkini dalam sistem (Tekan pada no. telefon atau emel untuk terus hantar mesej):</p>
         
         <div style="overflow-x: auto;">
             <table>
@@ -159,7 +168,7 @@
                     customersArray.sort((a, b) => {
                         let timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
                         let timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-                        return timeB - timeA; // Descending order (terbesar/terkini di atas)
+                        return timeB - timeA; // Descending order
                     });
 
                     let rows = "";
@@ -174,7 +183,7 @@
                             cleanPhone = '6' + cleanPhone; 
                         }
 
-                        // Templat mesej WhatsApp dengan email automatik
+                        // Templat mesej WhatsApp
                         let whatsappMessage = `🎉 TERIMA KASIH ATAS PEMBELIAN ANDA!
 
 Terima kasih kerana memilih Grammar Hub! 💙
@@ -209,14 +218,57 @@ Hubungi kami melalui WhatsApp dan kami sedia membantu.
 
 💙 Selamat belajar!`;
 
-                        let encodedMessage = encodeURIComponent(whatsappMessage);
-                        let whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
+                        let encodedWhatsappMessage = encodeURIComponent(whatsappMessage);
+                        let whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedWhatsappMessage}`;
+
+                        // Templat subjek dan mesej Emel baharu
+                        let emailSubject = encodeURIComponent("Akses & Maklumat Log Masuk Grammar Hub Anda");
+                        let emailBody = encodeURIComponent(`TERIMA KASIH! 🎉
+
+Kami sangat teruja untuk anda mula belajar, berlatih dan meneroka pelbagai bahan pembelajaran yang disediakan dalam Grammar Hub.
+
+Semoga Grammar Hub dapat membantu meningkatkan penguasaan English Grammar dengan cara yang lebih mudah, menyeronokkan dan berkesan!
+
+🔐 AKSES GRAMMAR HUB ANDA 
+https://bijakdigital21-lang.github.io/Grammarhub./
+
+Klik pautan di atas untuk mula menggunakan platform Grammar Hub:
+
+📱 MAKLUMAT LOG MASUK
+
+Email: ${customerEmail}
+
+Password: GH548257af
+
+Sila tukar kata laluan anda melalui ruangan Profile selepas berjaya log masuk.
+
+👥 JOIN GROUP RESELLER GRAMMAR HUB
+
+Sertai group reseller kami di Telegram untuk mendapatkan info terkini, panduan dan sokongan berterusan.
+https://t.me/+Z-uxVSN8A54zNTdl
+
+⚠️ PENTING & BANTUAN
+
+Simpan Dokumen Ini:
+Simpan dokumen dan pautan Grammar Hub ini untuk rujukan serta akses anda pada masa akan datang.
+
+Bantuan Akses:
+Sekiranya anda mengalami sebarang masalah untuk membuka atau mengakses Grammar Hub, hubungi kami terus melalui WhatsApp.
+https://www.wasap.my/60196818139/DaftarGrammarHub
+
+
+🌟 SELAMAT BELAJAR!
+
+Semoga Grammar Hub membantu anda menguasai Bahasa Inggeris dengan lebih mudah, yakin dan menyeronokkan!
+
+Terima kasih atas pembelian dan kepercayaan anda bersama Grammar Hub.`);
+
+                        let emailUrl = `mailto:${customerEmail}?subject=${emailSubject}&body=${emailBody}`;
 
                         rows += `
                             <tr>
                                 <td>${escapeHtml(data.name || '-')}</td>
-                                ${(function(){ return ''; })()}
-                                <td>${escapeHtml(customerEmail || '-')}</td>
+                                <td><a href="${emailUrl}" class="email-link">✉️ ${escapeHtml(customerEmail || '-')}</a></td>
                                 <td><a href="${whatsappUrl}" target="_blank" class="whatsapp-link">${escapeHtml(rawPhone)}</a></td>
                                 <td>${formattedDate}</td>
                             </tr>
