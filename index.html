@@ -1,523 +1,183 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Little Readers Hub 📚✨</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <title>Customer Registration</title>
     <style>
-        :root {
-            --primary-yellow: #FFD166;
-            --primary-pink: #FF6B6B;
-            --primary-blue: #4ECDC4;
-            --primary-purple: #A663CC;
-            --primary-green: #06D6A0;
-            --bg-color: #FFF9EC;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            font-family: 'Quicksand', sans-serif;
-            background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(#FFD166 2px, transparent 2px), 
-                radial-gradient(#4ECDC4 2px, #FFF9EC 2px);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
-            color: #2B2D42;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
         }
-
-        header {
-            text-align: center;
-            margin: 20px 0 40px 0;
-            position: relative;
-        }
-
-        .main-title {
-            font-family: 'Fredoka One', cursive;
-            font-size: 3rem;
-            color: var(--primary-pink);
-            text-shadow: 4px 4px 0px var(--primary-yellow), 7px 7px 0px #2B2D42;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            animation: bounce 2s infinite alternate;
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--primary-purple);
-            background: #FFF;
-            display: inline-block;
-            padding: 8px 20px;
-            border-radius: 50px;
-            border: 3px solid #2B2D42;
-            box-shadow: 4px 4px 0px #2B2D42;
-        }
-
-        @keyframes bounce {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-10px); }
-        }
-
-        .book-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 30px;
-            padding: 10px;
-        }
-
-        .book-card {
-            background: #FFFFFF;
-            border: 4px solid #2B2D42;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 6px 6px 0px #2B2D42;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            color: inherit;
-            cursor: pointer;
-        }
-
-        .book-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 10px 10px 0px #2B2D42;
-        }
-
-        /* Locked Badge */
-        .book-card::before {
-            content: '🔒 LOCKED';
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: var(--primary-pink);
-            color: white;
-            border: 2px solid #2B2D42;
-            font-family: 'Fredoka One', cursive;
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            border-radius: 12px;
-            z-index: 2;
-            box-shadow: 2px 2px 0px #2B2D42;
-        }
-
-        .cover-wrapper {
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             width: 100%;
-            height: 260px;
-            background-color: #F8F9FA;
-            border-bottom: 4px solid #2B2D42;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
+            max-width: 450px;
         }
-
-        .cover-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .book-card:hover .cover-img {
-            transform: scale(1.08);
-        }
-
-        .book-info {
+        .warning-box {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
             padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .warning-box strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input {
             width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .btn-register {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        .btn-register:hover {
+            background-color: #0056b3;
+        }
+        #error-message {
+            color: red;
+            margin-top: 10px;
+            font-size: 14px;
             text-align: center;
-            background-color: #FFF;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .book-title {
-            font-family: 'Fredoka One', cursive;
-            font-size: 1.1rem;
-            color: #2B2D42;
-            line-height: 1.3;
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .main-title {
-                font-size: 2.2rem;
-            }
-            .book-container {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-                gap: 20px;
-            }
-            .cover-wrapper {
-                height: 200px;
-            }
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            padding: 20px;
-            font-weight: 700;
-            color: #2B2D42;
-            background: var(--primary-blue);
-            border-top: 4px solid #2B2D42;
-            border-radius: 20px 20px 0 0;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1 class="main-title">🎈 Little Readers Hub 🎈</h1>
-        <div class="subtitle">Choose & Read Your Favorite Storybooks! 🌟</div>
-    </header>
-
-    <main class="book-container">
-
-        <!-- Original Books -->
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1590850461i/53664108.jpg" alt="A Case of Missing Smile" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">A Case of Missing Smile</h2>
-            </div>
+    <div class="container">
+        <h2>Customer Registration</h2>
+        
+        <!-- Nota Peringatan -->
+        <div class="warning-box">
+            <strong>⚠️ PERINGATAN PENTING</strong>
+            Sila pastikan semua maklumat customer diisi dengan tepat dan lengkap.<br>
+            Pastikan tiada sebarang kesilapan atau typo sebelum meneruskan pendaftaran.<br>
+            Pastikan alamat email yang diberikan adalah betul dan aktif.
         </div>
 
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://online.fliphtml5.com/vovrh/jxsb/files/shot.jpg" alt="A Dog on a Log" class="cover-img">
+        <!-- Form Pendaftaran -->
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" required placeholder="Masukkan nama penuh">
             </div>
-            <div class="book-info">
-                <h2 class="book-title">A Dog on a Log</h2>
-            </div>
-        </div>
 
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://imgv2-2-f.scribdassets.com/img/document/602244939/original/96e221a4ec/1695619378?v=1" alt="A Sick Day for Amos McGee" class="cover-img">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required placeholder="nama@example.com">
             </div>
-            <div class="book-info">
-                <h2 class="book-title">A Sick Day for Amos McGee</h2>
-            </div>
-        </div>
 
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1591593850i/53895627.jpg" alt="A Butterfly Smile" class="cover-img">
+            <div class="form-group">
+                <label for="phone">Phone NO:</label>
+                <input type="tel" id="phone" required placeholder="0123456789">
             </div>
-            <div class="book-info">
-                <h2 class="book-title">A Butterfly Smile</h2>
-            </div>
-        </div>
 
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://tse2.mm.bing.net/th/id/OIP.XZhccoADirfoIGqs8uGnVwAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" alt="A Trick Trike" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">A Trick Trike</h2>
-            </div>
-        </div>
+            <button type="submit" class="btn-register" id="submitBtn">Register Now</button>
+            <div id="error-message"></div>
+        </form>
+    </div>
 
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://imgv2-2-f.scribdassets.com/img/document/926715933/original/f9d9f6eee1/1?v=1" alt="A Very Busy Day" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">A Very Busy Day</h2>
-            </div>
-        </div>
+    <!-- Firebase SDK (Modular v9/v10 via CDN) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://i1.sndcdn.com/artworks-opAnsic4KTdVmBDC-uvAZiQ-t500x500.jpg" alt="Abe The Service Dog" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Abe The Service Dog</h2>
-            </div>
-        </div>
+        // Konfigurasi Firebase anda
+        const firebaseConfig = {
+            apiKey: "AIzaSyDXc06B8WLtqjkG0aScBHrd3L3M-n_5okc",
+            authDomain: "grammar-hub-6af80.firebaseapp.com",
+            databaseURL: "https://grammar-hub-6af80-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "grammar-hub-6af80",
+            storageBucket: "grammar-hub-6af80.firebasestorage.app",
+            messagingSenderId: "1092171234032",
+            appId: "1:1092171234032:web:7cc8efefb812993500e035"
+        };
 
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://imgv2-1-f.scribdassets.com/img/document/914209459/original/69d1523f92/1?v=1" alt="Alice In The Wonderland" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Alice In The Wonderland</h2>
-            </div>
-        </div>
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
 
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://imgv2-2-f.scribdassets.com/img/document/757040364/original/17bc2c45be/1?v=1" alt="Are We There Yet" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Are We There Yet</h2>
-            </div>
-        </div>
+        const form = document.getElementById('registrationForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const errorMessage = document.getElementById('error-message');
 
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://static.wikia.nocookie.net/greatestmovies/images/d/d5/Beauty_and_the_Beast.jpeg/revision/latest?cb=20230712231735" alt="Beauty and the Beast" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Beauty and the Beast</h2>
-            </div>
-        </div>
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const defaultPassword = 'GH548257af';
 
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://imgv2-2-f.scribdassets.com/img/document/659626252/original/0d42c71c2d/1691617035?v=1" alt="Aladdin" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Aladdin</h2>
-            </div>
-        </div>
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Registering...';
+            errorMessage.textContent = '';
 
-        <!-- Newly Added Stories -->
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://i5.walmartimages.com/seo/Billy-Growing-Up-Billy-Knows-A-Secret-Secrets-Series-8-Hardcover-9781910727294_ea9bb581-8d3d-497b-8b4f-8e9a120c9c6d.52bc5a6e55ff154f678e7dc7904d79ab.jpeg" alt="Billy knows a secret" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Billy knows a secret</h2>
-            </div>
-        </div>
+            try {
+                // 1. Create user in Firebase Authentication
+                const userCredential = await createUserWithEmailAndPassword(auth, email, defaultPassword);
+                const user = userCredential.user;
 
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://sp-ao.shortpixel.ai/client/to_auto,q_glossy,ret_img,w_590,h_946/https://freekidsbooks.org/wp-content/uploads/2020/06/Billy-Saves-the-Day-2.jpg" alt="Billy save the day" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Billy save the day</h2>
-            </div>
-        </div>
+                // 2. Simpan tambahan data (nama dan no telefon) ke Firebase Realtime Database
+                await set(ref(db, 'customers/' + user.uid), {
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    createdAt: new Date().toISOString()
+                });
 
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://assets2.titleleaf.com/abdopub/product/cover/xl_9781532148071_fc.jpg" alt="Brother Bear" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Brother Bear</h2>
-            </div>
-        </div>
+                // 3. Redirect ke link yang diberikan selepas berjaya
+                window.location.href = "https://apps2.klikwoi.net/page/customer-registration-";
 
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://tse4.mm.bing.net/th/id/OIP.QTG8uOoYUQTBVXw5J2o55AHaKe?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Bubble Fun" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Bubble Fun</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://cdn.shopify.com/s/files/1/2081/8163/files/BULLY-BILL_0c2e97c5-b3ea-494e-a0f2-766abb7dab1c.jpg?v=1613460119" alt="Bully Bill" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Bully Bill</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1611703802i/56852492.jpg" alt="Bunty and Bubbly" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Bunty and Bubbly</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://imgv2-1-f.scribdassets.com/img/document/690048648/original/e3c6c4d7f9/1?v=1" alt="Buzz the Buzzard" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Buzz the Buzzard</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://m.media-amazon.com/images/I/71AFU5RnNIL._SL1500_.jpg" alt="Cat & Mouse in a haunted" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Cat & Mouse in a haunted house</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://online.anyflip.com/mdea/aczv/files/thumb/1.webp" alt="Clarice the cat" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Clarice the cat</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://th.bing.com/th/id/OIP.bf3G-pKzGS5thje3AA8TqQHaJ4?w=184&h=245&c=7&r=0&o=7&pid=1.7&rm=3" alt="Classic Tales" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Classic Tales</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://th.bing.com/th/id/OIP.PERXCeUvUYax-oGa88G0uQHaG-?w=184&h=174&c=7&r=0&o=7&pid=1.7&rm=3" alt="Decision" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Decision</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://cdn.slidesharecdn.com/ss_thumbnails/021-do-you-wonder-about-rain-snow-sleet-and-hail-210119171741-thumbnail.jpg?width=640&height=640&fit=bounds" alt="Do you wonder about rains, snow, sleet and Hail" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Do you wonder about rain, snow, sleet, and hail?</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://th.bing.com/th/id/OIP.JFEhu_JMxUBwebb1vF59cQHaJ4?w=126&h=180&c=7&r=0&o=7&pid=1.7&rm=3" alt="Do you wonder about snake slither" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Do you wonder how snakes slither?</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://online.fliphtml5.com/fmbkk/qjuf/files/shot.jpg" alt="Dylan the Dragon & the Playground Ride" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Dylan the Dragon & the Playground Ride</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://imgv2-1-f.scribdassets.com/img/document/463325697/original/d3e8cccbff/1?v=1" alt="Dragon" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Dragon</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://m.media-amazon.com/images/I/51R2gI6ENLL.jpg" alt="Doing my chores" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Doing My Chores</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://online.fliphtml5.com/rdvoj/gkci/files/shot.jpg" alt="Do you wonder why bugs are good?" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Do you wonder why bugs are good?</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://img.shoplineapp.com/media/image_clips/60e6bd0407ec3143833b7c4d/original.jpg?1625734404" alt="fox on a box" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Fox on a Box</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://sp-ao.shortpixel.ai/client/q_lqip,ret_wait,w_1414,h_1250/https://freekidsbooks.org/wp-content/uploads/2021/03/eye-can-see-pratham-FKB.jpg" alt="Eye can see" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">I Can See</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://tse2.mm.bing.net/th/id/OIP.39zfVPJ3lUmKPIfCBU6jywAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Fat cat on a mat" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Fat Cat on a Mat</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://m.media-amazon.com/images/I/71cpgqQKwsL.jpg" alt="Frog on a log" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Frog on a Log</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://imgv2-1-f.scribdassets.com/img/document/704476812/original/d916440aa3/1726543832?v=1" alt="Fire! fire!" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">Fire! Fire!</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://i.ytimg.com/vi/ri8rxNVWNCA/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBYYpkBhsQRhbigktCl3TEkOJT1aQ" alt="First day at school" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">First Day of School</h2>
-            </div>
-        </div>
-
-        <div class="book-card" onclick="lockAlert()">
-            <div class="cover-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1esrZA5PYzihlE8wJGN-lZSqVNB82H01frjm-aTjW6g&s=10" alt="I found a frog" class="cover-img">
-            </div>
-            <div class="book-info">
-                <h2 class="book-title">I Found a Frog</h2>
-            </div>
-        </div>
-
-    </main>
-
-    <footer>
-        <p>✨ Little Readers Hub © 2026 - Let's Read Together! ✨</p>
-    </footer>
-
-    <!-- JavaScript untuk paparkan mesej apabila ditekan -->
-    <script>
-        function lockAlert() {
-            alert("Upgrade to lifetime access to unlock all story books");
-        }
+            } catch (error) {
+                console.error("Error:", error);
+                // Paparkan mesej ralat jika emel sudah wujud atau isu lain
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage.textContent = 'Emel ini sudah berdaftar. Sila guna emel lain.';
+                } else {
+                    errorMessage.textContent = 'Pendaftaran gagal: ' + error.message;
+                }
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Register Now';
+            }
+        });
     </script>
-
 </body>
 </html>
