@@ -264,20 +264,21 @@ Semoga Grammar Hub membantu anda menguasai Bahasa Inggeris dengan lebih mudah, y
 
 Terima kasih atas pembelian dan kepercayaan anda bersama Grammar Hub.`;
 
-                        // Menggunakan Skema Rasmi App Gmail secara terus (Direct Scheme)
+                        // Pautan untuk terus buka App Gmail (fallback ke Web Gmail jika app tiada)
                         let gmailAppUrl = `googlegmail://co?to=${encodeURIComponent(customerEmail)}&subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+                        let gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(customerEmail)}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
                         rows += `
                             <tr>
                                 <td>${escapeHtml(data.name || '-')}</td>
-                                <td><a href="${gmailAppUrl}" class="email-link">✉️ ${escapeHtml(customerEmail || '-')}</a></td>
+                                <td><a href="#" onclick="openGmail(event, '${escapeHtml(gmailAppUrl)}', '${escapeHtml(gmailWebUrl)}')" class="email-link">✉️ ${escapeHtml(customerEmail || '-')}</a></td>
                                 <td><a href="${whatsappUrl}" target="_blank" class="whatsapp-link">${escapeHtml(rawPhone)}</a></td>
                                 <td>${formattedDate}</td>
                             </tr>
                         `;
                     });
                     
-                    if, rows === "") {
+                    if (rows === "") {
                         customerTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center;">Tiada rekod data customer dijumpai.</td></tr>`;
                     } else {
                         customerTableBody.innerHTML = rows;
@@ -291,6 +292,29 @@ Terima kasih atas pembelian dan kepercayaan anda bersama Grammar Hub.`;
             }
         }
 
+        // Fungsi Pintar Buka App Gmail (atau Web jika app gagal dikesan)
+        window.openGmail = function(event, appUrl, webUrl) {
+            event.preventDefault();
+            
+            // Cuba buka aplikasi Gmail menggunakan skema khusus
+            let iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = appUrl;
+            document.body.appendChild(iframe);
+            
+            setTimeout(function() {
+                document.body.removeChild(iframe);
+            }, 1000);
+
+            // Jika dalam masa 1 saat peranti tidak buka app, ia buka web Gmail secara automatik
+            let start = Date.now();
+            setTimeout(function() {
+                if (Date.now() - start < 1500) {
+                    window.open(webUrl, '_blank');
+                }
+            }, 700);
+        }
+
         // Keselamatan asas untuk elak gangguan HTML
         function escapeHtml(text) {
             return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -298,3 +322,4 @@ Terima kasih atas pembelian dan kepercayaan anda bersama Grammar Hub.`;
     </script>
 </body>
 </html>
+```[cite: 1]
