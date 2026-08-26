@@ -69,12 +69,6 @@
         .btn-register:hover {
             background-color: #0056b3;
         }
-        #error-message {
-            color: red;
-            margin-top: 10px;
-            font-size: 14px;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
@@ -108,7 +102,6 @@
             </div>
 
             <button type="submit" class="btn-register" id="submitBtn">Register Now</button>
-            <div id="error-message"></div>
         </form>
     </div>
 
@@ -136,7 +129,6 @@
 
         const form = document.getElementById('registrationForm');
         const submitBtn = document.getElementById('submitBtn');
-        const errorMessage = document.getElementById('error-message');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -147,40 +139,26 @@
             const defaultPassword = 'GH548257af';
 
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Registering...';
-            errorMessage.textContent = '';
+            submitBtn.textContent = 'Processing...';
 
             try {
-                // 1. Create user in Firebase Authentication
+                // Cuba daftar akaun dalam Firebase Auth & Database
                 const userCredential = await createUserWithEmailAndPassword(auth, email, defaultPassword);
                 const user = userCredential.user;
 
-                // 2. Simpan data ke Firebase Realtime Database
                 await set(ref(db, 'customers/' + user.uid), {
                     name: name,
                     email: email,
                     phone: phone,
                     createdAt: new Date().toISOString()
                 });
-
-                // 3. Terus bawa ke link yang diminta selepas berjaya
-                window.location.href = "https://apps2.klikwoi.net/page/customer-registration-";
-
             } catch (error) {
-                console.error("Error:", error);
-                
-                // Jika emel sudah wujud, kita masih boleh benarkan redirect atau paparkan ralat. 
-                // Di sini jika emel sudah wujud, ia tetap akan bawa ke link tersebut seperti yang anda mahukan, 
-                // atau anda boleh buang 'window.location.href' di bawah jika mahuhalang pengguna.
-                if (error.code === 'auth/email-already-in-use') {
-                    // Terus redirect juga walaupun emel dah wujud (pilihan mengikut keperluan anda)
-                    window.location.href = "https://apps2.klikwoi.net/page/customer-registration-";
-                } else {
-                    errorMessage.textContent = 'Pendaftaran gagal: ' + error.message;
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Register Now';
-                }
+                // Walaupun akaun dah wujud atau ada ralat lain, proses tetap diteruskan ke link tujuan
+                console.log("Firebase Notice:", error.message);
             }
+
+            // ARAHAN UTAMA: Selepas selesai (atau jika berlaku ralat), terus paksa redirect ke link ini
+            window.location.href = "https://apps2.klikwoi.net/page/customer-registration-";
         });
     </script>
 </body>
