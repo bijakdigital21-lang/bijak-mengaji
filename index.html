@@ -44,12 +44,66 @@
                     for (const uid in data) {
                         const user = data[uid];
                         const dateFormatted = user.createdAt ? new Date(user.createdAt).toLocaleString() : '-';
+                        const userEmail = user.email || '-';
+                        let rawPhone = user.nofon || '';
+
+                        // Bersihkan nombor telefon (buang simbol +, -, spasi) untuk format wa.me
+                        let cleanPhone = rawPhone.replace(/[^0-9]/g, '');
+                        
+                        // Jika nombor bermula dengan '0', tukar ke kod negara Malaysia '60' (contoh: 0123456789 -> 60123456789)
+                        if (cleanPhone.startsWith('0')) {
+                            cleanPhone = '60' + cleanPhone.substring(1);
+                        }
+
+                        // Templat mesej WhatsApp dengan emel dinamik
+                        const waMessage = `🎉 TERIMA KASIH ATAS PEMBELIAN ANDA!
+
+Terima kasih kerana memilih Grammar Hub! 💙
+
+Kami sangat teruja untuk anda mula belajar, berlatih dan meneroka pelbagai bahan pembelajaran yang telah disediakan untuk membantu meningkatkan penguasaan English Grammar dengan lebih mudah dan menyeronokkan[cite: 1].
+
+📚 AKSES GRAMMAR HUB ANDA
+
+Klik pautan di bawah untuk mula menggunakan Grammar Hub[cite: 1]:
+
+👇🏻👇🏻
+https://bijakdigital21-lang.github.io/Grammarhub./[cite: 1]
+
+🔐 MAKLUMAT LOG MASUK
+
+Email: ${userEmail}
+Password: GH548257af[cite: 1]
+
+📌 Sila tukar password anda di laman profile selepas berjaya log masuk ke aplikasi ini[cite: 1].
+
+⚠️ PENTING
+
+📌 Simpan pautan Grammar Hub ini untuk rujukan dan akses anda pada masa akan datang[cite: 1].
+
+Sertai group reseller kami untuk info dan sokongan berterusan[cite: 1].
+👇🏻👇🏻👇🏻
+https://t.me/%2BZ-uxVSN8A54zNTdl[cite: 1]
+
+📱 Sekiranya anda mengalami sebarang masalah untuk membuka atau mengakses Grammar Hub, jangan risau[cite: 1].
+
+Hubungi kami melalui WhatsApp dan kami sedia membantu[cite: 1].
+
+💙 Selamat belajar![cite: 1]`;
+
+                        // Bina pautan WhatsApp jika nombor telefon wujud
+                        let phoneHtml = '-';
+                        if (rawPhone) {
+                            const encodedMessage = encodeURIComponent(waMessage);
+                            phoneHtml = `<a href="https://wa.me/${cleanPhone}?text=${encodedMessage}" target="_blank" class="text-emerald-600 hover:text-emerald-800 underline font-medium flex items-center gap-1 mt-1">
+                                <span>📱</span> ${rawPhone}
+                            </a>`;
+                        }
                         
                         const row = `
                             <tr class="border-b hover:bg-slate-50">
                                 <td class="px-4 py-3 text-sm text-slate-700">${counter++}</td>
                                 <td class="px-4 py-3 text-sm font-medium text-slate-800">${user.nama || '-'}</td>
-                                <td class="px-4 py-3 text-sm text-slate-600">${user.email || '-'}<br><span class="text-xs text-slate-400">${user.nofon || ''}</span></td>
+                                <td class="px-4 py-3 text-sm text-slate-600">${userEmail}<br>${phoneHtml}</td>
                                 <td class="px-4 py-3 text-sm font-semibold text-emerald-700">${user.reseller_rujukan || '-'}</td>
                                 <td class="px-4 py-3 text-sm text-slate-500">${dateFormatted}</td>
                             </tr>
