@@ -46,45 +46,6 @@
         .btn-refresh:hover {
             background-color: #0056b3;
         }
-        /* Stail untuk Form Register Manual */
-        .register-box {
-            background: #f8f9fa;
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 15px;
-            margin-bottom: 20px;
-        }
-        .register-box h3 {
-            margin-top: 0;
-            font-size: 15px;
-            color: #333;
-        }
-        .form-group {
-            display: flex;
-            gap: 10px;
-        }
-        .form-group input {
-            flex: 1;
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 13px;
-        }
-        .btn-submit {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: bold;
-            transition: background-color 0.2s;
-        }
-        .btn-submit:hover {
-            background-color: #218838;
-        }
         /* Jadual Admin */
         table {
             width: 100%;
@@ -123,17 +84,6 @@
         </div>
         <p style="font-size: 13px; color: #666; margin-top: 0;">Semua maklumat pendaftaran terkini dalam sistem (Tekan pada no. telefon untuk hantar WhatsApp):</p>
         
-        <!-- FORM REGISTER CUSTOMER MANUAL (HANYA EMAIL) -->
-        <div class="register-box">
-            <h3>➕ Daftar Customer Baru Secara Manual</h3>
-            <form id="manualRegisterForm">
-                <div class="form-group">
-                    <input type="email" id="manualEmail" placeholder="Masukkan emel customer (cth: contoh@email.com)" required>
-                    <button type="submit" class="btn-submit" id="submitBtn">Daftar Emel</button>
-                </div>
-            </form>
-        </div>
-
         <div style="overflow-x: auto;">
             <table>
                 <thead>
@@ -156,7 +106,7 @@
     <!-- Firebase SDK & Skrip -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, get, push, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         // Konfigurasi Firebase anda
         const firebaseConfig = {
@@ -176,9 +126,6 @@
         // Elemen UI
         const customerTableBody = document.getElementById('customerTableBody');
         const refreshBtn = document.getElementById('refreshBtn');
-        const manualRegisterForm = document.getElementById('manualRegisterForm');
-        const manualEmailInput = document.getElementById('manualEmail');
-        const submitBtn = document.getElementById('submitBtn');
 
         // Terus muatkan data admin sebaik sahaja halaman dibuka
         window.addEventListener('DOMContentLoaded', () => {
@@ -188,41 +135,6 @@
         // Event listener untuk butang refresh
         refreshBtn.addEventListener('click', () => {
             loadCustomerData();
-        });
-
-        // Event listener untuk submit form register manual (Hanya Email)
-        manualRegisterForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const emailValue = manualEmailInput.value.trim();
-            
-            if (!emailValue) return;
-
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Menyimpan...';
-
-            try {
-                // Rujukan ke node 'customers' dalam Firebase
-                const dbRef = ref(db, 'customers');
-                const newCustomerRef = push(dbRef);
-
-                // Simpan data (Nama & Phone dibiarkan kosong/kosong string kerana hanya perlukan emel)
-                await set(newCustomerRef, {
-                    name: '-',
-                    email: emailValue,
-                    phone: '-',
-                    createdAt: Date.now()
-                });
-
-                alert('Berjaya! Emel customer telah didaftarkan.');
-                manualEmailInput.value = ''; // Kosongkan input
-                loadCustomerData(); // Muat semula senarai jadual
-            } catch (error) {
-                console.error("Ralat menyimpan data:", error);
-                alert('Gagal mendaftarkan emel. Sila cuba lagi.');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Daftar Emel';
-            }
         });
 
         // Fungsi Tarik Data Customer
@@ -238,19 +150,17 @@
                         const data = childSnapshot.val();
                         if (data) {
                             let formattedDate = data.createdAt ? new Date(data.createdAt).toLocaleString() : '-';
-                            let rawPhone = data.phone || '-';
+                            let rawPhone = data.phone || '';
                             let customerEmail = data.email || '';
                             
-                            let whatsappHtml = '-';
-                            
-                            // Semak jika nombor telefon wujud dan sah (bukan '-') sebelum buat pautan WhatsApp
-                            if (rawPhone && rawPhone !== '-') {
-                                let cleanPhone = rawPhone.replace(/\D/g, ''); 
-                                if (cleanPhone.startsWith('0')) {
-                                    cleanPhone = '6' + cleanPhone; 
-                                }
+                            // Pembersihan nombor telefon untuk pautan WhatsApp
+                            let cleanPhone = rawPhone.replace(/\D/g, ''); 
+                            if (cleanPhone.startsWith('0')) {
+                                cleanPhone = '6' + cleanPhone; 
+                            }
 
-                                let whatsappMessage = `🎉 TERIMA KASIH ATAS PEMBELIAN ANDA!
+                            // Templat mesej WhatsApp dengan email automatik
+                            let whatsappMessage = `🎉 TERIMA KASIH ATAS PEMBELIAN ANDA!
 
 Terima kasih kerana memilih Grammar Hub! 💙
 
@@ -284,16 +194,14 @@ Hubungi kami melalui WhatsApp dan kami sedia membantu.
 
 💙 Selamat belajar!`;
 
-                                let encodedMessage = encodeURIComponent(whatsappMessage);
-                                let whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
-                                whatsappHtml = `<a href="${whatsappUrl}" target="_blank" class="whatsapp-link">${escapeHtml(rawPhone)}</a>`;
-                            }
+                            let encodedMessage = encodeURIComponent(whatsappMessage);
+                            let whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
 
                             rows += `
                                 <tr>
                                     <td>${escapeHtml(data.name || '-')}</td>
                                     <td>${escapeHtml(customerEmail || '-')}</td>
-                                    <td>${whatsappHtml}</td>
+                                    <td><a href="${whatsappUrl}" target="_blank" class="whatsapp-link">${escapeHtml(rawPhone)}</a></td>
                                     <td>${formattedDate}</td>
                                 </tr>
                             `;
