@@ -743,6 +743,67 @@
             }
         }
     </style>
+
+<script>
+/* Grammar Hub - automatic update helper */
+(function () {
+  const CHECK_EVERY = 60 * 1000; // 1 minute
+  const KEY = 'grammarHub_deployed_version';
+
+  async function getVersion() {
+    try {
+      const base = window.location.href.split('#')[0].split('?')[0];
+      const response = await fetch(base + '?update_check=' + Date.now(), {
+        method: 'GET',
+        cache: 'no-store'
+      });
+      if (!response.ok) return null;
+
+      const etag = response.headers.get('etag') || '';
+      const modified = response.headers.get('last-modified') || '';
+
+      if (etag || modified) return etag + '|' + modified;
+
+      const html = await response.text();
+      let hash = 0;
+      for (let i = 0; i < html.length; i++) {
+        hash = ((hash << 5) - hash) + html.charCodeAt(i);
+        hash |= 0;
+      }
+      return String(hash);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async function checkUpdate() {
+    if (document.visibilityState !== 'visible') return;
+
+    const latest = await getVersion();
+    if (!latest) return;
+
+    const saved = localStorage.getItem(KEY);
+
+    if (!saved) {
+      localStorage.setItem(KEY, latest);
+      return;
+    }
+
+    if (saved !== latest) {
+      localStorage.setItem(KEY, latest);
+      const fresh = window.location.href.split('#')[0].split('?')[0]
+        + '?v=' + Date.now();
+      window.location.replace(fresh);
+    }
+  }
+
+  window.addEventListener('load', function () {
+    setTimeout(checkUpdate, 3000);
+    setInterval(checkUpdate, CHECK_EVERY);
+  });
+})();
+</script>
+
 </head>
 <body>
 
