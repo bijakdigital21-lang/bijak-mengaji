@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Registration & Admin Panel</title>
+    <title>Admin Panel - Senarai Customer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,7 +15,7 @@
             align-items: center;
             min-height: 100vh;
         }
-        .container, .admin-container {
+        .admin-container {
             background: #ffffff;
             padding: 30px;
             border-radius: 8px;
@@ -23,72 +23,6 @@
             width: 100%;
             max-width: 650px;
             position: relative;
-        }
-        .hidden {
-            display: none !important;
-        }
-        .warning-box {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeeba;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-        .warning-box strong {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-        .btn-register {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 12px;
-            width: 100%;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.2s;
-        }
-        .btn-register:hover {
-            background-color: #0056b3;
-        }
-        /* Butang Admin di penjuru */
-        .btn-admin-nav {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #343a40;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .btn-admin-nav:hover {
-            background-color: #23272b;
         }
         /* Jadual Admin */
         table {
@@ -116,59 +50,12 @@
         .whatsapp-link:hover {
             text-decoration: underline;
         }
-        .btn-back {
-            background-color: #6c757d;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 15px;
-            font-size: 14px;
-        }
-        .btn-back:hover {
-            background-color: #5a6268;
-        }
     </style>
 </head>
 <body>
 
-    <!-- PAPARAN 1: CUSTOMER REGISTRATION -->
-    <div class="container" id="registrationView">
-        <button class="btn-admin-nav" id="goToAdminBtn" type="button">Admin Login</button>
-        <h2>Customer Registration</h2>
-        
-        <!-- Nota Peringatan -->
-        <div class="warning-box">
-            <strong>⚠️ PERINGATAN PENTING</strong>
-            Sila pastikan semua maklumat customer diisi dengan tepat dan lengkap.<br>
-            Pastikan tiada sebarang kesilapan atau typo sebelum meneruskan pendaftaran.<br>
-            Pastikan alamat email yang diberikan adalah betul dan aktif.
-        </div>
-
-        <!-- Form Pendaftaran -->
-        <form id="registrationForm">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" required placeholder="Masukkan nama penuh">
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" required placeholder="nama@example.com">
-            </div>
-
-            <div class="form-group">
-                <label for="phone">Phone NO:</label>
-                <input type="tel" id="phone" required placeholder="0123456789">
-            </div>
-
-            <button type="submit" class="btn-register" id="submitBtn">Register Now</button>
-        </form>
-    </div>
-
-    <!-- PAPARAN 2: ADMIN PANEL -->
-    <div class="admin-container hidden" id="adminView">
+    <!-- PAPARAN ADMIN (Terus Dibuka Tanpa Password) -->
+    <div class="admin-container" id="adminView">
         <h2>Admin Panel - Senarai Customer</h2>
         <p style="font-size: 13px; color: #666;">Semua maklumat pendaftaran terkini dalam sistem (Tekan pada no. telefon untuk hantar WhatsApp):</p>
         
@@ -189,15 +76,12 @@
                 </tbody>
             </table>
         </div>
-
-        <button class="btn-back" id="backToRegBtn" type="button">Kembali ke Menu Utama</button>
     </div>
 
     <!-- Firebase SDK & Skrip -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         // Konfigurasi Firebase anda
         const firebaseConfig = {
@@ -212,35 +96,14 @@
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
         const db = getDatabase(app);
 
         // Elemen UI
-        const registrationView = document.getElementById('registrationView');
-        const adminView = document.getElementById('adminView');
-        const goToAdminBtn = document.getElementById('goToAdminBtn');
-        const backToRegBtn = document.getElementById('backToRegBtn');
-        const form = document.getElementById('registrationForm');
-        const submitBtn = document.getElementById('submitBtn');
         const customerTableBody = document.getElementById('customerTableBody');
 
-        // Fungsi Masuk ke Panel Admin
-        goToAdminBtn.addEventListener('click', () => {
-            const passwordInput = prompt("Sila masukkan kata laluan admin:");
-            
-            if (passwordInput === "ADMIN5482ie") {
-                registrationView.classList.add('hidden');
-                adminView.classList.remove('hidden');
-                loadCustomerData(); // Panggil data dari Firebase
-            } else if (passwordInput !== null) {
-                alert("Kata laluan salah! Akses ditolak.");
-            }
-        });
-
-        // Butang Kembali
-        backToRegBtn.addEventListener('click', () => {
-            adminView.classList.add('hidden');
-            registrationView.classList.remove('hidden');
+        // Terus muatkan data admin sebaik sahaja halaman dibuka
+        window.addEventListener('DOMContentLoaded', () => {
+            loadCustomerData();
         });
 
         // Fungsi Tarik Data Customer
@@ -332,35 +195,6 @@ Hubungi kami melalui WhatsApp dan kami sedia membantu.
         function escapeHtml(text) {
             return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
-
-        // Proses Pendaftaran Asal
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const defaultPassword = 'GH548257af';
-
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Processing...';
-
-            try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, defaultPassword);
-                const user = userCredential.user;
-
-                await set(ref(db, 'customers/' + user.uid), {
-                    name: name,
-                    email: email,
-                    phone: phone,
-                    createdAt: new Date().toISOString()
-                });
-            } catch (error) {
-                console.log("Firebase Notice:", error.message);
-            }
-
-            window.location.href = "https://apps2.klikwoi.net/page/customer-registration-";
-        });
     </script>
 </body>
 </html>
