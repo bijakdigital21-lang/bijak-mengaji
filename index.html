@@ -107,6 +107,15 @@
         th {
             background-color: #f8f9fa;
         }
+        /* Stail untuk pautan WhatsApp pada nombor telefon */
+        .whatsapp-link {
+            color: #25d366;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .whatsapp-link:hover {
+            text-decoration: underline;
+        }
         .btn-back {
             background-color: #6c757d;
             color: white;
@@ -161,7 +170,7 @@
     <!-- PAPARAN 2: ADMIN PANEL -->
     <div class="admin-container hidden" id="adminView">
         <h2>Admin Panel - Senarai Customer</h2>
-        <p style="font-size: 13px; color: #666;">Semua maklumat pendaftaran terkini dalam sistem:</p>
+        <p style="font-size: 13px; color: #666;">Semua maklumat pendaftaran terkini dalam sistem (Tekan pada no. telefon untuk hantar WhatsApp):</p>
         
         <div style="overflow-x: auto;">
             <table>
@@ -209,7 +218,7 @@
         // Elemen UI
         const registrationView = document.getElementById('registrationView');
         const adminView = document.getElementById('adminView');
-        const goToAdminBtn = document.getElementById('goToAdminBtn');
+        const goToAdminBtn = document.getElementById('goToAdmin`Btn');
         const backToRegBtn = document.getElementById('backToRegBtn');
         const form = document.getElementById('registrationForm');
         const submitBtn = document.getElementById('submitBtn');
@@ -247,11 +256,59 @@
                         const data = childSnapshot.val();
                         if (data) {
                             let formattedDate = data.createdAt ? new Date(data.createdAt).toLocaleString() : '-';
+                            let rawPhone = data.phone || '';
+                            let customerEmail = data.email || '';
+                            
+                            // Pembersihan nombor telefon untuk pautan WhatsApp (pastikan bermula dengan kod negara cth: 60)
+                            let cleanPhone = rawPhone.replace(/\D/g, ''); // Buang simbol selain nombor
+                            if (cleanPhone.startsWith('0')) {
+                                cleanPhone = '6' + cleanPhone; // Tukar 0123456789 kepada 60123456789 (Malaysia)
+                            }
+
+                            // Templat mesej WhatsApp dengan email automatik
+                            let whatsappMessage = `🎉 TERIMA KASIH ATAS PEMBELIAN ANDA!
+
+Terima kasih kerana memilih Grammar Hub! 💙
+
+Kami sangat teruja untuk anda mula belajar, berlatih dan meneroka pelbagai bahan pembelajaran yang telah disediakan untuk membantu meningkatkan penguasaan English Grammar dengan lebih mudah dan menyeronokkan.
+
+📚 AKSES GRAMMAR HUB ANDA
+
+Klik pautan di bawah untuk mula menggunakan Grammar Hub:
+
+👇🏻👇🏻
+https://bijakdigital21-lang.github.io/Grammarhub./
+
+🔐 MAKLUMAT LOG MASUK
+
+Email: ${customerEmail}
+Password: GH548267ie
+
+📌 Sila tukar password anda di laman profile selepas berjaya log masuk ke aplikasi ini.
+
+⚠️ PENTING
+
+📌 Simpan pautan Grammar Hub ini untuk rujukan dan akses anda pada masa akan datang.
+
+Sertai group reseller kami untuk info dan sokongan berterusan.
+👇🏻👇🏻👇🏻
+https://t.me/+Z-uxVSN8A54zNTdl
+
+📱 Sekiranya anda mengalami sebarang masalah untuk membuka atau mengakses Grammar Hub, jangan risau.
+
+Hubungi kami melalui WhatsApp dan kami sedia membantu.
+
+💙 Selamat belajar!`;
+
+                            // Encode teks untuk URL WhatsApp
+                            let encodedMessage = encodeURIComponent(whatsappMessage);
+                            let whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
+
                             rows += `
                                 <tr>
                                     <td>${escapeHtml(data.name || '-')}</td>
-                                    <td>${escapeHtml(data.email || '-')}</td>
-                                    <td>${escapeHtml(data.phone || '-')}</td>
+                                    <td>${escapeHtml(customerEmail || '-')}</td>
+                                    <td><a href="${whatsappUrl}" target="_blank" class="whatsapp-link">${escapeHtml(rawPhone)}</a></td>
                                     <td>${formattedDate}</td>
                                 </tr>
                             `;
