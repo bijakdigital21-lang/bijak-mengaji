@@ -3,179 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Senarai Customer</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 0;
-            padding: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: #333;
-        }
-        .admin-container {
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 800px;
-            position: relative;
-            max-height: 95vh;
-            display: flex;
-            flex-direction: column;
-        }
-        .header-flex {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 8px;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 12px;
-        }
-        .header-flex h2 {
-            margin: 0;
-            font-size: 20px;
-            background: linear-gradient(45deg, #ff416c, #ff4b2b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .btn-refresh {
-            background: linear-gradient(135deg, #00b4db, #0083b0);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0, 180, 219, 0.3);
-            transition: all 0.3s ease;
-        }
-        .btn-refresh:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 180, 219, 0.4);
-        }
-        .subtitle {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-            margin-bottom: 15px;
-        }
-        /* Kontena Jadual supaya muat dan boleh skrol */
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto;
-            overflow-y: auto;
-            max-height: 60vh;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-        }
-        /* Jadual Admin */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            white-space: nowrap;
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            font-size: 13px;
-        }
-        th {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            color: #495057;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            font-weight: 600;
-            border-bottom: 2px solid #dee2e6;
-        }
-        tbody tr {
-            transition: background-color 0.2s;
-            border-bottom: 1px solid #f1f1f1;
-        }
-        tbody tr:nth-child(even) {
-            background-color: #fafbfc;
-        }
-        tbody tr:hover {
-            background-color: #f1f5f9;
-        }
-        /* Stail untuk pautan WhatsApp pada nombor telefon */
-        .whatsapp-link {
-            color: #10b981;
-            text-decoration: none;
-            font-weight: bold;
-            background: #d1fae5;
-            padding: 4px 8px;
-            border-radius: 6px;
-            display: inline-block;
-            transition: background 0.2s;
-        }
-        .whatsapp-link:hover {
-            background: #a7f3d0;
-            text-decoration: none;
-        }
-        /* Stail untuk pautan Emel */
-        .email-link {
-            color: #ef4444;
-            text-decoration: none;
-            font-weight: bold;
-            background: #fee2e2;
-            padding: 4px 8px;
-            border-radius: 6px;
-            display: inline-block;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .email-link:hover {
-            background: #fecaca;
-            text-decoration: none;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- PAPARAN ADMIN -->
-    <div class="admin-container" id="adminView">
-        <div class="header-flex">
-            <h2>✨ Admin Panel - Senarai Customer</h2>
-            <button class="btn-refresh" id="refreshBtn" type="button">🔄 Refresh Data</button>
-        </div>
-        <p class="subtitle">Semua maklumat pendaftaran terkini (Tekan pada no. telefon atau emel untuk terus hantar mesej):</p>
-        
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nama</th>
-                        <th>No. Telefon</th>
-                        <th>Email</th>
-                        <th>Tarikh Daftar</th>
-                    </tr>
-                </thead>
-                <tbody id="customerTableBody">
-                    <tr>
-                        <td colspan="4" style="text-align: center; color: #888;">Memuatkan data...</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Firebase SDK & Skrip -->
+    <title>Paparan Admin - Bijak Belajar</title>
+    <!-- Menggunakan Tailwind CSS untuk rekaan moden -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Firebase SDK (Modular v10) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
+        // Firebase Config Anda
         const firebaseConfig = {
             apiKey: "AIzaSyDXc06B8WLtqjkG0aScBHrd3L3M-n_5okc",
             authDomain: "grammar-hub-6af80.firebaseapp.com",
@@ -186,110 +23,95 @@
             appId: "1:1092171234032:web:7cc8efefb812993500e035"
         };
 
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        const customerTableBody = document.getElementById('customerTableBody');
-        const refreshBtn = document.getElementById('refreshBtn');
+        // Fungsi Tarik Senarai Data Customer & Reseller dari Database secara automatik
+        async function loadAdminData() {
+            const tableBody = document.getElementById('adminTableBody');
+            tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-500">Memuatkan data...</td></tr>`;
 
-        window.addEventListener('DOMContentLoaded', () => {
-            loadCustomerData();
-        });
-
-        refreshBtn.addEventListener('click', () => {
-            loadCustomerData();
-        });
-
-        async function loadCustomerData() {
-            customerTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #666;">Sedang memuat data...</td></tr>`;
             try {
-                const dbRef = ref(db, 'customers');
+                const dbRef = ref(db, 'users');
                 const snapshot = await get(dbRef);
-                
+
                 if (snapshot.exists()) {
-                    let customersArray = [];
-
-                    snapshot.forEach((childSnapshot) => {
-                        const data = childSnapshot.val();
-                        if (data) {
-                            customersArray.push(data);
-                        }
-                    });
-
-                    customersArray.sort((a, b) => {
-                        let timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-                        let timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-                        return timeB - timeA;
-                    });
-
-                    let rows = "";
-                    customersArray.forEach((data) => {
-                        let formattedDate = data.createdAt ? new Date(data.createdAt).toLocaleString() : '-';
-                        let rawPhone = data.phone || '';
-                        let customerEmail = data.email || '';
+                    tableBody.innerHTML = '';
+                    const data = snapshot.val();
+                    
+                    let counter = 1;
+                    for (const uid in data) {
+                        const user = data[uid];
+                        const dateFormatted = user.createdAt ? new Date(user.createdAt).toLocaleString() : '-';
                         
-                        let cleanPhone = rawPhone.replace(/\D/g, ''); 
-                        if (cleanPhone.startsWith('0')) {
-                            cleanPhone = '6' + cleanPhone; 
-                        }
-
-                        let whatsappMessage = `🎉 TERIMA KASIH ATAS PEMBELIAN ANDA!\n\nTerima kasih kerana memilih Grammar Hub! 💙\n\nKami sangat teruja untuk anda mula belajar, berlatih dan meneroka pelbagai bahan pembelajaran yang telah disediakan untuk membantu meningkatkan penguasaan English Grammar dengan lebih mudah dan menyeronokkan.\n\n📚 AKSES GRAMMAR HUB ANDA\n\nKlik pautan di bawah untuk mula menggunakan Grammar Hub:\n\n👇🏻👇🏻\nhttps://bijakdigital21-lang.github.io/Grammarhub./\n\n🔐 MAKLUMAT LOG MASUK\n\nEmail: ${customerEmail}\nPassword: GH548257af\n\n📌 Sila tukar password anda di laman profile selepas berjaya log masuk ke aplikasi ini.\n\n⚠️ PENTING\n\n📌 Simpan pautan Grammar Hub ini untuk rujukan dan akses anda pada masa akan datang.\n\nSertai group reseller kami untuk info dan sokongan berterusan.\n👇🏻👇🏻👇🏻\nhttps://t.me/%2BZ-uxVSN8A54zNTdl\n\n📱 Sekiranya anda mengalami sebarang masalah untuk membuka atau mengakses Grammar Hub, jangan risau.\n\nHubungi kami melalui WhatsApp dan kami sedia membantu.\n\n💙 Selamat belajar!`;
-
-                        let encodedWhatsappMessage = encodeURIComponent(whatsappMessage);
-                        let whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedWhatsappMessage}`;
-
-                        let emailSubject = "Akses & Maklumat Log Masuk Grammar Hub Anda";
-                        let emailBody = `TERIMA KASIH! 🎉\n\nKami sangat teruja untuk anda mula belajar, berlatih dan meneroka pelbagai bahan pembelajaran yang disediakan dalam Grammar Hub.\n\nSemoga Grammar Hub dapat membantu meningkatkan penguasaan English Grammar dengan cara yang lebih mudah, menyeronokkan dan berkesan!\n\n🔐 AKSES GRAMMAR HUB ANDA \nhttps://bijakdigital21-lang.github.io/Grammarhub./\n\nKlik pautan di atas untuk mula menggunakan platform Grammar Hub:\n\n📱 MAKLUMAT LOG MASUK\n\nEmail: ${customerEmail}\n\nPassword: GH548257af\n\nSila tukar kata laluan anda melalui ruangan Profile selepas berjaya log masuk.\n\n👥 JOIN GROUP RESELLER GRAMMAR HUB\n\nSertai group reseller kami di Telegram untuk mendapatkan info terkini, panduan dan sokongan berterusan.\nhttps://t.me/+Z-uxVSN8A54zNTdl\n\n⚠️ PENTING & BANTUAN\n\nSimpan Dokumen Ini:\nSimpan dokumen dan pautan Grammar Hub ini untuk rujukan serta akses anda pada masa akan datang.\n\nBantuan Akses:\nSekiranya anda mengalami sebarang masalah untuk membuka atau mengakses Grammar Hub, hubungi kami terus melalui WhatsApp.\nhttps://www.wasap.my/60196818139/DaftarGrammarHub\n\n\n🌟 SELAMAT BELAJAR!\n\nSemoga Grammar Hub membantu anda menguasai Bahasa Inggeris dengan lebih mudah, yakin dan menyeronokkan!\n\nTerima kasih atas pembelian dan kepercayaan anda bersama Grammar Hub.`;
-
-                        let gmailAppUrl = `googlegmail://co?to=${encodeURIComponent(customerEmail)}&subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-                        let gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(customerEmail)}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-
-                        rows += `
-                            <tr>
-                                <td><strong>${escapeHtml(data.name || '-')}</strong></td>
-                                <td><a href="${whatsappUrl}" target="_blank" class="whatsapp-link">💬 ${escapeHtml(rawPhone)}</a></td>
-                                <td><a href="#" onclick="openGmail(event, '${escapeHtml(gmailAppUrl)}', '${escapeHtml(gmailWebUrl)}')" class="email-link">✉️ ${escapeHtml(customerEmail || '-')}</a></td>
-                                <td><span style="color: #555;">${formattedDate}</span></td>
+                        const row = `
+                            <tr class="border-b hover:bg-slate-50">
+                                <td class="px-4 py-3 text-sm text-slate-700">${counter++}</td>
+                                <td class="px-4 py-3 text-sm font-medium text-slate-800">${user.nama || '-'}</td>
+                                <td class="px-4 py-3 text-sm text-slate-600">${user.email || '-'}<br><span class="text-xs text-slate-400">${user.nofon || ''}</span></td>
+                                <td class="px-4 py-3 text-sm font-semibold text-emerald-700">${user.reseller_rujukan || '-'}</td>
+                                <td class="px-4 py-3 text-sm text-slate-500">${dateFormatted}</td>
                             </tr>
                         `;
-                    });
-                    
-                    if (rows === "") {
-                        customerTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #666;">Tiada rekod data customer dijumpai.</td></tr>`;
-                    } else {
-                        customerTableBody.innerHTML = rows;
+                        tableBody.innerHTML += row;
                     }
                 } else {
-                    customerTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #666;">Pangkalan data kosong.</td></tr>`;
+                    tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-500">Tiada rekod ditemui.</td></tr>`;
                 }
             } catch (error) {
-                console.error("Ralat membaca database:", error);
-                customerTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: red;">Gagal memuatkan data. Sila semak Firebase Rules anda.</td></tr>`;
+                console.error("Ralat memuatkan data:", error);
+                tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-red-500">Gagal memuatkan data dari pangkalan data.</td></tr>`;
             }
         }
 
-        window.openGmail = function(event, appUrl, webUrl) {
-            event.preventDefault();
-            let iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = appUrl;
-            document.body.appendChild(iframe);
-            
-            setTimeout(function() {
-                document.body.removeChild(iframe);
-            }, 1000);
-
-            let start = Date.now();
-            setTimeout(function() {
-                if (Date.now() - start < 1500) {
-                    window.open(webUrl, '_blank');
-                }
-            }, 700);
-        }
-
-        function escapeHtml(text) {
-            return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        }
+        // Panggil fungsi muat data apabila halaman selesai dimuatkan
+        window.addEventListener('DOMContentLoaded', () => {
+            loadAdminData();
+        });
     </script>
+</head>
+<body class="bg-slate-100 min-h-screen py-10 px-4 flex flex-col items-center">
+
+    <!-- Kontena Utama Dashboard Admin -->
+    <div class="w-full max-w-5xl bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200 flex flex-col">
+        
+        <!-- Pengepala (Header) Dashboard -->
+        <div class="p-6 bg-slate-800 text-white flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">Dashboard Admin</h1>
+                <p class="text-xs text-slate-400 mt-1">Senarai Penuh Customer & Reseller Rujukan</p>
+            </div>
+            <button onclick="location.reload()" class="bg-slate-700 hover:bg-slate-600 text-white text-sm px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2">
+                <span>🔄</span> Muat Semula Data
+            </button>
+        </div>
+
+        <!-- Bahagian Jadual Rekod -->
+        <div class="p-6 overflow-y-auto flex-1">
+            <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-100 border-b text-slate-700 text-sm">
+                            <th class="px-4 py-3 font-semibold">No.</th>
+                            <th class="px-4 py-3 font-semibold">Nama Customer</th>
+                            <th class="px-4 py-3 font-semibold">Emel / Telefon Customer</th>
+                            <th class="px-4 py-3 font-semibold">Nama Reseller Rujukan</th>
+                            <th class="px-4 py-3 font-semibold">Tarikh Daftar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTableBody">
+                        <!-- Data akan dimasukkan secara dinamik melalui JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Footer Kecil -->
+        <div class="p-4 bg-slate-50 border-t text-center text-xs text-slate-500">
+            Sistem Paparan Admin Terbuka &bull; Bijak Belajar
+        </div>
+    </div>
+
 </body>
 </html>
