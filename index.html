@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Registration</title>
+    <title>Customer Registration & Admin Panel</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,13 +15,17 @@
             align-items: center;
             min-height: 100vh;
         }
-        .container {
+        .container, .admin-container {
             background: #ffffff;
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 450px;
+            max-width: 600px;
+            position: relative;
+        }
+        .hidden {
+            display: none !important;
         }
         .warning-box {
             background-color: #fff3cd;
@@ -69,11 +73,60 @@
         .btn-register:hover {
             background-color: #0056b3;
         }
+        /* Style untuk Butang Admin di penjuru */
+        .btn-admin-nav {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #343a40;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .btn-admin-nav:hover {
+            background-color: #23272b;
+        }
+        /* Style untuk Jadual Admin */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            font-size: 13px;
+        }
+        th {
+            background-color: #f8f9fa;
+        }
+        .btn-back {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .btn-back:hover {
+            background-color: #5a6268;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <!-- PAPARAN 1: CUSTOMER REGISTRATION -->
+    <div class="container" id="registrationView">
+        <button class="btn-admin-nav" id="goToAdminBtn">Admin Login</button>
         <h2>Customer Registration</h2>
         
         <!-- Nota Peringatan -->
@@ -105,13 +158,39 @@
         </form>
     </div>
 
-    <!-- Firebase SDK -->
+    <!-- PAPARAN 2: ADMIN PANEL -->
+    <div class="admin-container hidden" id="adminView">
+        <h2>Admin Panel - Senarai Customer</h2>
+        <p style="font-size: 13px; color: #666;">Semua maklumat pendaftaran terkini dipaparkan di bawah:</p>
+        
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>No. Telefon</th>
+                        <th>Tarikh Daftar</th>
+                    </tr>
+                </thead>
+                <tbody id="customerTableBody">
+                    <tr>
+                        <td colspan="4" style="text-align: center;">Memuatkan data...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <button class="btn-back" id="backToRegBtn">Kembali ke Menu Utama</button>
+    </div>
+
+    <!-- Firebase SDK & Skrip Utama -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Konfigurasi Firebase anda
+        // Konfigurasi Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDXc06B8WLtqjkG0aScBHrd3L3M-n_5okc",
             authDomain: "grammar-hub-6af80.firebaseapp.com",
@@ -122,14 +201,78 @@
             appId: "1:1092171234032:web:7cc8efefb812993500e035"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
 
+        // Elemen DOM
+        const registrationView = document.getElementById('registrationView');
+        const adminView = document.getElementById('adminView');
+        const goToAdminBtn = document.getElementById('goToAdminBtn');
+        const backToRegBtn = document.getElementById('backToRegBtn');
         const form = document.getElementById('registrationForm');
         const submitBtn = document.getElementById('submitBtn');
+        const customerTableBody = document.getElementById('customerTableBody');
 
+        // Butang Admin ditekan
+        goToAdminBtn.addEventListener('click', () => {
+            const passwordInput = prompt("Sila masukkan kata laluan admin:");
+            
+            // Pengesahan kata laluan ketat mengikut arahan
+            if (passwordInput === "ADMIN5482ie") {
+                registrationView.classList.add('hidden');
+                adminView.classList.remove('hidden');
+                loadCustomerData(); // Muat data customer dari Firebase
+            } else if (passwordInput !== null) {
+                alert("Kata laluan salah! Akses ditolak.");
+            }
+        });
+
+        // Butang Kembali ke Menu Utama
+        backToRegBtn.addEventListener('click', () => {
+            adminView.classList.add('hidden');
+            registrationView.classList.remove('hidden');
+        });
+
+        // Fungsi untuk ambil data customer dari Firebase Realtime Database
+        async function loadCustomerData() {
+            customerTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center;">Sedang memuat data...</td></tr>`;
+            try {
+                const dbRef = ref(db, 'customers');
+                const snapshot = await get(dbRef);
+                
+                if (snapshot.exists()) {
+                    let rows = "";
+                    snapshot.forEach((childSnapshot) => {
+                        const data = childSnapshot.val();
+                        // Format tarikh jika ada
+                        let formattedDate = data.createdAt ? new Date(data.createdAt).toLocaleString() : '-';
+                        
+                        rows += `
+                            <tr>
+                                <td>${escapeHtml(data.name || '-')}</td>
+                                <td>${escapeHtml(data.email || '-')}</td>
+                                <td>${escapeHtml(data.phone || '-')}</td>
+                                <td>${formattedDate}</td>
+                            </tr>
+                        `;
+                    });
+                    customerTableBody.innerHTML = rows;
+                } else {
+                    customerTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center;">Tiada data customer dijumpai.</td></tr>`;
+                }
+            } catch (error) {
+                console.error("Ralat memuatkan data:", error);
+                customerTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: red;">Gagal memuatkan data dari pangkalan data.</td></tr>`;
+            }
+        }
+
+        // Fungsi keselamatan asas untuk teks HTML
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        // Proses Pendaftaran Customer Asal
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -142,7 +285,6 @@
             submitBtn.textContent = 'Processing...';
 
             try {
-                // Cuba daftar akaun dalam Firebase Auth & Database
                 const userCredential = await createUserWithEmailAndPassword(auth, email, defaultPassword);
                 const user = userCredential.user;
 
@@ -153,11 +295,9 @@
                     createdAt: new Date().toISOString()
                 });
             } catch (error) {
-                // Walaupun akaun dah wujud atau ada ralat lain, proses tetap diteruskan ke link tujuan
                 console.log("Firebase Notice:", error.message);
             }
 
-            // ARAHAN UTAMA: Selepas selesai (atau jika berlaku ralat), terus paksa redirect ke link ini
             window.location.href = "https://apps2.klikwoi.net/page/customer-registration-";
         });
     </script>
